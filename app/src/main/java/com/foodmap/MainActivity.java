@@ -87,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent();
             intent.setClass(MainActivity.this, pageComment.class);
             startActivity(intent);
-            loginfail.setVisibility(View.VISIBLE );
+            loginfail.setVisibility(View.INVISIBLE );
         }
         else{
             loginfail.setVisibility(View.VISIBLE );
