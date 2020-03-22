@@ -12,7 +12,6 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
-import org.apache.http.cookie.Cookie;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -28,8 +27,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        account = findViewById(R.id.et_acc);
-        password =findViewById(R.id.et_regAcc);
+        account = findViewById(R.id.etAcc);
+        password =findViewById(R.id.etPass);
         loginfail=findViewById(R.id.txFail);
 
         StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
@@ -88,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent();
             intent.setClass(MainActivity.this, pageComment.class);
             startActivity(intent);
-            loginfail.setVisibility(View.INVISIBLE );
+            loginfail.setVisibility(View.VISIBLE );
         }
         else{
             loginfail.setVisibility(View.VISIBLE );

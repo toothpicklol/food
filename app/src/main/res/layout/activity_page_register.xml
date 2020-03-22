@@ -49,7 +49,7 @@
             android:id="@+id/txFailAcc"
             app:layout_constraintTop_toBottomOf="@+id/etResPassC" app:layout_constraintEnd_toEndOf="@+id/etResPassC"
             app:layout_constraintStart_toStartOf="@+id/etResPassC" android:layout_marginTop="4dp"
-            android:textStyle="bold" android:textColor="@android:color/holo_red_dark"/>
+            android:textStyle="bold" android:textColor="@android:color/holo_red_dark" android:visibility="invisible"/>
     <TextView
             android:text="密碼請由8個英數字組成"
             android:layout_width="wrap_content"
@@ -57,7 +57,7 @@
             android:id="@+id/txFailPass"
             app:layout_constraintTop_toBottomOf="@+id/txFailAcc" app:layout_constraintEnd_toEndOf="@+id/etResPassC"
             app:layout_constraintStart_toStartOf="@+id/etResPassC"
-            android:textStyle="bold" android:textColor="@android:color/holo_red_dark"/>
+            android:textStyle="bold" android:textColor="@android:color/holo_red_dark" android:visibility="invisible"/>
     <TextView
             android:text="密碼不相符"
             android:layout_width="wrap_content"
@@ -65,12 +65,24 @@
             android:id="@+id/txFailPass2"
             app:layout_constraintTop_toBottomOf="@+id/txFailAcc" app:layout_constraintEnd_toEndOf="@+id/etResPassC"
             app:layout_constraintStart_toStartOf="@+id/etResPassC"
-            android:textStyle="bold" android:textColor="@android:color/holo_red_dark" android:layout_marginTop="20dp"/>
+            android:textStyle="bold" android:textColor="@android:color/holo_red_dark" android:layout_marginTop="20dp"
+            android:visibility="invisible"/>
     <Button
             android:text="提交"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            tools:layout_editor_absoluteX="161dp" android:id="@+id/btnReg"
-            app:layout_constraintTop_toBottomOf="@+id/txFailPass2"/>
+            android:id="@+id/btnReg"
+            android:onClick="confirm"
+            app:layout_constraintTop_toBottomOf="@+id/txNull" app:layout_constraintEnd_toEndOf="@+id/txNull"
+            app:layout_constraintStart_toStartOf="@+id/txNull" android:layout_marginTop="20dp"/>
+    <TextView
+            android:text="尚未輸入"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/txNull" app:layout_constraintEnd_toEndOf="@+id/txFailPass2"
+            app:layout_constraintStart_toStartOf="@+id/txFailPass2" android:textStyle="bold"
+            android:textColor="@android:color/holo_red_dark" tools:visibility="invisible"
+            app:layout_constraintHorizontal_bias="0.428" app:layout_constraintTop_toBottomOf="@+id/txFailPass2"
+            android:visibility="invisible"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
