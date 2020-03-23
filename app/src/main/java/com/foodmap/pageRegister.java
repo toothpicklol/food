@@ -18,6 +18,7 @@ public class pageRegister extends AppCompatActivity {
     Context context=this;
     WebView webView;
     String url="http://114.32.152.202/foodphp/register.php";
+    String insterReg="http://114.32.152.202/foodphp/insterReg.php";
     CookieManager cookieManager;
     String cookieStr;
 
@@ -91,6 +92,12 @@ public class pageRegister extends AppCompatActivity {
                 if(passwordCheck(regPass.getText().toString()))
                 {
                     if(regPass.getText().toString().equals(regPassC.getText().toString())){
+                        String [] in=new String[]{regAcc.getText().toString(),regPass.getText().toString()};
+                        dbcon.insertReg(in,cookieStr,insterReg);
+                        Intent intent = new Intent();
+                        intent.setClass(pageRegister.this, MainActivity.class);
+                        startActivity(intent);
+
 
 
                     }
@@ -106,33 +113,19 @@ public class pageRegister extends AppCompatActivity {
 
             }
         }
+
         else{
 
             failAcc.setVisibility(View.VISIBLE );
 
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     }
     public static boolean passwordCheck(String str) {
         boolean check = false;
         if(str.length() > 7) {
             System.out.println(str.length());
 
-            System.out.println(str);
+
             boolean isDigit = false;
             boolean isLetter = false;
 
