@@ -9,5 +9,5 @@
             android:id="@+id/info_dialog_new"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="112213" />
+            android:text="發文GO" style="@android:style/Widget.DeviceDefault.Button.Colored"/>
 </LinearLayout>

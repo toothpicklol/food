@@ -10,8 +10,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="vertical" >
-
-        <!--在此使用ScrollView 因為如果過多筆則可以讓使用者往下拉-->
         <ScrollView
                 android:id="@+id/sv"
                 android:layout_width="match_parent"
@@ -22,7 +20,7 @@
                 android:layout_marginLeft="40dp"
                 android:gravity="center">
 
-            <!-- ScrollView 中 只可已有一個Layout 所以我們將要新增的元件都新增到此 Layout中-->
+
             <LinearLayout
                     android:id="@+id/ll_in_sv"
                     android:layout_width="match_parent"
@@ -35,7 +33,7 @@
 
         </ScrollView>
 
-        <!-- 此Layout是主頁面上所要固定的的元件 -->
+
         <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
