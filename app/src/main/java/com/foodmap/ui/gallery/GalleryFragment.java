@@ -1,5 +1,6 @@
 package com.foodmap.ui.gallery;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
@@ -29,13 +30,22 @@ public class GalleryFragment extends Fragment {
 
         View root = inflater.inflate(R.layout.fragment_gallery, container, false);
         buttonView = inflater.inflate(R.layout.personal_object_button, null);
-        ll = (LinearLayout)root.findViewById(R.id.ll_in_sv);
         newList = (Button)buttonView.findViewById(R.id.info_dialog_new);
-         vi = inflater.inflate(R.layout.personal_object, null);
+        vi = inflater.inflate(R.layout.personal_object, null);
 
-        addListView();
+
+        return root;    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        ll = (LinearLayout)view.findViewById(R.id.ll_in_sv);
+
+
+
+        //addListView();
         setActions();
-        return root;
+
     }
 
     public void addListView(){
@@ -43,7 +53,7 @@ public class GalleryFragment extends Fragment {
         ll.removeAllViews();
 
         for (int i = 0; i <post; i++) {
-            View x =vi;
+
             ll.addView(vi);
         }
         ll.addView(buttonView);
