@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.foodmap">
+          xmlns:tools="http://schemas.android.com/tools" package="com.foodmap">
 
     <!--
          The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
@@ -9,6 +9,7 @@
     -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
     <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <application
             android:allowBackup="true"
@@ -17,7 +18,7 @@
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
             android:theme="@style/AppTheme"
-            android:usesCleartextTraffic="true">
+            android:usesCleartextTraffic="true" tools:ignore="GoogleAppIndexingWarning">
 
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.

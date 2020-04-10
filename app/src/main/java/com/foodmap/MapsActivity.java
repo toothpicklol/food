@@ -104,6 +104,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     @Override
     public void onLocationChanged(Location location) {
+        System.out.println("6666666666666666666666666666666");
 
     }
 

@@ -1,7 +1,12 @@
 package com.foodmap;
 
+import android.Manifest;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.LocationManager;
 import android.os.StrictMode;
 import android.view.View;
 import android.webkit.CookieManager;
@@ -9,9 +14,13 @@ import android.webkit.CookieSyncManager;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.TextView;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import com.google.android.gms.maps.GoogleMap;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -21,6 +30,9 @@ public class MainActivity extends AppCompatActivity {
     String url="http://114.32.152.202/foodphp/login.php";
     CookieManager cookieManager;
     String cookieStr;
+    private GoogleMap mMap;
+    private LocationManager mloc;
+    private final int ReQust_PERMISSIOIN_FOR_ACCESS_FINE_LOCATION=100;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +55,9 @@ public class MainActivity extends AppCompatActivity {
                 .penaltyDeath()
                 .build());
         Wcookie(context);
+        mloc=(LocationManager)getSystemService(LOCATION_SERVICE);
+
+        checkLocationPermissionAndEnableIt(true);
 
 
 
@@ -98,6 +113,47 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent();
         intent.setClass(MainActivity.this, pageRegister.class);
         startActivity(intent);
+
+
+
+    }
+    public void onReQust_PERMISSIOIN_FOR_ACCESS_FINE_LOCATION(int requestCode, @NonNull int[]grantResults){
+        if(requestCode==ReQust_PERMISSIOIN_FOR_ACCESS_FINE_LOCATION){
+            if(grantResults[0]== PackageManager.PERMISSION_GRANTED){
+                checkLocationPermissionAndEnableIt(true);
+                return;
+            }
+        }
+    }
+    private void checkLocationPermissionAndEnableIt(boolean on){
+        if(ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_FINE_LOCATION)!=
+                PackageManager.PERMISSION_GRANTED){
+            if(ActivityCompat.shouldShowRequestPermissionRationale(MainActivity.this, Manifest.permission.ACCESS_FINE_LOCATION)){
+                AlertDialog.Builder altDlgBuilder =new AlertDialog.Builder(MainActivity.this);
+
+                altDlgBuilder.setTitle("提示");
+                altDlgBuilder.setMessage("APP需要開啟定位功能");
+                altDlgBuilder.setIcon(android.R.drawable.ic_dialog_info);
+                altDlgBuilder.setCancelable(false);
+                altDlgBuilder.setPositiveButton("確定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        ActivityCompat.requestPermissions(MainActivity.this, new String[]{
+                                Manifest.permission.ACCESS_FINE_LOCATION}, ReQust_PERMISSIOIN_FOR_ACCESS_FINE_LOCATION);
+                    }
+                });
+                altDlgBuilder.show();
+                return;
+
+
+
+            }
+            else
+            {
+                ActivityCompat.requestPermissions(MainActivity.this,new String[]{Manifest.permission.ACCESS_FINE_LOCATION},ReQust_PERMISSIOIN_FOR_ACCESS_FINE_LOCATION);
+                return;
+            }
+        }
 
 
 

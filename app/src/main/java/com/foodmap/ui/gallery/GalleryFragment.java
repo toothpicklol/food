@@ -20,7 +20,7 @@ import java.util.HashMap;
 
 public class GalleryFragment extends Fragment {
 
-    Button  newList;
+    Button  newList,seach,more;
     LinearLayout ll;
     ArrayList<HashMap> objectList;
     View  buttonView,vi;
@@ -32,6 +32,7 @@ public class GalleryFragment extends Fragment {
         buttonView = inflater.inflate(R.layout.personal_object_button, null);
         newList = (Button)buttonView.findViewById(R.id.info_dialog_new);
         vi = inflater.inflate(R.layout.personal_object, null);
+
 
 
         return root;    }

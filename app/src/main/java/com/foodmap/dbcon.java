@@ -91,5 +91,33 @@ public class dbcon {
         return result;
     }
 
+    public static String  SeachShop(String[]  i ,String Wcook,String url){
+        String result = "空";
+        try{
+            HttpClient hc =new DefaultHttpClient();
+            HttpPost  hP=new HttpPost(url);
+            hP.addHeader("cookie",Wcook+";expires=Thu,31-Dec-37 23:55:55 GMT;path=/");
+
+            ArrayList<NameValuePair> params=new ArrayList<NameValuePair>();
+            params.add(new BasicNameValuePair("S1",i[0]));
+
+
+
+
+            hP.setEntity(new UrlEncodedFormEntity(params, HTTP.UTF_8));
+            HttpResponse hR=hc.execute(hP);
+            result= EntityUtils.toString(hR.getEntity(),HTTP.UTF_8);
+
+
+        }
+        catch (Exception e){
+            return e.toString();
+        }
+
+
+
+        return result;
+    }
+
 
 }

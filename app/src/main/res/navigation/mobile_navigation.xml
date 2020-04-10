@@ -22,9 +22,15 @@
             tools:layout="@layout/fragment_slideshow"/>
 
     <fragment
-            android:id="@+id/nav_tools"
-            android:name="com.foodmap.ui.tools.ToolsFragment"
+        android:id="@+id/nav_tools"
+        android:name="com.foodmap.ui.tools.ToolsFragment"
+        android:label="@string/myInfo"
+        tools:layout="@layout/fragment_tools"/>
+    <fragment
+            android:id="@+id/nav_more"
+            android:name="com.foodmap.ui.home.MoreFragment"
             android:label="@string/myInfo"
-            tools:layout="@layout/fragment_tools"/>
+            tools:layout="@layout/fragment_more"/>
+
 
 </navigation>
