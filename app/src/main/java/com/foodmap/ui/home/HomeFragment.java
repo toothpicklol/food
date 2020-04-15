@@ -6,36 +6,23 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
-
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-
-
 import android.location.LocationListener;
-
 import androidx.annotation.NonNull;
-
 import androidx.fragment.app.Fragment;
-
-import androidx.fragment.app.FragmentTransaction;
-import com.foodmap.MainActivity;
 import com.foodmap.R;
-
-import com.foodmap.pageRegister;
-import com.foodmap.ui.gallery.GalleryFragment;
+import com.foodmap.pageUser;;
 import com.google.android.gms.maps.*;
-
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
-
 import java.util.HashMap;
 
 
@@ -78,10 +65,9 @@ public class HomeFragment extends Fragment
     private Button.OnClickListener moreListener = new Button.OnClickListener() {
         @Override
         public void onClick(View v) {
-            getActivity().getSupportFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.nav_home, new MoreFragment(), null)
-                    .commit();
+           Intent intent = new Intent(getActivity(), pageUser.class);
+              startActivity(intent);
+
         }
     };
 
@@ -91,7 +77,7 @@ public class HomeFragment extends Fragment
 
 
 
-        HashMap<Double, Double> editMap = new HashMap();
+
 
         GoogleMapV2_MarkPoint[] MysqlPointSet = new GoogleMapV2_MarkPoint[3];
         MysqlPointSet[0] = new GoogleMapV2_MarkPoint(25.067, 121.4971, "天龍國", "5");
@@ -164,7 +150,7 @@ public class HomeFragment extends Fragment
         Log.i(TAG, String.valueOf(location.getLongitude()));
         mMap.addMarker(new MarkerOptions().position(new LatLng(location.getLatitude(), location.getLongitude())).title("你的位置"));
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(
-                new LatLng(location.getLatitude(), location.getLongitude()), 18));
+                new LatLng(location.getLatitude(), location.getLongitude()), 15));
 
     }
 
