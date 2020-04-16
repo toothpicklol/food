@@ -10,28 +10,28 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
         <Button
-                android:id="@+id/info_dialog_new4"
+                android:id="@+id/btnUserInfo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="發文GO" style="@android:style/Widget.DeviceDefault.Button.Colored"
+                android:text="個人資訊" style="@android:style/Widget.DeviceDefault.Button.Colored"
                 android:layout_weight="1"/>
         <Button
-                android:id="@+id/info_dialog_new5"
+                android:id="@+id/btnUserCom"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="發文GO" style="@android:style/Widget.DeviceDefault.Light.Button.Toggle"
+                android:text="社群" style="@android:style/Widget.DeviceDefault.Light.Button.Toggle"
                 android:layout_weight="1"/>
         <Button
-                android:id="@+id/info_dialog_new"
+                android:id="@+id/btnUserLike"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="發文GO" style="@android:style/Widget.DeviceDefault.Button.Colored"
+                android:text="我的收藏" style="@android:style/Widget.DeviceDefault.Button.Colored"
                 android:layout_weight="1"/>
         <Button
-                android:id="@+id/info_dialog_new6"
+                android:id="@+id/btnUserMore"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="發文GO" style="@android:style/Widget.DeviceDefault.Button.Colored"
+                android:text="更多" style="@android:style/Widget.DeviceDefault.Button.Colored"
                 android:layout_weight="1"/>
     </LinearLayout>
 </LinearLayout>

@@ -1,8 +1,6 @@
 package com.foodmap.ui.home;
 
-import android.app.Activity;
 import android.os.Bundle;
-import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,10 +8,7 @@ import android.widget.*;
 import androidx.annotation.Nullable;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
 import com.foodmap.R;
-import com.google.android.gms.maps.SupportMapFragment;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -30,7 +25,7 @@ public class MoreFragment extends Fragment {
 
         View root = inflater.inflate(R.layout.fragment_gallery, container, false);
         buttonView = inflater.inflate(R.layout.personal_object_button, null);
-        newList = (Button)buttonView.findViewById(R.id.info_dialog_new);
+        newList = (Button)buttonView.findViewById(R.id.btnUserLike);
         vi = inflater.inflate(R.layout.personal_object, null);
 
 

@@ -38,6 +38,7 @@ public class HomeFragment extends Fragment
     EditText searchBar;
 
 
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
@@ -74,6 +75,7 @@ public class HomeFragment extends Fragment
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
+
 
 
 
