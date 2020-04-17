@@ -20,6 +20,8 @@
             android:theme="@style/AppTheme"
             android:usesCleartextTraffic="true"
             tools:ignore="GoogleAppIndexingWarning">
+        <activity android:name=".pageSearch">
+        </activity>
         <activity android:name=".pageShop">
         </activity>
         <activity android:name=".pageUser">
@@ -47,8 +49,7 @@
         </activity>
         <activity android:name=".pageRegister">
         </activity>
-        <activity android:name=".pageComment">
-        </activity>
+
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>

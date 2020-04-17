@@ -19,11 +19,11 @@ import android.location.LocationListener;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import com.foodmap.R;
-import com.foodmap.pageUser;;
+import com.foodmap.pageSearch;
 import com.google.android.gms.maps.*;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
-import java.util.HashMap;
+
 
 
 
@@ -45,10 +45,10 @@ public class HomeFragment extends Fragment
         View root = inflater.inflate(R.layout.fragment_home, container, false);
         final TextView textView = root.findViewById(R.id.text_home);
         search=root.findViewById(R.id.btn_search);
-        more=root.findViewById(R.id.btn_more);
+
         searchBar=root.findViewById(R.id.etSearch);
         search.setOnClickListener(searchListener);
-        more.setOnClickListener(moreListener);
+
         SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
 
         mapFragment.getMapAsync(this);
@@ -59,18 +59,12 @@ public class HomeFragment extends Fragment
     private Button.OnClickListener searchListener = new Button.OnClickListener() {
         @Override
         public void onClick(View v) {
-            String x=searchBar.getText().toString();
+            Intent intent = new Intent(getActivity(), pageSearch.class);
+            startActivity(intent);
 
         }
     };
-    private Button.OnClickListener moreListener = new Button.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-           Intent intent = new Intent(getActivity(), pageUser.class);
-              startActivity(intent);
 
-        }
-    };
 
 
     @Override

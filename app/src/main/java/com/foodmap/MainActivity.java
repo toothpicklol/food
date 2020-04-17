@@ -14,6 +14,7 @@ import android.webkit.CookieSyncManager;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.TextView;
+import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -103,6 +104,8 @@ public class MainActivity extends AppCompatActivity {
             intent.setClass(MainActivity.this, pageHome.class);
             startActivity(intent);
             loginfail.setVisibility(View.INVISIBLE );
+            Toast.makeText(getApplicationContext()," 登入成功", Toast.LENGTH_LONG).show();
+
         }
         else{
             loginfail.setVisibility(View.VISIBLE );
@@ -113,6 +116,7 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent();
         intent.setClass(MainActivity.this, pageRegister.class);
         startActivity(intent);
+        Toast.makeText(getApplicationContext()," 註冊成功", Toast.LENGTH_LONG).show();
 
 
 
