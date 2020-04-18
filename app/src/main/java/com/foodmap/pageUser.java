@@ -11,8 +11,6 @@ import android.os.Bundle;
 
 import java.io.InputStream;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.HashMap;
 
 public class pageUser extends AppCompatActivity {
 
@@ -47,10 +45,10 @@ public class pageUser extends AppCompatActivity {
 
         bgU =findViewById(R.id.userBg);
         bigHead=findViewById(R.id.bighead);
-        headC =findViewById(R.id.headComment);
+        headC =findViewById(R.id.shopHead);
         userLV=findViewById(R.id.userLV);
         username=findViewById(R.id.username);
-        btnPost =findViewById(R.id.btnPost);
+        btnPost =findViewById(R.id.btn_Post);
 
         etAccount=findViewById(R.id.etAcc);
 
@@ -113,22 +111,17 @@ public class pageUser extends AppCompatActivity {
             view = LayoutInflater.from(pageUser.this).inflate(R.layout.personal_object, null);
 
 
+
             account=view.findViewById(R.id.textView1);
             title=view.findViewById(R.id.textView2);
             text=view.findViewById(R.id.textView3);
-            headC=view.findViewById(R.id.headComment);
-            btnPost=view.findViewById(R.id.btnPost);
+            headC=view.findViewById(R.id.shopHead);
+            btnPost=view.findViewById(R.id.btn_Post);
 
 
 
             btnPost.setId(btnId);//將按鈕帶入id 以供監聽時辨識使用
             btnId++;
-
-
-
-
-
-
             ll.addView(view);
             account.setText(point.account);
             headC.setImageDrawable(loadImageFromURL(point.head));
@@ -140,11 +133,6 @@ public class pageUser extends AppCompatActivity {
             }
             else
             text.setBackground(loadImageFromURL(point.picture));
-
-
-
-
-
         }
 
 //        objectList = new ArrayList<HashMap>();

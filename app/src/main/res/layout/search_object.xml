@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools"
+              android:id="@+id/ll"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="vertical">
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" android:background="#FFFFFF">
+
+        <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:layout_weight="0">
+
+            <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" android:id="@+id/btn_Shop"
+                    android:layout_weight="0"
+                    style="@style/Widget.AppCompat.Button.Borderless"/>
+            <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                <TableLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                    <TableRow android:layout_width="match_parent" android:layout_height="match_parent">
+                        <ImageView
+                                android:layout_width="91dp"
+                                android:layout_height="75dp"
+                                android:id="@+id/shopHead"
+                                android:background="@color/common_google_signin_btn_text_dark_pressed"/>
+                        <LinearLayout
+                                android:orientation="vertical"
+                                android:layout_width="71dp"
+                                android:layout_height="match_parent">
+                            <TextView
+                                    android:id="@+id/textView1"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text="店名:"
+                                    android:gravity="center"/>
+                            <TextView
+                                    android:text="地址:"
+                                    android:layout_width="match_parent"
+                                    android:gravity="center"
+                                    android:layout_height="wrap_content" android:id="@+id/textView7"
+                            />
+                            <TextView
+                                    android:text="TEL:"
+                                    android:gravity="center"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content" android:id="@+id/textView8"/>
+                            <TextView
+                                    android:text="營業時間:"
+                                    android:gravity="center"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content" android:id="@+id/textView9"/>
+                        </LinearLayout>
+                        <LinearLayout
+                                android:orientation="vertical"
+                                android:layout_width="250dp"
+                                android:layout_height="match_parent">
+                            <TextView
+                                    android:text="中國文化大學"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content" android:id="@+id/shopName"/>
+                            <TextView
+                                    android:text="台北市士林區華岡路55號"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content" android:id="@+id/shopAddress"/>
+                            <TextView
+                                    android:text="87879487"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content" android:id="@+id/shopTel"/>
+                            <TextView
+                                    android:text="凌晨0點"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content" android:id="@+id/shopTime"/>
+                        </LinearLayout>
+                    </TableRow>
+                </TableLayout>
+                <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                    <LinearLayout
+                            android:orientation="horizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="80dp">
+                        <TextView
+                                android:text="0"
+                                android:layout_width="0dp"
+                                android:gravity="center"
+                                android:layout_height="match_parent"
+                                android:id="@+id/shopCommentCount"
+                                android:layout_weight="1" android:textSize="36sp" android:textStyle="bold"
+                        />
+                        <TextView
+                                android:text="0"
+                                android:layout_width="0dp"
+                                android:gravity="center"
+                                android:layout_height="match_parent"
+                                android:id="@+id/shopMess"
+                                android:layout_weight="1" android:textStyle="bold" android:textSize="36sp"/>
+                        <TextView
+                                android:text="0"
+                                android:layout_width="0dp"
+                                android:gravity="center"
+                                android:layout_height="match_parent"
+                                android:id="@+id/shopPoint"
+                                android:layout_weight="1"
+                                android:textSize="36sp" android:textStyle="bold"/>
+                    </LinearLayout>
+                    <LinearLayout
+                            android:orientation="horizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="30dp">
+                        <TextView
+                                android:text="總評論數"
+                                android:gravity="center"
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent" android:id="@+id/txShopC"
+                                android:layout_weight="1" android:textStyle="bold" android:textSize="18sp"/>
+                        <TextView
+                                android:text="總留言數"
+                                android:gravity="center"
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent" android:id="@+id/txShopMess"
+                                android:layout_weight="1" android:textStyle="bold" android:textSize="18sp"/>
+                        <TextView
+                                android:text="總分"
+                                android:gravity="center"
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent" android:id="@+id/textView16"
+                                android:layout_weight="1" android:textSize="18sp" android:textStyle="bold"/>
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+        </FrameLayout>
+
+    </LinearLayout>
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+        <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:id="@+id/aaaaaaa"/>
+        <EditText
+                android:id="@+id/data_id"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="gone"/>
+    </LinearLayout>
+
+
+</LinearLayout>

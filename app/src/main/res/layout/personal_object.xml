@@ -8,65 +8,66 @@
 
     <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="240dp"
             android:orientation="horizontal">
 
-        <ImageView
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:id="@+id/headComment" android:background="@color/common_google_signin_btn_text_dark_pressed"/>
-        <TextView
-                android:id="@+id/textView1"
-                android:layout_width="0dp"
-                android:layout_height="40dp"
-                android:layout_weight="1"
-                android:text="暱稱+等級"
-                android:textColor="#DD000000"
-                android:textSize="12sp" android:background="@android:color/background_light"/>
+        <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+            <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" android:id="@+id/btn_Post"
+                    android:layout_weight="0"
+                    style="@style/Widget.AppCompat.Button.Borderless"/>
+            <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                    <ImageView
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:id="@+id/shopHead"
+                            android:background="@color/common_google_signin_btn_text_dark_pressed"/>
+                    <TextView
+                            android:id="@+id/textView1"
+                            android:layout_width="50dp"
+                            android:layout_height="40dp"
+                            android:layout_weight="1"
+                            android:text="暱稱+等級"
+                            android:textColor="#DD000000"
+                            android:textSize="12sp" android:background="@android:color/background_light"/>
+                </LinearLayout>
+                <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+                    <TextView
+                            android:id="@+id/textView2"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textColor="#DD000000"
+                            android:textSize="18sp" android:background="@android:color/background_light"
+                            android:textStyle="bold" android:text="1111"/>
+                    <TextView
+                            android:id="@+id/textView3"
+                            android:layout_width="match_parent"
+                            android:layout_height="101dp"
+                            android:layout_weight="4"
+                            android:textColor="#DD000000"
+                            android:textSize="14sp" android:background="@android:color/background_light"
+                            android:text="222"/>
+                </LinearLayout>
+            </LinearLayout>
+        </FrameLayout>
 
     </LinearLayout>
+
     <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal" >
-
-        <TextView
-                android:id="@+id/textView2"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textColor="#DD000000"
-                android:textSize="18sp" android:background="@android:color/background_light"
-                android:textStyle="bold"/>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal" >
-
-            <FrameLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent" android:layout_weight="0">
-
-                <Button
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent" android:id="@+id/btnPost"
-                        android:layout_weight="0"
-                        style="@style/Widget.AppCompat.Button.Borderless"/>
-                <TextView
-                        android:id="@+id/textView3"
-                        android:layout_width="match_parent"
-                        android:layout_height="210dp"
-                        android:layout_weight="0"
-                        android:textColor="#DD000000"
-                        android:textSize="14sp" android:background="@android:color/background_light"/>
-            </FrameLayout>
-
-        </LinearLayout>
-
-        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical" >
