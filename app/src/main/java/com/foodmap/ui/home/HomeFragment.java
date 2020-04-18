@@ -118,7 +118,7 @@ public class HomeFragment extends Fragment
             return;
         }
 
-        mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
+        mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 3000, 80, this);
 
 
     }
