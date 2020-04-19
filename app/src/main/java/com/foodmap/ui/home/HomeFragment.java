@@ -5,6 +5,8 @@ import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
@@ -21,17 +23,21 @@ import androidx.fragment.app.Fragment;
 import com.foodmap.R;
 import com.foodmap.pageSearch;
 import com.google.android.gms.maps.*;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 
 public class HomeFragment extends Fragment
         implements OnMapReadyCallback,
         LocationListener {
 
-    private GoogleMap mMap;
+    private GoogleMap mMap,map;
     private static final String TAG = "LocationFragment";
     private LocationManager mLocationManager;
     Button search,more;
@@ -76,15 +82,15 @@ public class HomeFragment extends Fragment
 
 
         GoogleMapV2_MarkPoint[] MysqlPointSet = new GoogleMapV2_MarkPoint[3];
-        MysqlPointSet[0] = new GoogleMapV2_MarkPoint(25.067, 121.4971, "天龍國", "5");
-        MysqlPointSet[1] = new GoogleMapV2_MarkPoint(25.068, 121.4972, "南部", "5");
-        MysqlPointSet[2] = new GoogleMapV2_MarkPoint(25.069, 121.4973, "地府", "5");
+        MysqlPointSet[0] = new GoogleMapV2_MarkPoint(25.067, 121.4971, "天龍國", "5","https://storage.googleapis.com/www-cw-com-tw/article/201810/article-5bd182cf13ebb.jpg");
+        MysqlPointSet[1] = new GoogleMapV2_MarkPoint(25.068, 121.4972, "南部", "5","https://storage.googleapis.com/www-cw-com-tw/article/201810/article-5bd182cf13ebb.jpg");
+        MysqlPointSet[2] = new GoogleMapV2_MarkPoint(25.069, 121.4973, "地府", "5","https://storage.googleapis.com/www-cw-com-tw/article/201810/article-5bd182cf13ebb.jpg");
 
         mMap = googleMap;
         for (GoogleMapV2_MarkPoint point : MysqlPointSet) {
 
             mMap.addMarker(new MarkerOptions().position(new LatLng(point.latitude, point.longitude)).title(point.title)
-                    .snippet(point.address));
+                    .snippet(point.address).icon(BitmapDescriptorFactory.fromBitmap(getBitmapFromURL(point.head))));
 
         }
         //地圖單位0.001=100M
@@ -144,9 +150,11 @@ public class HomeFragment extends Fragment
     public void onLocationChanged(Location location) {
         Log.i(TAG, String.valueOf(location.getLatitude()));
         Log.i(TAG, String.valueOf(location.getLongitude()));
+        mMap.clear();
         mMap.addMarker(new MarkerOptions().position(new LatLng(location.getLatitude(), location.getLongitude())).title("你的位置"));
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(
                 new LatLng(location.getLatitude(), location.getLongitude()), 15));
+        onMapReady(mMap);
 
     }
 
@@ -166,19 +174,35 @@ public class HomeFragment extends Fragment
     public void onProviderDisabled(String provider) {
 
     }
+    public Bitmap getBitmapFromURL(String imageUrl) {
+        try {
+            URL url = new URL(imageUrl);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setDoInput(true);
+            connection.connect();
+            InputStream input = connection.getInputStream();
+            Bitmap myBitmap = BitmapFactory.decodeStream(input);
+            myBitmap = Bitmap.createScaledBitmap(myBitmap,150,100, true);
+        return myBitmap;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 
 
 
 
     class GoogleMapV2_MarkPoint {
         public double latitude, longitude;
-        public String title,address;
-        public GoogleMapV2_MarkPoint(double i, double j,String k,String l) {
+        public String title,address,head;
+        public GoogleMapV2_MarkPoint(double i, double j,String k,String l,String m) {
 
             latitude=i;
             longitude=j;
             title=k;
             address=l;
+            head=m;
         }
         @Override
         public String toString() {
