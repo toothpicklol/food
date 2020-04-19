@@ -82,15 +82,15 @@ public class HomeFragment extends Fragment
 
 
         GoogleMapV2_MarkPoint[] MysqlPointSet = new GoogleMapV2_MarkPoint[3];
-        MysqlPointSet[0] = new GoogleMapV2_MarkPoint(25.067, 121.4971, "天龍國", "5","https://storage.googleapis.com/www-cw-com-tw/article/201810/article-5bd182cf13ebb.jpg");
-        MysqlPointSet[1] = new GoogleMapV2_MarkPoint(25.068, 121.4972, "南部", "5","https://storage.googleapis.com/www-cw-com-tw/article/201810/article-5bd182cf13ebb.jpg");
-        MysqlPointSet[2] = new GoogleMapV2_MarkPoint(25.069, 121.4973, "地府", "5","https://storage.googleapis.com/www-cw-com-tw/article/201810/article-5bd182cf13ebb.jpg");
+        MysqlPointSet[0] = new GoogleMapV2_MarkPoint(25.067, 121.4971, "天龍國", "50","https://storage.googleapis.com/www-cw-com-tw/article/201810/article-5bd182cf13ebb.jpg");
+        MysqlPointSet[1] = new GoogleMapV2_MarkPoint(25.068, 121.4972, "南部", "95","https://storage.googleapis.com/www-cw-com-tw/article/201810/article-5bd182cf13ebb.jpg");
+        MysqlPointSet[2] = new GoogleMapV2_MarkPoint(25.069, 121.4973, "地府", "85","https://storage.googleapis.com/www-cw-com-tw/article/201810/article-5bd182cf13ebb.jpg");
 
         mMap = googleMap;
         for (GoogleMapV2_MarkPoint point : MysqlPointSet) {
 
             mMap.addMarker(new MarkerOptions().position(new LatLng(point.latitude, point.longitude)).title(point.title)
-                    .snippet(point.address).icon(BitmapDescriptorFactory.fromBitmap(getBitmapFromURL(point.head))));
+                    .snippet(point.point).icon(BitmapDescriptorFactory.fromBitmap(getBitmapFromURL(point.head))));
 
         }
         //地圖單位0.001=100M
@@ -195,14 +195,16 @@ public class HomeFragment extends Fragment
 
     class GoogleMapV2_MarkPoint {
         public double latitude, longitude;
-        public String title,address,head;
+        public String title,head,point;
         public GoogleMapV2_MarkPoint(double i, double j,String k,String l,String m) {
 
             latitude=i;
             longitude=j;
             title=k;
-            address=l;
+            point="總評分:"+l+"/100";
             head=m;
+
+
         }
         @Override
         public String toString() {
