@@ -31,7 +31,6 @@ public class pageUser extends AppCompatActivity {
         buttonView = LayoutInflater.from(pageUser.this).inflate(R.layout.personal_object_button, null);
         accountGet = LayoutInflater.from(pageUser.this).inflate(R.layout.activity_main, null);
 
-
         ll = (LinearLayout)findViewById(R.id.ll_in_sv);
 
         btUserInfo = (Button)buttonView.findViewById(R.id.btnUserInfo);
@@ -72,7 +71,6 @@ public class pageUser extends AppCompatActivity {
             return null;
         }
     }
-
 
     public void addListView(){
 
@@ -135,13 +133,6 @@ public class pageUser extends AppCompatActivity {
             text.setBackground(loadImageFromURL(point.picture));
         }
 
-//        objectList = new ArrayList<HashMap>();
-//
-//        ll.removeAllViews();
-//        ll.addView(comment);
-//
-//
-//
 
     }
     private void setActions(){

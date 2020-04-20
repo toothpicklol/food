@@ -16,7 +16,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.location.LocationListener;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -25,8 +24,8 @@ import com.foodmap.pageSearch;
 import com.google.android.gms.maps.*;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -35,21 +34,18 @@ import java.net.URL;
 
 public class HomeFragment extends Fragment
         implements OnMapReadyCallback,
-        LocationListener {
+        LocationListener, GoogleMap.OnMarkerClickListener{
 
-    private GoogleMap mMap,map;
+    private GoogleMap mMap;
     private static final String TAG = "LocationFragment";
     private LocationManager mLocationManager;
-    Button search,more;
+    Button search;
     EditText searchBar;
-
-
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-
         View root = inflater.inflate(R.layout.fragment_home, container, false);
-        final TextView textView = root.findViewById(R.id.text_home);
+
         search=root.findViewById(R.id.btn_search);
 
         searchBar=root.findViewById(R.id.etSearch);
@@ -59,8 +55,6 @@ public class HomeFragment extends Fragment
 
         mapFragment.getMapAsync(this);
         return root;
-
-
     }
     private Button.OnClickListener searchListener = new Button.OnClickListener() {
         @Override
@@ -71,15 +65,8 @@ public class HomeFragment extends Fragment
         }
     };
 
-
-
     @Override
     public void onMapReady(GoogleMap googleMap) {
-
-
-
-
-
 
         GoogleMapV2_MarkPoint[] MysqlPointSet = new GoogleMapV2_MarkPoint[3];
         MysqlPointSet[0] = new GoogleMapV2_MarkPoint(25.067, 121.4971, "天龍國", "50","https://storage.googleapis.com/www-cw-com-tw/article/201810/article-5bd182cf13ebb.jpg");
@@ -87,6 +74,7 @@ public class HomeFragment extends Fragment
         MysqlPointSet[2] = new GoogleMapV2_MarkPoint(25.069, 121.4973, "地府", "85","https://storage.googleapis.com/www-cw-com-tw/article/201810/article-5bd182cf13ebb.jpg");
 
         mMap = googleMap;
+
         for (GoogleMapV2_MarkPoint point : MysqlPointSet) {
 
             mMap.addMarker(new MarkerOptions().position(new LatLng(point.latitude, point.longitude)).title(point.title)
@@ -96,21 +84,16 @@ public class HomeFragment extends Fragment
         //地圖單位0.001=100M
     }
 
-
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         mLocationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
-
     }
 
     @Override
     public void onResume() {
         super.onResume();
-
         Log.i(TAG, "onResume");
-
-
         if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
             //    Activity#requestPermissions
@@ -125,8 +108,6 @@ public class HomeFragment extends Fragment
         }
 
         mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 3000, 80, this);
-
-
     }
 
     private int checkSelfPermission(String accessFineLocation) {
@@ -136,7 +117,6 @@ public class HomeFragment extends Fragment
     public void onRequestPermissionsResult(int requestCode, String[] permissions,int[] grantResults){
 
     }
-
 
     @Override
     public void onPause() {
@@ -160,8 +140,6 @@ public class HomeFragment extends Fragment
 
     @Override
     public void onStatusChanged(String provider, int status, Bundle extras) {
-        System.out.println("878787");
-
 
     }
 
@@ -174,6 +152,7 @@ public class HomeFragment extends Fragment
     public void onProviderDisabled(String provider) {
 
     }
+
     public Bitmap getBitmapFromURL(String imageUrl) {
         try {
             URL url = new URL(imageUrl);
@@ -190,8 +169,12 @@ public class HomeFragment extends Fragment
         }
     }
 
+    @Override
+    public boolean onMarkerClick(Marker marker) {
 
 
+                return true;
+    }
 
     class GoogleMapV2_MarkPoint {
         public double latitude, longitude;
