@@ -1,5 +1,6 @@
 package com.foodmap;
 
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -25,6 +26,8 @@ public class pageSearch extends AppCompatActivity {
     View view;
     ImageView shopHead;
     TextView address,tel,shopName,point,comment,message,time;
+
+    makeShop[] searchSQL = new makeShop[4];
     int searchL;
 
 
@@ -133,7 +136,7 @@ public class pageSearch extends AppCompatActivity {
             //WHERE tag='日式'
 
 
-            makeShop[] searchSQL = new makeShop[4];
+
             searchSQL[0] = new makeShop("感恩麵店","林森北路","0987974887","2:00","https://storage.googleapis.com/www-cw-com-tw/article/201810/article-5bd182cf13ebb.jpg","8","17","827");
             searchSQL[1] = new makeShop("感麵店","林北路","0987984887","5:00","https://storage.googleapis.com/www-cw-com-tw/article/201810/article-5bd182cf13ebb.jpg","7","87","872");
             searchSQL[2] = new makeShop("感恩麵","森北路","09879874887",":00","https://storage.googleapis.com/www-cw-com-tw/article/201810/article-5bd182cf13ebb.jpg","827","7","8127");
@@ -156,7 +159,7 @@ public class pageSearch extends AppCompatActivity {
 
                 shop.setId(btnId);//將按鈕帶入id 以供監聽時辨識使用
                 btnId++;
-
+                shop.setOnClickListener(check);
 
                 shopHead.setImageDrawable(loadImageFromURL(p.shopHead));
                 address.setText(p.address);
@@ -214,5 +217,22 @@ public class pageSearch extends AppCompatActivity {
 
 
     }
+    private View.OnClickListener check= new View.OnClickListener() {
+
+        @Override
+        public void onClick(View v) {
+
+            Button post =  (Button)v; //在new 出所按下的按鈕
+            int id = post.getId();
+
+            System.out.println(searchSQL[id].shopName);
+            Intent intent = new Intent();
+            intent.setClass(pageSearch.this, pageShop.class);
+            startActivity(intent);
+
+
+
+        }
+    };
 
 }

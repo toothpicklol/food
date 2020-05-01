@@ -21,6 +21,8 @@ public class pageUser extends AppCompatActivity {
     TextView account,title,text,username,userLV;
     ImageView bigHead,headC;
     EditText etAccount;
+    makeComment[] commentSQL = new makeComment[3];
+
 
 
     @Override
@@ -100,7 +102,7 @@ public class pageUser extends AppCompatActivity {
 
 
 
-        makeComment[] commentSQL = new makeComment[3];
+
         commentSQL[0] = new makeComment("25.067", "121.4971", "天龍國","https://storage.googleapis.com/www-cw-com-tw/article/201810/article-5bd182cf13ebb.jpg","https://storage.googleapis.com/www-cw-com-tw/article/201810/article-5bd182cf13ebb.jpg");//評論資料
         commentSQL[1] = new makeComment("25.068", "121.4972", "南部","null","https://storage.googleapis.com/www-cw-com-tw/article/201810/article-5bd182cf13ebb.jpg");
         commentSQL[2] = new makeComment("25.069", "121.4973", "地府","https://storage.googleapis.com/www-cw-com-tw/article/201810/article-5bd182cf13ebb.jpg","https://storage.googleapis.com/www-cw-com-tw/article/201810/article-5bd182cf13ebb.jpg");
@@ -120,6 +122,7 @@ public class pageUser extends AppCompatActivity {
 
             btnPost.setId(btnId);//將按鈕帶入id 以供監聽時辨識使用
             btnId++;
+            btnPost.setOnClickListener(check);
             ll.addView(view);
             account.setText(point.account);
             headC.setImageDrawable(loadImageFromURL(point.head));
@@ -160,13 +163,7 @@ public class pageUser extends AppCompatActivity {
 
             }
         });
-        btnPost.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                System.out.println("666666666666666666666666666666666666666666");
 
-            }
-        });
     }
 
     class makeComment {
@@ -198,4 +195,18 @@ public class pageUser extends AppCompatActivity {
 
 
     }
+    private View.OnClickListener check= new View.OnClickListener() {
+
+        @Override
+        public void onClick(View v) {
+
+            Button post =  (Button)v; //在new 出所按下的按鈕
+            int id = post.getId();
+
+            System.out.println(commentSQL[id].account);
+
+
+
+        }
+    };
 }

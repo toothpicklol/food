@@ -14,13 +14,14 @@ import java.net.URL;
 
 public class pageShop extends AppCompatActivity {
 
-    Button btUserInfo,btUserLike,btUserMore,btUserCom,btnPost;
+    Button btnPost;
     LinearLayout ll,bgU;
 
-    View buttonView,view,comment,accountGet;
+    View view,comment,accountGet,shopText;
     TextView account,title,text,username,userLV;
     ImageView bigHead,headC;
     EditText etAccount;
+    String name;
 
 
     @Override
@@ -28,15 +29,13 @@ public class pageShop extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_page_shop);
 
-        buttonView = LayoutInflater.from(pageShop.this).inflate(R.layout.personal_object_button, null);
+
         accountGet = LayoutInflater.from(pageShop.this).inflate(R.layout.activity_main, null);
 
         ll = (LinearLayout)findViewById(R.id.ll_in_sv);
 
-        btUserInfo = (Button)buttonView.findViewById(R.id.btnUserInfo);
-        btUserLike = (Button)buttonView.findViewById(R.id.btnUserLike);
-        btUserMore = (Button)buttonView.findViewById(R.id.btnUserMore);
-        btUserCom = (Button)buttonView.findViewById(R.id.btnUserCom);
+
+
 
         account=findViewById(R.id.textView1);
         title=findViewById(R.id.textView2);
@@ -56,7 +55,7 @@ public class pageShop extends AppCompatActivity {
 
 
         addListView();
-        setActions();
+
 
     }
     private Drawable loadImageFromURL(String url) {
@@ -71,14 +70,17 @@ public class pageShop extends AppCompatActivity {
             return null;
         }
     }
+    public void getName(String n){
+        name=n;
+    }
 
     public void addListView(){
 
         makeInfo[] InfoSQL = new makeInfo[1];
-        InfoSQL[0]= new makeInfo("低能","99","https://storage.googleapis.com/www-cw-com-tw/article/201810/article-5bd182cf13ebb.jpg","https://storage.googleapis.com/www-cw-com-tw/article/201810/article-5bd182cf13ebb.jpg");//個人資料
+        InfoSQL[0]= new makeInfo("牛肉麵","87","https://storage.googleapis.com/www-cw-com-tw/article/201810/article-5bd182cf13ebb.jpg","https://storage.googleapis.com/www-cw-com-tw/article/201810/article-5bd182cf13ebb.jpg");//個人資料
 
         etAccount=accountGet.findViewById(R.id.etAcc);
-        String user=etAccount.getText().toString();
+
 
 
         for (makeInfo point : InfoSQL) {
@@ -91,12 +93,15 @@ public class pageShop extends AppCompatActivity {
             ll.addView(comment);
 
             username.setText(point.username);
-            //userLV.setText("等級"+point.userLV);
+            userLV.setText("等級"+point.userLV);
             bigHead.setImageDrawable(loadImageFromURL(point.bigHead));
             bgU.setBackground(loadImageFromURL(point.bg));
 
         }
-        ll.addView(buttonView);
+        shopText= LayoutInflater.from(pageShop.this).inflate(R.layout.shop_info, null);
+        ll.addView(shopText);
+
+
 
 
 
@@ -134,39 +139,6 @@ public class pageShop extends AppCompatActivity {
         }
 
 
-    }
-    private void setActions(){
-        btUserInfo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
-        btUserLike.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
-        btUserCom.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
-        btUserMore.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
-        btnPost.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                System.out.println("666666666666666666666666666666666666666666");
-
-            }
-        });
     }
 
     class makeComment {
