@@ -162,4 +162,37 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
+    private void checkStorge(boolean on){
+        if(ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_FINE_LOCATION)!=
+                PackageManager.PERMISSION_GRANTED){
+            if(ActivityCompat.shouldShowRequestPermissionRationale(MainActivity.this, Manifest.permission.ACCESS_FINE_LOCATION)){
+                AlertDialog.Builder altDlgBuilder =new AlertDialog.Builder(MainActivity.this);
+
+                altDlgBuilder.setTitle("提示");
+                altDlgBuilder.setMessage("APP需要開啟定位功能");
+                altDlgBuilder.setIcon(android.R.drawable.ic_dialog_info);
+                altDlgBuilder.setCancelable(false);
+                altDlgBuilder.setPositiveButton("確定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        ActivityCompat.requestPermissions(MainActivity.this, new String[]{
+                                Manifest.permission.ACCESS_FINE_LOCATION}, ReQust_PERMISSIOIN_FOR_ACCESS_FINE_LOCATION);
+                    }
+                });
+                altDlgBuilder.show();
+                return;
+
+
+
+            }
+            else
+            {
+                ActivityCompat.requestPermissions(MainActivity.this,new String[]{Manifest.permission.ACCESS_FINE_LOCATION},ReQust_PERMISSIOIN_FOR_ACCESS_FINE_LOCATION);
+                return;
+            }
+        }
+
+
+
+    }
 }

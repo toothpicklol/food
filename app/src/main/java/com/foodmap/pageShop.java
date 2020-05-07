@@ -1,5 +1,6 @@
 package com.foodmap;
 
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,17 +12,23 @@ import android.os.Bundle;
 
 import java.io.InputStream;
 import java.net.URL;
+import java.security.acl.Owner;
 
 public class pageShop extends AppCompatActivity {
 
-    Button btnPost;
+
+    private static String pointS,messageS,commentS,textS,nameS;
+    Button btnPost,btnOwner;
     LinearLayout ll,bgU;
 
     View view,comment,accountGet,shopText;
     TextView account,title,text,username,userLV;
     ImageView bigHead,headC;
     EditText etAccount;
-    String name;
+    TextView point,commentC,message,shopInfo;
+
+
+
 
 
     @Override
@@ -50,6 +57,14 @@ public class pageShop extends AppCompatActivity {
 
         etAccount=findViewById(R.id.etAcc);
 
+        point=findViewById(R.id.shopPoint);
+        commentC=findViewById(R.id.shopCommentCount);
+        message=findViewById(R.id.shopMess);
+        shopInfo=findViewById(R.id.shopinfo);
+        btnOwner=findViewById(R.id.shopOwner);
+
+
+
 
 
 
@@ -70,8 +85,13 @@ public class pageShop extends AppCompatActivity {
             return null;
         }
     }
-    public void getName(String n){
-        name=n;
+    public static void  getInfo(String point,String name,String comment,String address,String time,String tel,String message,String imageU){
+        pointS=point;
+        messageS=message;
+        commentS=comment;
+        textS="營業時間:"+time+"\n"+"地址:"+address+"\n"+"電話:"+tel;
+        nameS=name;
+
     }
 
     public void addListView(){
@@ -98,7 +118,23 @@ public class pageShop extends AppCompatActivity {
             bgU.setBackground(loadImageFromURL(point.bg));
 
         }
+
         shopText= LayoutInflater.from(pageShop.this).inflate(R.layout.shop_info, null);
+        point=shopText.findViewById(R.id.shopPoint);
+        commentC=shopText.findViewById(R.id.shopCommentCount);
+        message=shopText.findViewById(R.id.shopMess);
+        shopInfo=shopText.findViewById(R.id.shopinfo);
+        btnOwner=shopText.findViewById(R.id.shopOwner);
+
+        point.setText(pointS);
+        commentC.setText(commentS);
+        message.setText(messageS);
+        shopInfo.setText(textS);
+        btnOwner.setOnClickListener(check);
+
+
+
+
         ll.addView(shopText);
 
 
@@ -170,4 +206,19 @@ public class pageShop extends AppCompatActivity {
 
 
     }
+    private View.OnClickListener check= new View.OnClickListener() {
+
+        @Override
+        public void onClick(View v) {
+
+            Button post =  (Button)v;
+            int id = post.getId();
+            Intent intent = new Intent();
+            intent.setClass(pageShop.this, pageShop.class);
+            startActivity(intent);
+
+
+
+        }
+    };
 }

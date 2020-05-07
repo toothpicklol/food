@@ -14,6 +14,7 @@ import java.net.URL;
 
 public class pageSearch extends AppCompatActivity {
 
+
     CheckBox checkBox1,checkBox2,checkBox3,checkBox4,
              checkBox5,checkBox6,checkBox7,checkBox8,
              checkBox9,checkBox10,checkBox11,checkBox12,
@@ -26,6 +27,7 @@ public class pageSearch extends AppCompatActivity {
     View view;
     ImageView shopHead;
     TextView address,tel,shopName,point,comment,message,time;
+
 
     makeShop[] searchSQL = new makeShop[4];
     int searchL;
@@ -217,6 +219,7 @@ public class pageSearch extends AppCompatActivity {
 
 
     }
+
     private View.OnClickListener check= new View.OnClickListener() {
 
         @Override
@@ -226,6 +229,10 @@ public class pageSearch extends AppCompatActivity {
             int id = post.getId();
 
             System.out.println(searchSQL[id].shopName);
+            pageShop.getInfo(searchSQL[id].point,searchSQL[id].shopName,searchSQL[id].comment,searchSQL[id].address,searchSQL[id].time,searchSQL[id].tel,searchSQL[id].message,searchSQL[id].shopHead);
+
+
+
             Intent intent = new Intent();
             intent.setClass(pageSearch.this, pageShop.class);
             startActivity(intent);

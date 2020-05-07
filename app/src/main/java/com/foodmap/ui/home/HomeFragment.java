@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.location.LocationListener;
+import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import com.foodmap.R;
@@ -41,6 +42,7 @@ public class HomeFragment extends Fragment
     private LocationManager mLocationManager;
     Button search;
     EditText searchBar;
+    int first=1;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -52,9 +54,12 @@ public class HomeFragment extends Fragment
         search.setOnClickListener(searchListener);
 
         SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
+        Toast.makeText(getActivity(), getResources().getString(R.string.map), Toast.LENGTH_SHORT).show();
 
         mapFragment.getMapAsync(this);
         return root;
+
+
     }
     private Button.OnClickListener searchListener = new Button.OnClickListener() {
         @Override
@@ -82,6 +87,14 @@ public class HomeFragment extends Fragment
 
         }
         //地圖單位0.001=100M
+
+        if(first==1){
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(
+                new LatLng(23.5,121.0), 6));
+            first++;
+        }
+
+
     }
 
     @Override
@@ -107,7 +120,7 @@ public class HomeFragment extends Fragment
             return;
         }
 
-        mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 3000, 80, this);
+        mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 5, this);
     }
 
     private int checkSelfPermission(String accessFineLocation) {

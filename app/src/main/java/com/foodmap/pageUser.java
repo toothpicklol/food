@@ -1,5 +1,6 @@
 package com.foodmap;
 
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -142,6 +143,9 @@ public class pageUser extends AppCompatActivity {
         btUserInfo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.setClass(pageUser.this, pageUpload.class);
+                startActivity(intent);
 
             }
         });
