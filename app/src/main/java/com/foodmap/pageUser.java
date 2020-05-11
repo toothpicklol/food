@@ -144,7 +144,7 @@ public class pageUser extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent();
-                intent.setClass(pageUser.this, pageUpload.class);
+                intent.setClass(pageUser.this, pageUserInfo.class);
                 startActivity(intent);
 
             }

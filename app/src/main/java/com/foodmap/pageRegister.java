@@ -14,7 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class pageRegister extends AppCompatActivity {
 
-    TextView regAcc,regPass,regPassC,failAcc,failPass,failPass2,isNull;
+    TextView regAcc,regPass,regPassC,fail,email;
     Context context=this;
     WebView webView;
     String url="http://114.32.152.202/foodphp/register.php";
@@ -30,10 +30,10 @@ public class pageRegister extends AppCompatActivity {
         regAcc = findViewById(R.id.etResAcc);
         regPass =findViewById(R.id.etResPass);
         regPassC=findViewById(R.id.etResPassC);
-        failAcc=findViewById(R.id.txFailAcc);
-        failPass=findViewById(R.id.txFailPass);
-        failPass2=findViewById(R.id.txFailPass2);
-        isNull=findViewById(R.id.txNull);
+        fail=findViewById(R.id.txFailAcc);
+        email=findViewById(R.id.etEmail);
+
+
 
 
 
@@ -77,22 +77,22 @@ public class pageRegister extends AppCompatActivity {
         String r="xxxxx";
         r=dbcon.dbReg(regAcc.getText().toString(),cookieStr,url);
 
-        failAcc.setVisibility(View.INVISIBLE);
-        failPass.setVisibility(View.INVISIBLE);
-        failPass2.setVisibility(View.INVISIBLE);
-        isNull.setVisibility(View.INVISIBLE);
+        fail.setVisibility(View.INVISIBLE);
+
+
 
 
         if (r.equals(regAcc.getText().toString())) {
-            if(regAcc.getText().toString().length()==0|regPass.getText().toString().length()==0|regPassC.getText().toString().length()==0)
+            if(regAcc.getText().toString().length()==0|regPass.getText().toString().length()==0|regPassC.getText().toString().length()==0|email.getText().toString().length()==0)
             {
-                isNull.setVisibility(View.VISIBLE);
+                fail.setText("尚未輸入");
+                fail.setVisibility(View.VISIBLE);
             }
             else{
                 if(passwordCheck(regPass.getText().toString()))
                 {
                     if(regPass.getText().toString().equals(regPassC.getText().toString())){
-                        String [] in=new String[]{regAcc.getText().toString(),regPass.getText().toString()};
+                        String [] in=new String[]{regAcc.getText().toString(),regPass.getText().toString(),email.getText().toString()};
                         dbcon.insertReg(in,cookieStr,insterReg);
                         Intent intent = new Intent();
                         intent.setClass(pageRegister.this, MainActivity.class);
@@ -104,20 +104,23 @@ public class pageRegister extends AppCompatActivity {
                     }
                     else
                     {
-                        failPass2.setVisibility(View.VISIBLE );
+                        fail.setText("密碼不相符");
+                        fail.setVisibility(View.VISIBLE);
                     }
                 }
                 else
                 {
-                    failPass.setVisibility(View.VISIBLE );
+                    fail.setText("密碼請由8位英數組成");
+                    fail.setVisibility(View.VISIBLE);
                 }
 
-            }
+           }
         }
 
         else{
 
-            failAcc.setVisibility(View.VISIBLE );
+            fail.setText("帳號已被註冊");;
+            fail.setVisibility(View.VISIBLE);
 
         }
     }

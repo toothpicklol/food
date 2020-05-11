@@ -22,24 +22,24 @@
 
             <TableRow android:layout_width="match_parent" android:layout_height="match_parent">
                 <Button
-                        android:text="選擇檔案"
+                        android:text="設為頭像"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent" android:id="@+id/btnChose"
                         android:layout_weight="1"/>
                 <Button
-                        android:text="上傳"
+                        android:text="設為背景"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent" android:id="@+id/btnUpload"
+                        android:layout_height="match_parent" android:id="@+id/btnChoseBg"
                         android:layout_weight="1"/>
             </TableRow>
         </TableLayout>
         <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="50dp">
+                android:layout_height="100dp">
             <TextView
                     android:layout_width="match_parent"
-                    android:layout_height="10dp" android:id="@+id/txImgUpload"
+                    android:layout_height="200dp" android:id="@+id/txImgUpload"
                     android:layout_weight="1" android:textSize="18sp"
                     android:gravity="center"/>
         </LinearLayout>

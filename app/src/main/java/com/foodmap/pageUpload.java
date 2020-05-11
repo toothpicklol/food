@@ -30,7 +30,7 @@ public class pageUpload extends AppCompatActivity implements View.OnClickListene
 
     private final String PERMISSION_WRITE_STORAGE = "android.permission.WRITE_EXTERNAL_STORAGE";
     private TextView messageText;
-    private Button uploadButton, btnselectpic;
+    private Button btnHead,btnBg;
     private ImageView imageview;
 
     private int serverResponseCode = 0;
@@ -38,22 +38,25 @@ public class pageUpload extends AppCompatActivity implements View.OnClickListene
 
     private String upLoadServerUri = null;
     private String imagepath = null;
-
+    int checkImage=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_page_upload);
+
         //宣告的物件，跟View上的元件來連結。
 
-        uploadButton = (Button) findViewById(R.id.btnUpload);
+
         messageText  = (TextView)findViewById(R.id.txImgUpload);
-        btnselectpic = (Button) findViewById(R.id.btnChose);
+        btnHead = (Button) findViewById(R.id.btnChose);
+        btnBg =findViewById(R.id.btnChoseBg);
         imageview = (ImageView) findViewById(R.id.imageUpload);
 
         //設定Button的監聽事件。
-        btnselectpic.setOnClickListener(this);
-        uploadButton.setOnClickListener(this);
+        btnHead.setOnClickListener(this);
+        btnBg.setOnClickListener(this);
+
 
         //設定連結到PHP的網址。(建議用手機來測試，再連到固定IP的網址。)
         upLoadServerUri = "http://114.32.152.202/foodphp/upload.php";
@@ -96,26 +99,24 @@ public class pageUpload extends AppCompatActivity implements View.OnClickListene
     }
     @Override
     public void onClick(View v) {
-
         //Button的監聽事件要做什麼事。
-        if (v == btnselectpic) {
+        if (v == btnHead) {
             //觸發開啟手機上的相片(類似想檔案總管)，來選要上傳的照片。
             Intent intent = new Intent();
             intent.setType("image/*");
             intent.setAction(Intent.ACTION_GET_CONTENT);
-
             //回傳時，要如何處理。請重新Override onActivityResult函式。
             startActivityForResult(Intent.createChooser(intent, "Complete action using"), 1);
-        } else if (v == uploadButton) {
 
-            //按上傳檔案的按鈕，要處理時，會用Thread 來處理 Http Post的動作。
-            //dialog = ProgressDialog.show(pageUpload.this, "", "Uploading file...", true);
-            messageText.setText("uploading started.....");
-            new Thread(new Runnable() {
-                public void run() {
-                    uploadFile(imagepath);
-                }
-            }).start();
+        }
+        else if(v==btnBg){
+            Intent intent = new Intent();
+            intent.setType("image/*");
+            intent.setAction(Intent.ACTION_GET_CONTENT);
+            //回傳時，要如何處理。請重新Override onActivityResult函式。
+            startActivityForResult(Intent.createChooser(intent, "Complete action using"), 1);
+            checkImage=1;
+
         }
     }
 
@@ -142,6 +143,12 @@ public class pageUpload extends AppCompatActivity implements View.OnClickListene
                 // CALL THIS METHOD TO GET THE ACTUAL PATH
                 //File finalFile = new File(getRealPathFromURI(tempUri));
                 imagepath =getRealPathFromURI(tempUri);
+                messageText.setText("uploading started.....");
+                new Thread(new Runnable() {
+                    public void run() {
+                        uploadFile(imagepath);
+                    }
+                }).start();
 
 
             } catch(IOException ie) {
@@ -174,12 +181,10 @@ public class pageUpload extends AppCompatActivity implements View.OnClickListene
         cursor.moveToFirst();
         return cursor.getString(column_index);
     }
-
-
     //進行檔案上傳的動作。
     public int uploadFile(String sourceFileUri) {
 
-        String fileName = sourceFileUri;
+        final String fileName = sourceFileUri;
 
         HttpURLConnection conn = null;
         DataOutputStream dos = null;
@@ -263,9 +268,17 @@ public class pageUpload extends AppCompatActivity implements View.OnClickListene
                         public void run() {
                             String msg = "File Upload Completed.\n\n See uploaded file your server. \n\n";
                             messageText.setText(msg);
+                            System.out.println(fileName);
                             Toast.makeText(pageUpload.this, "File Upload Complete.", Toast.LENGTH_SHORT).show();
                         }
                     });
+                    if(checkImage==1){
+                        //update 背景網址 http;//114.32.152.202/foodphp/upload/檔名
+                    }
+                    else{
+                        //update 頭像網址 http;//114.32.152.202/foodphp/upload/檔名
+
+                    }
                 }
 
                 fileInputStream.close();
@@ -302,6 +315,8 @@ public class pageUpload extends AppCompatActivity implements View.OnClickListene
             return serverResponseCode;
         }
     }
+
+
 }
 
 

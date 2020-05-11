@@ -73,6 +73,9 @@ public class dbcon {
             ArrayList<NameValuePair> params=new ArrayList<NameValuePair>();
             params.add(new BasicNameValuePair("S1",i[0]));
             params.add(new BasicNameValuePair("S2",i[1]));
+            params.add(new BasicNameValuePair("S3",i[2]));
+            System.out.println(i[2]);
+
 
 
 
