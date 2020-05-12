@@ -1,10 +1,15 @@
 package com.foodmap;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.webkit.CookieManager;
+import android.webkit.CookieSyncManager;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.*;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,14 +20,19 @@ import java.net.URL;
 
 public class pageUser extends AppCompatActivity {
 
+    private static String user;
     Button btUserInfo,btUserLike,btUserMore,btUserCom,btnPost;
     LinearLayout ll,bgU;
 
-    View buttonView,view,comment,accountGet;
+    View buttonView,view,comment;
     TextView account,title,text,username,userLV;
     ImageView bigHead,headC;
-    EditText etAccount;
-    makeComment[] commentSQL = new makeComment[3];
+
+    WebView webView;
+    String url="http://114.32.152.202/foodphp/111.php";
+    CookieManager cookieManager;
+    String cookieStr;
+    makeComment[] commentSQL;
 
 
 
@@ -32,7 +42,6 @@ public class pageUser extends AppCompatActivity {
         setContentView(R.layout.activity_page_user);
         AlertDialog.Builder toolbar;
         buttonView = LayoutInflater.from(pageUser.this).inflate(R.layout.personal_object_button, null);
-        accountGet = LayoutInflater.from(pageUser.this).inflate(R.layout.activity_main, null);
 
         ll = (LinearLayout)findViewById(R.id.ll_in_sv);
 
@@ -52,7 +61,9 @@ public class pageUser extends AppCompatActivity {
         username=findViewById(R.id.username);
         btnPost =findViewById(R.id.btn_Post);
 
-        etAccount=findViewById(R.id.etAcc);
+
+
+
 
 
 
@@ -69,7 +80,7 @@ public class pageUser extends AppCompatActivity {
             return draw;
         } catch (Exception e) {
             //TODO handle error
-            System.out.println("erroooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooor");
+            System.out.println("error");
             Log.i("loadingImg", e.toString());
             return null;
         }
@@ -77,11 +88,12 @@ public class pageUser extends AppCompatActivity {
 
     public void addListView(){
 
+
+
         makeInfo[] InfoSQL = new makeInfo[1];
         InfoSQL[0]= new makeInfo("低能","99","https://storage.googleapis.com/www-cw-com-tw/article/201810/article-5bd182cf13ebb.jpg","https://storage.googleapis.com/www-cw-com-tw/article/201810/article-5bd182cf13ebb.jpg");//個人資料
 
-        etAccount=accountGet.findViewById(R.id.etAcc);
-        String user=etAccount.getText().toString();
+
 
 
         for (makeInfo point : InfoSQL) {
@@ -100,15 +112,31 @@ public class pageUser extends AppCompatActivity {
 
         }
         ll.addView(buttonView);
+        String commentS=dbcon.comment(user,cookieStr,url);
+        String[] commentArr=commentS.split("]");
+        commentSQL = new makeComment[commentArr.length];
+        for (int i=0; i<commentArr.length; i++) {
+            if(commentArr.length==1)
+            {
+                break;
+            }
+            String tmp=commentArr[i];
+            String[] commentArr2=tmp.split(",");
+            for (int j=0; j<commentArr2.length; j++) {
+                System.out.println(commentArr2[j]);
+            }
+
+            commentSQL[i] = new makeComment(commentArr2[0], commentArr2[1], commentArr2[2],commentArr2[3],"https://storage.googleapis.com/www-cw-com-tw/article/201810/article-5bd182cf13ebb.jpg");//評論資料
+
+        }
 
 
-
-
-        commentSQL[0] = new makeComment("25.067", "121.4971", "天龍國","https://storage.googleapis.com/www-cw-com-tw/article/201810/article-5bd182cf13ebb.jpg","https://storage.googleapis.com/www-cw-com-tw/article/201810/article-5bd182cf13ebb.jpg");//評論資料
-        commentSQL[1] = new makeComment("25.068", "121.4972", "南部","null","https://storage.googleapis.com/www-cw-com-tw/article/201810/article-5bd182cf13ebb.jpg");
-        commentSQL[2] = new makeComment("25.069", "121.4973", "地府","https://storage.googleapis.com/www-cw-com-tw/article/201810/article-5bd182cf13ebb.jpg","https://storage.googleapis.com/www-cw-com-tw/article/201810/article-5bd182cf13ebb.jpg");
         int btnId=0;
         for (makeComment point : commentSQL) {
+            if(commentArr.length==1)
+            {
+                break;
+            }
             view = LayoutInflater.from(pageUser.this).inflate(R.layout.personal_object, null);
 
 
@@ -122,20 +150,33 @@ public class pageUser extends AppCompatActivity {
 
 
             btnPost.setId(btnId);//將按鈕帶入id 以供監聽時辨識使用
-            btnId++;
             btnPost.setOnClickListener(check);
+
+            btnId++;
+
             ll.addView(view);
             account.setText(point.account);
             headC.setImageDrawable(loadImageFromURL(point.head));
             title.setText(point.title);
-            if(point.picture=="null")
-            {
-                text.setText(point.text);
+            System.out.println(point.text);
+
+            if(loadImageFromURL(point.picture)!=null){
+                text.setBackground(loadImageFromURL(point.picture));
+
 
             }
-            else
-            text.setBackground(loadImageFromURL(point.picture));
+            else{
+                text.getLayoutParams().height = 100;
+                text.setText(point.text);
+
+
+            }
+
+
         }
+
+
+
 
 
     }
@@ -152,8 +193,16 @@ public class pageUser extends AppCompatActivity {
         btUserLike.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.setClass(pageUser.this, pageLike.class);
+                startActivity(intent);
 
-            }
+
+                }
+
+
+
+
         });
         btUserCom.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -167,6 +216,27 @@ public class pageUser extends AppCompatActivity {
 
             }
         });
+
+    }
+    private void Wcookie(Context context) {
+        webView=new WebView(context);
+        CookieSyncManager.createInstance(context);
+        cookieManager= CookieManager.getInstance();
+
+        webView.setWebViewClient(new WebViewClient(){
+            public void onPageFinished (WebView view, String url){
+                super.onPageFinished(view, url);
+                cookieManager.setAcceptCookie(true);
+                cookieStr=cookieManager.getCookie(url);
+
+            }
+        });
+        webView.loadUrl(url);
+        webView.clearCache(true);
+        webView.clearHistory();
+
+        cookieManager.removeAllCookie();
+        cookieManager.removeSessionCookie();
 
     }
 
@@ -201,16 +271,21 @@ public class pageUser extends AppCompatActivity {
     }
     private View.OnClickListener check= new View.OnClickListener() {
 
+
         @Override
         public void onClick(View v) {
 
             Button post =  (Button)v; //在new 出所按下的按鈕
             int id = post.getId();
 
-            System.out.println(commentSQL[id].account);
+            System.out.println(commentSQL[id]);
 
 
 
         }
     };
+
+    public static void setName(String i){
+        user=i;
+    }
 }

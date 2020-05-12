@@ -54,6 +54,7 @@ public class dbcon {
             result= EntityUtils.toString(hR.getEntity(),HTTP.UTF_8);
 
 
+
         }
         catch (Exception e){
             return e.toString();
@@ -74,7 +75,7 @@ public class dbcon {
             params.add(new BasicNameValuePair("S1",i[0]));
             params.add(new BasicNameValuePair("S2",i[1]));
             params.add(new BasicNameValuePair("S3",i[2]));
-            System.out.println(i[2]);
+
 
 
 
@@ -175,6 +176,36 @@ public class dbcon {
 
 
         return result;
+    }
+
+    public static String  comment(String i,String Wcook,String url){
+        String[] result;
+        try{
+            HttpClient hc =new DefaultHttpClient();
+            HttpPost  hP=new HttpPost(url);
+            hP.addHeader("cookie",Wcook+";expires=Thu,31-Dec-37 23:55:55 GMT;path=/");
+
+            ArrayList<NameValuePair> params=new ArrayList<NameValuePair>();
+            params.add(new BasicNameValuePair("S1",i));
+
+
+
+
+            hP.setEntity(new UrlEncodedFormEntity(params, HTTP.UTF_8));
+            HttpResponse hR=hc.execute(hP);
+            result= new String[]{EntityUtils.toString(hR.getEntity(), HTTP.UTF_8)};
+
+
+
+
+        }
+        catch (Exception e){
+            return e.toString();
+        }
+
+
+
+        return result[0];
     }
 
 

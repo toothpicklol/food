@@ -91,14 +91,16 @@ public class MainActivity extends AppCompatActivity {
         String r="xxxxx";
 
         String acc = String.format(account.getText().toString());
-        String pass = String.format(password.getText().toString());
+
+        pageUser.setName(acc);
+
 
         r=dbcon.dbstring(account.getText().toString(),password.getText().toString(),cookieStr,url);
         loginfail.setText(r);
 
 
 
-        System.out.println(r);
+        //System.out.println(r);
         if (r.equals(acc)) {
             Intent intent = new Intent();
             intent.setClass(MainActivity.this, pageHome.class);

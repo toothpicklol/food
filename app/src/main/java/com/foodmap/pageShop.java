@@ -18,7 +18,7 @@ public class pageShop extends AppCompatActivity {
 
 
     private static String pointS,messageS,commentS,textS,nameS;
-    Button btnPost,btnOwner;
+    Button btnPost,btnOwner,btnLike;
     LinearLayout ll,bgU;
 
     View view,comment,accountGet,shopText;
@@ -62,7 +62,7 @@ public class pageShop extends AppCompatActivity {
         message=findViewById(R.id.shopMess);
         shopInfo=findViewById(R.id.shopinfo);
         btnOwner=findViewById(R.id.shopOwner);
-
+        btnLike=findViewById(R.id.btnLike);
 
 
 
@@ -125,12 +125,14 @@ public class pageShop extends AppCompatActivity {
         message=shopText.findViewById(R.id.shopMess);
         shopInfo=shopText.findViewById(R.id.shopinfo);
         btnOwner=shopText.findViewById(R.id.shopOwner);
+        btnLike=shopText.findViewById(R.id.btnLike);
 
         point.setText(pointS);
         commentC.setText(commentS);
         message.setText(messageS);
         shopInfo.setText(textS);
         btnOwner.setOnClickListener(check);
+        btnLike.setOnClickListener(check);
 
 
 
@@ -211,8 +213,8 @@ public class pageShop extends AppCompatActivity {
         @Override
         public void onClick(View v) {
 
-            Button post =  (Button)v;
-            int id = post.getId();
+
+
             Intent intent = new Intent();
             intent.setClass(pageShop.this, pageShop.class);
             startActivity(intent);

@@ -21,6 +21,8 @@
             android:theme="@style/AppTheme"
             android:usesCleartextTraffic="true"
             tools:ignore="GoogleAppIndexingWarning">
+        <activity android:name=".pageLike">
+        </activity>
         <activity android:name=".pageImageLibery">
         </activity>
         <activity android:name=".pageUserInfo">
