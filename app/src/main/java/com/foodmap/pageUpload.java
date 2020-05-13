@@ -12,6 +12,10 @@ import android.os.Build;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
+import android.webkit.CookieManager;
+import android.webkit.CookieSyncManager;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -39,6 +43,11 @@ public class pageUpload extends AppCompatActivity implements View.OnClickListene
     private String upLoadServerUri = null;
     private String imagepath = null;
     int checkImage=0;
+    String update="http://114.32.152.202/foodphp/updateimage.php";
+
+    WebView webView;
+    CookieManager cookieManager;
+    String cookieStr;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -194,7 +203,7 @@ public class pageUpload extends AppCompatActivity implements View.OnClickListene
         int bytesRead, bytesAvailable, bufferSize;
         byte[] buffer;
         int maxBufferSize = 1 * 1024 * 1024;
-        File sourceFile = new File(sourceFileUri);
+        final File sourceFile = new File(sourceFileUri);
 
         if (!sourceFile.isFile()) {
 //            dialog.dismiss();
@@ -268,14 +277,18 @@ public class pageUpload extends AppCompatActivity implements View.OnClickListene
                         public void run() {
                             String msg = "File Upload Completed.\n\n See uploaded file your server. \n\n";
                             messageText.setText(msg);
-                            System.out.println(fileName);
+                            System.out.println(sourceFile.getName());
                             Toast.makeText(pageUpload.this, "File Upload Complete.", Toast.LENGTH_SHORT).show();
                         }
                     });
                     if(checkImage==1){
+                        String r=sourceFile.getName();
+                        dbcon.updateImg(r,"bg",cookieStr,update);
                         //update 背景網址 http;//114.32.152.202/foodphp/upload/檔名
                     }
                     else{
+                        String r=sourceFile.getName();
+                        dbcon.updateImg(r,"bg",cookieStr,update);
                         //update 頭像網址 http;//114.32.152.202/foodphp/upload/檔名
 
                     }
@@ -314,6 +327,27 @@ public class pageUpload extends AppCompatActivity implements View.OnClickListene
             //dialog.dismiss();
             return serverResponseCode;
         }
+    }
+    private void Wcookie(Context context) {
+        webView=new WebView(context);
+        CookieSyncManager.createInstance(context);
+        cookieManager= CookieManager.getInstance();
+
+        webView.setWebViewClient(new WebViewClient(){
+            public void onPageFinished (WebView view, String url){
+                super.onPageFinished(view, url);
+                cookieManager.setAcceptCookie(true);
+                cookieStr=cookieManager.getCookie(url);
+
+            }
+        });
+        webView.loadUrl(update);
+        webView.clearCache(true);
+        webView.clearHistory();
+
+        cookieManager.removeAllCookie();
+        cookieManager.removeSessionCookie();
+
     }
 
 

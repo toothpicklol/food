@@ -20,8 +20,8 @@ import android.location.LocationListener;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import com.foodmap.*;
 import com.foodmap.R;
-import com.foodmap.pageSearch;
 import com.google.android.gms.maps.*;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
@@ -43,6 +43,11 @@ public class HomeFragment extends Fragment
     Button search;
     EditText searchBar;
     int first=1;
+    String info="http://114.32.152.202/foodphp/userinfo.php";
+    String mapShop="http://114.32.152.202/foodphp/mapshop.php";
+    GoogleMapV2_MarkPoint[] MysqlPointSet;
+    double X;
+    double Y;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -73,17 +78,33 @@ public class HomeFragment extends Fragment
     @Override
     public void onMapReady(GoogleMap googleMap) {
 
-        GoogleMapV2_MarkPoint[] MysqlPointSet = new GoogleMapV2_MarkPoint[3];
-        MysqlPointSet[0] = new GoogleMapV2_MarkPoint(25.067, 121.4971, "天龍國", "50","https://storage.googleapis.com/www-cw-com-tw/article/201810/article-5bd182cf13ebb.jpg");
-        MysqlPointSet[1] = new GoogleMapV2_MarkPoint(25.068, 121.4972, "南部", "95","https://storage.googleapis.com/www-cw-com-tw/article/201810/article-5bd182cf13ebb.jpg");
-        MysqlPointSet[2] = new GoogleMapV2_MarkPoint(25.069, 121.4973, "地府", "85","https://storage.googleapis.com/www-cw-com-tw/article/201810/article-5bd182cf13ebb.jpg");
+
+        String commentS=dbcon.mark(String.valueOf(Y+=0.1),String.valueOf(X+=0.1),mapShop);
+        String[] markArr=commentS.split("]");
+        MysqlPointSet = new GoogleMapV2_MarkPoint[markArr.length];
+
+        for (int i=0; i<markArr.length; i++) {
+
+            String tmp=markArr[i];
+            String[] commentArr2=tmp.split(",");
+
+
+            MysqlPointSet[i] = new GoogleMapV2_MarkPoint(Double.parseDouble(commentArr2[0]), Double.parseDouble(commentArr2[1]), commentArr2[2],commentArr2[3],commentArr2[4],commentArr2[5]);//評論資料
+
+        }
+
+//        GoogleMapV2_MarkPoint[] MysqlPointSet = new GoogleMapV2_MarkPoint[3];
+//        MysqlPointSet[0] = new GoogleMapV2_MarkPoint(25.067, 121.4971, "天龍國", "50","https://storage.googleapis.com/www-cw-com-tw/article/201810/article-5bd182cf13ebb.jpg","aa");
+//        MysqlPointSet[1] = new GoogleMapV2_MarkPoint(25.068, 121.4972, "南部", "95","https://storage.googleapis.com/www-cw-com-tw/article/201810/article-5bd182cf13ebb.jpg","bb");
+//        MysqlPointSet[2] = new GoogleMapV2_MarkPoint(25.069, 121.4973, "地府", "85","https://storage.googleapis.com/www-cw-com-tw/article/201810/article-5bd182cf13ebb.jpg","aa");
 
         mMap = googleMap;
 
         for (GoogleMapV2_MarkPoint point : MysqlPointSet) {
 
             mMap.addMarker(new MarkerOptions().position(new LatLng(point.latitude, point.longitude)).title(point.title)
-                    .snippet(point.point).icon(BitmapDescriptorFactory.fromBitmap(getBitmapFromURL(point.head))));
+                    .snippet(point.point+"#"+point.account).icon(BitmapDescriptorFactory.fromBitmap(getBitmapFromURL(point.head))));
+
 
         }
         //地圖單位0.001=100M
@@ -93,9 +114,31 @@ public class HomeFragment extends Fragment
                 new LatLng(23.5,121.0), 6));
             first++;
         }
+        mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+            @Override
+            public void onInfoWindowClick(Marker marker) {
+
+                String name=marker.getSnippet();
+                String[] nameArr=name.split("#");
+
+                Intent intent = new Intent(getActivity(), pageShop.class);
+                startActivity(intent);
+                pageShop.setName(nameArr[1]);
+
+
+
+
+
+
+            }
+        });
+
+
+
 
 
     }
+
 
     @Override
     public void onAttach(Context context) {
@@ -145,6 +188,8 @@ public class HomeFragment extends Fragment
         Log.i(TAG, String.valueOf(location.getLongitude()));
         mMap.clear();
         mMap.addMarker(new MarkerOptions().position(new LatLng(location.getLatitude(), location.getLongitude())).title("你的位置"));
+        X=location.getLatitude();
+        Y=location.getLongitude();
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(
                 new LatLng(location.getLatitude(), location.getLongitude()), 15));
         onMapReady(mMap);
@@ -191,14 +236,15 @@ public class HomeFragment extends Fragment
 
     class GoogleMapV2_MarkPoint {
         public double latitude, longitude;
-        public String title,head,point;
-        public GoogleMapV2_MarkPoint(double i, double j,String k,String l,String m) {
+        public String title,head,point,account;
+        public GoogleMapV2_MarkPoint(double i, double j,String k,String l,String m,String n) {
 
             latitude=i;
             longitude=j;
             title=k;
             point="總評分:"+l+"/100";
             head=m;
+            account=n;
 
 
         }

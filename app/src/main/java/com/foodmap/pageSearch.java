@@ -1,10 +1,15 @@
 package com.foodmap;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.webkit.CookieManager;
+import android.webkit.CookieSyncManager;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.*;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
@@ -29,8 +34,13 @@ public class pageSearch extends AppCompatActivity {
     TextView address,tel,shopName,point,comment,message,time;
 
 
-    makeShop[] searchSQL = new makeShop[4];
+    makeShop[] searchSQL;
     int searchL;
+    WebView webView;
+
+    String info="http://114.32.152.202/foodphp/shopsearch.php";
+    CookieManager cookieManager;
+    String cookieStr;
 
 
     @Override
@@ -126,10 +136,32 @@ public class pageSearch extends AppCompatActivity {
 
 
 
+
                     }
 
                 }
             };
+    private void Wcookie(Context context) {
+        webView=new WebView(context);
+        CookieSyncManager.createInstance(context);
+        cookieManager= CookieManager.getInstance();
+
+        webView.setWebViewClient(new WebViewClient(){
+            public void onPageFinished (WebView view, String url){
+                super.onPageFinished(view, url);
+                cookieManager.setAcceptCookie(true);
+                cookieStr=cookieManager.getCookie(url);
+
+            }
+        });
+        webView.loadUrl(info);
+        webView.clearCache(true);
+        webView.clearHistory();
+
+        cookieManager.removeAllCookie();
+        cookieManager.removeSessionCookie();
+
+    }
     private Button.OnClickListener goSearch = new Button.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -138,11 +170,25 @@ public class pageSearch extends AppCompatActivity {
             //WHERE tag='日式'
 
 
+            String commentS=dbcon.SearchShop(tmp,cookieStr,info);
+            String[] searchArr=commentS.split("]");
+            searchSQL = new makeShop[searchArr.length];
+            System.out.println(commentS);
+            for (int i=0; i<searchArr.length; i++) {
+                if(searchArr.length==1)
+                {
+                    break;
+                }
+                String tmp=searchArr[i];
+                String[] searchArr2=tmp.split(",");
+                System.out.println(tmp);
 
-            searchSQL[0] = new makeShop("感恩麵店","林森北路","0987974887","2:00","https://storage.googleapis.com/www-cw-com-tw/article/201810/article-5bd182cf13ebb.jpg","8","17","827");
-            searchSQL[1] = new makeShop("感麵店","林北路","0987984887","5:00","https://storage.googleapis.com/www-cw-com-tw/article/201810/article-5bd182cf13ebb.jpg","7","87","872");
-            searchSQL[2] = new makeShop("感恩麵","森北路","09879874887",":00","https://storage.googleapis.com/www-cw-com-tw/article/201810/article-5bd182cf13ebb.jpg","827","7","8127");
-            searchSQL[3] = new makeShop("感恩店","林森路","097984887","25:0","https://storage.googleapis.com/www-cw-com-tw/article/201810/article-5bd182cf13ebb.jpg","827","817","857");
+
+                searchSQL[i] = new makeShop(searchArr2[0], searchArr2[7], searchArr2[3],searchArr2[4]+"~"+searchArr2[5],searchArr2[1],searchArr2[8],searchArr2[9],searchArr2[10],searchArr2[11]);//評論資料
+
+            }
+
+
             ll.removeAllViews();
 
 
@@ -172,14 +218,6 @@ public class pageSearch extends AppCompatActivity {
                 message.setText(p.message);
                 time.setText(p.time);
 
-
-
-
-
-
-
-
-
                 ll.addView(view);
 
 
@@ -201,9 +239,9 @@ public class pageSearch extends AppCompatActivity {
     }
     class makeShop {
 
-        public String shopName,shopHead,address,tel,time,message,point,comment;
+        public String shopName,shopHead,address,tel,time,message,point,comment,acc;
 
-        public makeShop( String i, String j,String k,String l,String m,String n,String o,String p) {
+        public makeShop( String i, String j,String k,String l,String m,String n,String o,String p,String q) {
             shopName=i;
             address=j;
             tel=k;
@@ -212,6 +250,7 @@ public class pageSearch extends AppCompatActivity {
             message=n;
             comment=o;
             point=p;
+            acc=q;
 
 
 
@@ -227,18 +266,14 @@ public class pageSearch extends AppCompatActivity {
 
             Button post =  (Button)v; //在new 出所按下的按鈕
             int id = post.getId();
-
             System.out.println(searchSQL[id].shopName);
-            pageShop.getInfo(searchSQL[id].point,searchSQL[id].shopName,searchSQL[id].comment,searchSQL[id].address,searchSQL[id].time,searchSQL[id].tel,searchSQL[id].message,searchSQL[id].shopHead);
-
 
 
             Intent intent = new Intent();
             intent.setClass(pageSearch.this, pageShop.class);
             startActivity(intent);
-
-
-
+            pageShop.setName(searchSQL[id].acc);
+            System.out.println(searchSQL[id].acc);
         }
     };
 

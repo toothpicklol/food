@@ -1,10 +1,15 @@
 package com.foodmap;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.webkit.CookieManager;
+import android.webkit.CookieSyncManager;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.*;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,7 +22,13 @@ import java.security.acl.Owner;
 public class pageShop extends AppCompatActivity {
 
 
-    private static String pointS,messageS,commentS,textS,nameS;
+    private static String user;
+    WebView webView;
+    String url="http://114.32.152.202/foodphp/shopcomment.php";
+    String info="http://114.32.152.202/foodphp/shopinfo.php";
+    String imgU="http://114.32.152.202/foodphp/userinfo.php";
+    CookieManager cookieManager;
+    String cookieStr;
     Button btnPost,btnOwner,btnLike;
     LinearLayout ll,bgU;
 
@@ -25,7 +36,9 @@ public class pageShop extends AppCompatActivity {
     TextView account,title,text,username,userLV;
     ImageView bigHead,headC;
     EditText etAccount;
-    TextView point,commentC,message,shopInfo;
+    TextView pointS,commentC,message,shopInfo;
+    makeComment[] commentSQL;
+
 
 
 
@@ -37,7 +50,7 @@ public class pageShop extends AppCompatActivity {
         setContentView(R.layout.activity_page_shop);
 
 
-        accountGet = LayoutInflater.from(pageShop.this).inflate(R.layout.activity_main, null);
+
 
         ll = (LinearLayout)findViewById(R.id.ll_in_sv);
 
@@ -57,7 +70,7 @@ public class pageShop extends AppCompatActivity {
 
         etAccount=findViewById(R.id.etAcc);
 
-        point=findViewById(R.id.shopPoint);
+        pointS=findViewById(R.id.shopPoint);
         commentC=findViewById(R.id.shopCommentCount);
         message=findViewById(R.id.shopMess);
         shopInfo=findViewById(R.id.shopinfo);
@@ -85,21 +98,16 @@ public class pageShop extends AppCompatActivity {
             return null;
         }
     }
-    public static void  getInfo(String point,String name,String comment,String address,String time,String tel,String message,String imageU){
-        pointS=point;
-        messageS=message;
-        commentS=comment;
-        textS="營業時間:"+time+"\n"+"地址:"+address+"\n"+"電話:"+tel;
-        nameS=name;
 
-    }
 
     public void addListView(){
-
         makeInfo[] InfoSQL = new makeInfo[1];
-        InfoSQL[0]= new makeInfo("牛肉麵","87","https://storage.googleapis.com/www-cw-com-tw/article/201810/article-5bd182cf13ebb.jpg","https://storage.googleapis.com/www-cw-com-tw/article/201810/article-5bd182cf13ebb.jpg");//個人資料
 
-        etAccount=accountGet.findViewById(R.id.etAcc);
+        String userInfo=dbcon.userInfo(user,cookieStr,info);
+        String[] infoArr=userInfo.split(",");
+        InfoSQL[0] = new makeInfo(infoArr[0], infoArr[6], infoArr[1],infoArr[2],infoArr[7],infoArr[4],infoArr[4]+"~"+infoArr[5],infoArr[9],infoArr[8],infoArr[10]);
+
+
 
 
 
@@ -113,40 +121,67 @@ public class pageShop extends AppCompatActivity {
             ll.addView(comment);
 
             username.setText(point.username);
-            userLV.setText("等級"+point.userLV);
+            userLV.setText(point.userLV);
             bigHead.setImageDrawable(loadImageFromURL(point.bigHead));
             bgU.setBackground(loadImageFromURL(point.bg));
 
+            shopText= LayoutInflater.from(pageShop.this).inflate(R.layout.shop_info, null);
+            pointS=shopText.findViewById(R.id.shopPoint);
+            commentC=shopText.findViewById(R.id.shopCommentCount);
+            message=shopText.findViewById(R.id.shopMess);
+            shopInfo=shopText.findViewById(R.id.shopinfo);
+            btnOwner=shopText.findViewById(R.id.shopOwner);
+            btnLike=shopText.findViewById(R.id.btnLike);
+            btnOwner.setOnClickListener(check);
+            btnLike.setOnClickListener(check);
+
+            message.setText(point.message);
+            commentC.setText(point.comment);
+            pointS.setText(point.point);
+            shopInfo.setText("營業時間:"+point.time+"\n"+"地址:"+point.address+"\n"+"電話:"+point.tel);
+
+
+
+
+            ll.addView(shopText);
+
+
+
         }
 
-        shopText= LayoutInflater.from(pageShop.this).inflate(R.layout.shop_info, null);
-        point=shopText.findViewById(R.id.shopPoint);
-        commentC=shopText.findViewById(R.id.shopCommentCount);
-        message=shopText.findViewById(R.id.shopMess);
-        shopInfo=shopText.findViewById(R.id.shopinfo);
-        btnOwner=shopText.findViewById(R.id.shopOwner);
-        btnLike=shopText.findViewById(R.id.btnLike);
-
-        point.setText(pointS);
-        commentC.setText(commentS);
-        message.setText(messageS);
-        shopInfo.setText(textS);
-        btnOwner.setOnClickListener(check);
-        btnLike.setOnClickListener(check);
-
-
-
-
-        ll.addView(shopText);
 
 
 
 
 
-        makeComment[] commentSQL = new makeComment[3];
-        commentSQL[0] = new makeComment("25.067", "121.4971", "天龍國","https://storage.googleapis.com/www-cw-com-tw/article/201810/article-5bd182cf13ebb.jpg","https://storage.googleapis.com/www-cw-com-tw/article/201810/article-5bd182cf13ebb.jpg");//評論資料
-        commentSQL[1] = new makeComment("25.068", "121.4972", "南部","null","https://storage.googleapis.com/www-cw-com-tw/article/201810/article-5bd182cf13ebb.jpg");
-        commentSQL[2] = new makeComment("25.069", "121.4973", "地府","https://storage.googleapis.com/www-cw-com-tw/article/201810/article-5bd182cf13ebb.jpg","https://storage.googleapis.com/www-cw-com-tw/article/201810/article-5bd182cf13ebb.jpg");
+
+
+
+
+        String commentS=dbcon.comment(user,cookieStr,url);
+        String[] commentArr=commentS.split("]");
+        commentSQL = new makeComment[commentArr.length];
+        System.out.println(commentArr.length);
+
+
+        for (int i=0; i<commentArr.length; i++) {
+            if(commentArr.length==1)
+            {
+                break;
+            }
+
+            String tmp=commentArr[i];
+            String[] commentArr2=tmp.split(",");
+
+            String img=dbcon.userInfo(commentArr2[0],cookieStr,imgU);
+            System.out.println(img);
+            String[] imgArr=img.split(",");
+            System.out.println(imgArr[1]);
+
+            commentSQL[i] = new makeComment(commentArr2[0], commentArr2[1], commentArr2[2],commentArr2[3],imgArr[3]);//評論資料
+
+
+        }
         int btnId=0;
         for (makeComment point : commentSQL) {
             view = LayoutInflater.from(pageShop.this).inflate(R.layout.personal_object, null);
@@ -167,13 +202,15 @@ public class pageShop extends AppCompatActivity {
             account.setText(point.account);
             headC.setImageDrawable(loadImageFromURL(point.head));
             title.setText(point.title);
-            if(point.picture=="null")
-            {
-                text.setText(point.text);
+            if(loadImageFromURL(point.picture)!=null){
+                text.setBackground(loadImageFromURL(point.picture));
+
 
             }
-            else
-                text.setBackground(loadImageFromURL(point.picture));
+            else{
+                text.getLayoutParams().height = 100;
+                text.setText(point.text);
+            }
         }
 
 
@@ -190,18 +227,27 @@ public class pageShop extends AppCompatActivity {
             head=n;
 
 
+
         }
 
 
     }
     class makeInfo {
 
-        public String username,userLV,bigHead,bg;
-        public makeInfo( String i, String j,String k,String l) {
+        public String username,userLV,bigHead,bg,address,message,tel,time,comment,point;
+        public makeInfo( String i, String j,String k,String l,String m,String n,String o,String p,String q,String r) {
             username=i;
             userLV=j;
             bigHead=k;
             bg=l;
+
+            address=m;
+            tel=n;
+            time=o;
+            message=p;
+            comment=q;
+            point=r;
+
 
 
         }
@@ -223,4 +269,28 @@ public class pageShop extends AppCompatActivity {
 
         }
     };
+    public static void setName(String i){
+        user=i;
+    }
+    private void Wcookie(Context context) {
+        webView=new WebView(context);
+        CookieSyncManager.createInstance(context);
+        cookieManager= CookieManager.getInstance();
+
+        webView.setWebViewClient(new WebViewClient(){
+            public void onPageFinished (WebView view, String url){
+                super.onPageFinished(view, url);
+                cookieManager.setAcceptCookie(true);
+                cookieStr=cookieManager.getCookie(url);
+
+            }
+        });
+        webView.loadUrl(url);
+        webView.clearCache(true);
+        webView.clearHistory();
+
+        cookieManager.removeAllCookie();
+        cookieManager.removeSessionCookie();
+
+    }
 }

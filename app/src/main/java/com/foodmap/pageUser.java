@@ -25,14 +25,16 @@ public class pageUser extends AppCompatActivity {
     LinearLayout ll,bgU;
 
     View buttonView,view,comment;
-    TextView account,title,text,username,userLV;
+    TextView account,title,text,username,userLV,fans,gold;
     ImageView bigHead,headC;
 
     WebView webView;
-    String url="http://114.32.152.202/foodphp/111.php";
+    String url="http://114.32.152.202/foodphp/comment.php";
+    String info="http://114.32.152.202/foodphp/userinfo.php";
     CookieManager cookieManager;
     String cookieStr;
     makeComment[] commentSQL;
+
 
 
 
@@ -60,13 +62,8 @@ public class pageUser extends AppCompatActivity {
         userLV=findViewById(R.id.userLV);
         username=findViewById(R.id.username);
         btnPost =findViewById(R.id.btn_Post);
-
-
-
-
-
-
-
+        fans=findViewById(R.id.txFans);
+        gold=findViewById(R.id.txGoldGood);
 
 
         addListView();
@@ -91,9 +88,9 @@ public class pageUser extends AppCompatActivity {
 
 
         makeInfo[] InfoSQL = new makeInfo[1];
-        InfoSQL[0]= new makeInfo("低能","99","https://storage.googleapis.com/www-cw-com-tw/article/201810/article-5bd182cf13ebb.jpg","https://storage.googleapis.com/www-cw-com-tw/article/201810/article-5bd182cf13ebb.jpg");//個人資料
-
-
+        String userInfo=dbcon.userInfo(user,cookieStr,info);
+        String[] infoArr=userInfo.split(",");
+        InfoSQL[0] = new makeInfo(infoArr[0], infoArr[1], infoArr[2],infoArr[3]);
 
 
         for (makeInfo point : InfoSQL) {
@@ -103,6 +100,8 @@ public class pageUser extends AppCompatActivity {
             bigHead=comment.findViewById(R.id.bighead);
             userLV=comment.findViewById(R.id.userLV);
             username=comment.findViewById(R.id.username);
+            fans=comment.findViewById(R.id.txFans);
+            gold=comment.findViewById(R.id.txGoldGood);
             ll.addView(comment);
 
             username.setText(point.username);
@@ -122,11 +121,9 @@ public class pageUser extends AppCompatActivity {
             }
             String tmp=commentArr[i];
             String[] commentArr2=tmp.split(",");
-            for (int j=0; j<commentArr2.length; j++) {
-                System.out.println(commentArr2[j]);
-            }
 
-            commentSQL[i] = new makeComment(commentArr2[0], commentArr2[1], commentArr2[2],commentArr2[3],"https://storage.googleapis.com/www-cw-com-tw/article/201810/article-5bd182cf13ebb.jpg");//評論資料
+
+            commentSQL[i] = new makeComment(commentArr2[0], commentArr2[1], commentArr2[2],commentArr2[3],infoArr[3]);//評論資料
 
         }
 

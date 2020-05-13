@@ -50,6 +50,41 @@
                         />
                 </LinearLayout>
         </LinearLayout>
+        <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TableRow android:layout_width="match_parent" android:layout_height="match_parent">
+                        <TextView
+                                android:text="金幣/推:"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content" android:id="@+id/textView20"
+                                android:textSize="18sp" android:textStyle="bold"
+                                android:layout_weight="1" android:textAlignment="center"
+                                android:background="@android:color/background_light"/>
+                        <TextView
+                                android:text="TextView"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content" android:id="@+id/txGoldGood"
+                                android:textSize="18sp" android:textStyle="bold"
+                                android:layout_weight="7" android:background="@android:color/background_light"/>
+                </TableRow>
+                <TableRow android:layout_width="match_parent" android:layout_height="match_parent">
+                        <TextView
+                                android:text="粉絲數:"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content" android:id="@+id/textView22"
+                                android:textSize="18sp" android:textStyle="bold"
+                                android:layout_weight="1" android:textAlignment="center"
+                                android:background="@android:color/background_light"/>
+                        <TextView
+                                android:text="TextView"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content" android:id="@+id/txFans"
+                                android:textSize="18sp" android:textStyle="bold"
+                                android:layout_weight="7" android:background="@android:color/background_light"/>
+                </TableRow>
+        </TableLayout>
 
 
 </LinearLayout>
