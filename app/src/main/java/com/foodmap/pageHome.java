@@ -1,7 +1,9 @@
 package com.foodmap;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
+import com.foodmap.ui.home.HomeFragment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import android.view.View;
@@ -19,6 +21,7 @@ import android.view.Menu;
 public class pageHome extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
+    int check=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +33,27 @@ public class pageHome extends AppCompatActivity {
         NavigationView navigationView = findViewById(R.id.nav_view);
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
+        FloatingActionButton fab = findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Snackbar.make(view, "創建商店(在按一次退出模式)", Snackbar.LENGTH_LONG)
+                        .setAction("", null).show();
+
+                if(check==0){
+                HomeFragment.selectShop();
+                check++;
+                }
+                else
+                {
+                    Intent intent = new Intent();
+                    intent.setClass(pageHome.this, pageCreateShop.class);
+                    startActivity(intent);
+                }
+
+
+            }
+        });
         mAppBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow,
                 R.id.nav_tools)

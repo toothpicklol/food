@@ -37,7 +37,8 @@ public class HomeFragment extends Fragment
         implements OnMapReadyCallback,
         LocationListener, GoogleMap.OnMarkerClickListener{
 
-    private GoogleMap mMap;
+    private static GoogleMap mMap;
+    private static Double nX,nY;
     private static final String TAG = "LocationFragment";
     private LocationManager mLocationManager;
     Button search;
@@ -46,8 +47,7 @@ public class HomeFragment extends Fragment
     String info="http://114.32.152.202/foodphp/userinfo.php";
     String mapShop="http://114.32.152.202/foodphp/mapshop.php";
     GoogleMapV2_MarkPoint[] MysqlPointSet;
-    double X;
-    double Y;
+    double X,Y;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -62,6 +62,7 @@ public class HomeFragment extends Fragment
         Toast.makeText(getActivity(), getResources().getString(R.string.map), Toast.LENGTH_SHORT).show();
 
         mapFragment.getMapAsync(this);
+
         return root;
 
 
@@ -92,11 +93,7 @@ public class HomeFragment extends Fragment
             MysqlPointSet[i] = new GoogleMapV2_MarkPoint(Double.parseDouble(commentArr2[0]), Double.parseDouble(commentArr2[1]), commentArr2[2],commentArr2[3],commentArr2[4],commentArr2[5]);//評論資料
 
         }
-
-//        GoogleMapV2_MarkPoint[] MysqlPointSet = new GoogleMapV2_MarkPoint[3];
-//        MysqlPointSet[0] = new GoogleMapV2_MarkPoint(25.067, 121.4971, "天龍國", "50","https://storage.googleapis.com/www-cw-com-tw/article/201810/article-5bd182cf13ebb.jpg","aa");
-//        MysqlPointSet[1] = new GoogleMapV2_MarkPoint(25.068, 121.4972, "南部", "95","https://storage.googleapis.com/www-cw-com-tw/article/201810/article-5bd182cf13ebb.jpg","bb");
-//        MysqlPointSet[2] = new GoogleMapV2_MarkPoint(25.069, 121.4973, "地府", "85","https://storage.googleapis.com/www-cw-com-tw/article/201810/article-5bd182cf13ebb.jpg","aa");
+        
 
         mMap = googleMap;
 
@@ -138,6 +135,46 @@ public class HomeFragment extends Fragment
 
 
     }
+    public static void selectShop(){
+
+
+            mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+                @Override
+                public void onMapClick(LatLng latLng) {
+                    MarkerOptions markerOptions = new MarkerOptions();
+                    markerOptions.position(latLng);
+                    markerOptions.title(latLng.latitude + " : " + latLng.longitude);
+                    markerOptions.snippet("點擊這裡創建商店並在按一次右下的按鈕退出模式");
+                    mMap.clear();
+
+                    // Animating to the touched position
+                    mMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
+
+                    // Placing a marker on the touched position
+                    mMap.addMarker(markerOptions);
+                }
+            });
+            mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+                @Override
+                public void onInfoWindowClick(Marker marker) {
+                    nX = marker.getPosition().latitude;
+                    nY = marker.getPosition().longitude;
+                    pageCreateShop.newXY(nX, nY);
+
+
+
+                }
+
+
+
+            });
+
+
+
+
+
+    }
+
 
 
     @Override
@@ -231,7 +268,7 @@ public class HomeFragment extends Fragment
     public boolean onMarkerClick(Marker marker) {
 
 
-                return true;
+        return true;
     }
 
     class GoogleMapV2_MarkPoint {
