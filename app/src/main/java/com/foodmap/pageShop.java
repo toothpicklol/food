@@ -103,7 +103,7 @@ public class pageShop extends AppCompatActivity {
     public void addListView(){
         makeInfo[] InfoSQL = new makeInfo[1];
 
-        String userInfo=dbcon.userInfo(user,cookieStr,info);
+        String userInfo=dbcon.userInfo(user,info);
         String[] infoArr=userInfo.split(",");
         InfoSQL[0] = new makeInfo(infoArr[0], infoArr[6], infoArr[1],infoArr[2],infoArr[7],infoArr[4],infoArr[4]+"~"+infoArr[5],infoArr[9],infoArr[8],infoArr[10]);
 
@@ -173,7 +173,7 @@ public class pageShop extends AppCompatActivity {
             String tmp=commentArr[i];
             String[] commentArr2=tmp.split(",");
 
-            String img=dbcon.userInfo(commentArr2[0],cookieStr,imgU);
+            String img=dbcon.userInfo(commentArr2[0],imgU);
             System.out.println(img);
             String[] imgArr=img.split(",");
             System.out.println(imgArr[1]);

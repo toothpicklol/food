@@ -94,6 +94,7 @@ public class MainActivity extends AppCompatActivity {
 
         pageUser.setName(acc);
         pageShop.setName(acc);
+        pageHome.setName(acc);
 
 
         r=dbcon.dbstring(account.getText().toString(),password.getText().toString(),cookieStr,url);

@@ -88,7 +88,7 @@ public class pageUser extends AppCompatActivity {
 
 
         makeInfo[] InfoSQL = new makeInfo[1];
-        String userInfo=dbcon.userInfo(user,cookieStr,info);
+        String userInfo=dbcon.userInfo(user,info);
         String[] infoArr=userInfo.split(",");
         InfoSQL[0] = new makeInfo(infoArr[0], infoArr[1], infoArr[2],infoArr[3]);
 
