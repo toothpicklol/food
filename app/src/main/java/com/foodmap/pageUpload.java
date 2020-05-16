@@ -32,22 +32,18 @@ import java.net.URL;
 
 public class pageUpload extends AppCompatActivity implements View.OnClickListener{
 
+    private static String user;
     private final String PERMISSION_WRITE_STORAGE = "android.permission.WRITE_EXTERNAL_STORAGE";
     private TextView messageText;
     private Button btnHead,btnBg;
     private ImageView imageview;
-
     private int serverResponseCode = 0;
     private ProgressDialog dialog = null;
-
     private String upLoadServerUri = null;
     private String imagepath = null;
     int checkImage=0;
+    public static int checkShop;
     String update="http://114.32.152.202/foodphp/updateimage.php";
-
-    WebView webView;
-    CookieManager cookieManager;
-    String cookieStr;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -139,8 +135,6 @@ public class pageUpload extends AppCompatActivity implements View.OnClickListene
 
 
             Uri selectedImageUri = data.getData();
-
-
 
             try { Bitmap bitmap=BitmapFactory.decodeStream(getContentResolver().openInputStream(selectedImageUri));
 
@@ -281,16 +275,51 @@ public class pageUpload extends AppCompatActivity implements View.OnClickListene
                             Toast.makeText(pageUpload.this, "File Upload Complete.", Toast.LENGTH_SHORT).show();
                         }
                     });
-                    if(checkImage==1){
-                        String r=sourceFile.getName();
-                        dbcon.updateImg(r,"bg",cookieStr,update);
-                        //update 背景網址 http;//114.32.152.202/foodphp/upload/檔名
-                    }
-                    else{
-                        String r=sourceFile.getName();
-                        dbcon.updateImg(r,"bg",cookieStr,update);
-                        //update 頭像網址 http;//114.32.152.202/foodphp/upload/檔名
+                    if (checkShop == 0) {
+                        if (checkImage == 1) {
+                            String r = "http://114.32.152.202/foodphp/upload/" + sourceFile.getName();
+                            dbcon.updateImg(r, user, "bg", update);
+                            //update 背景網址 http;//114.32.152.202/foodphp/upload/檔名
+                        } else {
+                            String r = "http://114.32.152.202/foodphp/upload/" + sourceFile.getName();
+                            dbcon.updateImg(r, user, "head", update);
+                            //update 頭像網址 http;//114.32.152.202/foodphp/upload/檔名
 
+                        }
+                    } else {
+                        runOnUiThread(new Runnable() {
+                            public void run() {
+                                String msg = "File Upload Completed.\n\n See uploaded file your server. \n\n";
+                                messageText.setText(msg);
+                                System.out.println(sourceFile.getName());
+                                Toast.makeText(pageUpload.this, "File Upload Complete.", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                        if (checkShop == 1) {
+                            if (checkImage == 1) {
+                                String r = "http://114.32.152.202/foodphp/upload/" + sourceFile.getName();
+                                pageCreateShop.returnImg(null, r);
+                                Intent intent = new Intent();
+                                intent.setClass(pageUpload.this, pageCreateShop.class);
+                                startActivity(intent);
+                                finish();
+
+                                //update 背景網址 http;//114.32.152.202/foodphp/upload/檔名
+                            } else {
+                                String r = "http://114.32.152.202/foodphp/upload/" + sourceFile.getName();
+                                pageCreateShop.returnImg(r, null);
+                                Intent intent = new Intent();
+                                intent.setClass(pageUpload.this, pageCreateShop.class);
+                                startActivity(intent);
+                                finish();
+
+
+
+                                //update 頭像網址 http;//114.32.152.202/foodphp/upload/檔名
+
+                            }
+
+                        }
                     }
                 }
 
@@ -328,28 +357,14 @@ public class pageUpload extends AppCompatActivity implements View.OnClickListene
             return serverResponseCode;
         }
     }
-    private void Wcookie(Context context) {
-        webView=new WebView(context);
-        CookieSyncManager.createInstance(context);
-        cookieManager= CookieManager.getInstance();
-
-        webView.setWebViewClient(new WebViewClient(){
-            public void onPageFinished (WebView view, String url){
-                super.onPageFinished(view, url);
-                cookieManager.setAcceptCookie(true);
-                cookieStr=cookieManager.getCookie(url);
-
-            }
-        });
-        webView.loadUrl(update);
-        webView.clearCache(true);
-        webView.clearHistory();
-
-        cookieManager.removeAllCookie();
-        cookieManager.removeSessionCookie();
-
+    public static void setName(String i){
+        user=i;
     }
 
+    public static void setMode(){
+        checkShop=1;
+
+    }
 
 }
 

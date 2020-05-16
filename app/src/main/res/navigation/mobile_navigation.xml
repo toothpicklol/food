@@ -11,10 +11,10 @@
             android:label="@string/menu_home"
             tools:layout="@layout/fragment_home"/>
 
-    <fragment
+    <activity
             android:id="@+id/nav_gallery"
             android:label="@string/myComment"
-            tools:layout="@layout/fragment_gallery" android:name="com.foodmap.ui.gallery.GalleryFragment"/>
+            tools:layout="@layout/comment" android:name="com.foodmap.pageUser"/>
 
     <fragment
             android:id="@+id/nav_slideshow"

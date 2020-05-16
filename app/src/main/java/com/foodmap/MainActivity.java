@@ -93,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
         String acc = String.format(account.getText().toString());
 
         pageUser.setName(acc);
-        pageShop.setName(acc);
+        //pageShop.setShopName(acc);
         pageHome.setName(acc);
 
 
@@ -120,7 +120,7 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent();
         intent.setClass(MainActivity.this, pageRegister.class);
         startActivity(intent);
-        Toast.makeText(getApplicationContext()," 註冊成功", Toast.LENGTH_LONG).show();
+
 
 
 

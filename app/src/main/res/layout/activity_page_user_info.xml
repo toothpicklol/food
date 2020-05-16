@@ -5,31 +5,6 @@
         android:layout_height="wrap_content"
         android:orientation="vertical" >
 
-    <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="300dp"
-            android:background="@drawable/homeback"
-            android:id="@+id/userBgI">
-        <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="match_parent"
-                android:layout_height="125dp">
-        </LinearLayout>
-        <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="match_parent"
-                android:layout_height="139dp">
-            <ImageView
-                    android:id="@+id/bigheadI"
-                    android:layout_width="157dp"
-                    android:layout_height="match_parent"
-                    android:focusableInTouchMode="false"
-                    android:scaleType="fitStart"
-                    android:layout_gravity="center"
-            />
-        </LinearLayout>
-    </LinearLayout>
     <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -37,26 +12,59 @@
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" android:id="@+id/ll">
+            <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="300dp"
+                    android:id="@+id/userBgI">
+                <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="125dp">
+                </LinearLayout>
+                <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="139dp">
+                    <ImageView
+                            android:id="@+id/imgbigheadI"
+                            android:layout_width="157dp"
+                            android:layout_height="match_parent"
+                            android:focusableInTouchMode="false"
+                            android:scaleType="fitStart"
+                            android:layout_gravity="center"
+                    />
+                </LinearLayout>
+            </LinearLayout>
             <TextView
                     android:layout_width="match_parent"
-                    android:layout_height="40dp" android:id="@+id/textView19" android:textSize="24sp"
+                    android:layout_height="40dp" android:id="@+id/txAcc" android:textSize="24sp"
                     android:text="帳號:" android:textAppearance="@style/TextAppearance.AppCompat.Body1"/>
             <TextView
                     android:layout_width="match_parent"
-                    android:layout_height="40dp" android:id="@+id/textView25" android:textSize="24sp"
-                    android:text="暱稱:"/>
+                    android:layout_height="40dp" android:id="@+id/txNick" android:textSize="24sp"
+                    android:text="暱稱:"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"/>
             <TextView
                     android:layout_width="match_parent"
-                    android:layout_height="40dp" android:id="@+id/textView26" android:textSize="24sp"
-                    android:text="等級:"/>
+                    android:layout_height="40dp" android:id="@+id/txLv" android:textSize="24sp"
+                    android:text="等級:"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"/>
             <TextView
                     android:layout_width="match_parent"
-                    android:layout_height="40dp" android:id="@+id/textView28" android:textSize="24sp"
-                    android:text="Email:"/>
+                    android:layout_height="40dp" android:id="@+id/txTitle" android:textSize="24sp"
+                    android:text="稱號:"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"/>
             <TextView
                     android:layout_width="match_parent"
-                    android:layout_height="40dp" android:id="@+id/textView30" android:textSize="24sp"
-                    android:text="評論數量:"/>
+                    android:layout_height="40dp" android:id="@+id/txEmail" android:textSize="24sp"
+                    android:text="Email:"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"/>
+            <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp" android:id="@+id/txCommentCount" android:textSize="24sp"
+                    android:text="評論數量:"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"/>
             <Button
                     android:text="更該密碼"
                     android:layout_width="match_parent"
@@ -66,6 +74,10 @@
                     android:text="更改背景或頭像"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" android:id="@+id/btnChangeBg"/>
+            <Button
+                    android:text="更該暱稱"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" android:id="@+id/btnUpdateN"/>
         </LinearLayout>
     </ScrollView>
 

@@ -22,17 +22,20 @@ import java.security.acl.Owner;
 public class pageShop extends AppCompatActivity {
 
 
-    private static String user;
-    WebView webView;
+    private static String shopACC;
+    private static String userAcc;
     String url="http://114.32.152.202/foodphp/shopcomment.php";
     String info="http://114.32.152.202/foodphp/shopinfo.php";
     String imgU="http://114.32.152.202/foodphp/userinfo.php";
-    CookieManager cookieManager;
-    String cookieStr;
+
+    String insertL="http://114.32.152.202/foodphp/insertLikeShop.php";
+    String selectL="http://114.32.152.202/foodphp/selectLikeShop.php";
+    String updateL="http://114.32.152.202/foodphp/updateLikeShop.php";
+
     Button btnPost,btnOwner,btnLike;
     LinearLayout ll,bgU;
 
-    View view,comment,accountGet,shopText;
+    View view,comment,shopText;
     TextView account,title,text,username,userLV;
     ImageView bigHead,headC;
     EditText etAccount;
@@ -48,28 +51,17 @@ public class pageShop extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_page_shop);
-
-
-
-
         ll = (LinearLayout)findViewById(R.id.ll_in_sv);
-
-
-
-
         account=findViewById(R.id.textView1);
         title=findViewById(R.id.textView2);
         text=findViewById(R.id.textView3);
-
         bgU =findViewById(R.id.userBg);
         bigHead=findViewById(R.id.bighead);
         headC =findViewById(R.id.shopHead);
         userLV=findViewById(R.id.userLV);
         username=findViewById(R.id.username);
         btnPost =findViewById(R.id.btn_Post);
-
         etAccount=findViewById(R.id.etAcc);
-
         pointS=findViewById(R.id.shopPoint);
         commentC=findViewById(R.id.shopCommentCount);
         message=findViewById(R.id.shopMess);
@@ -77,12 +69,8 @@ public class pageShop extends AppCompatActivity {
         btnOwner=findViewById(R.id.shopOwner);
         btnLike=findViewById(R.id.btnLike);
 
-
-
-
-
-
         addListView();
+        setActions();
 
 
     }
@@ -98,19 +86,12 @@ public class pageShop extends AppCompatActivity {
             return null;
         }
     }
-
-
     public void addListView(){
         makeInfo[] InfoSQL = new makeInfo[1];
 
-        String userInfo=dbcon.userInfo(user,info);
+        String userInfo=dbcon.userInfo(shopACC,info);
         String[] infoArr=userInfo.split(",");
         InfoSQL[0] = new makeInfo(infoArr[0], infoArr[6], infoArr[1],infoArr[2],infoArr[7],infoArr[4],infoArr[4]+"~"+infoArr[5],infoArr[9],infoArr[8],infoArr[10]);
-
-
-
-
-
         for (makeInfo point : InfoSQL) {
 
             comment=LayoutInflater.from(pageShop.this).inflate(R.layout.comment, null);
@@ -148,54 +129,39 @@ public class pageShop extends AppCompatActivity {
 
 
         }
-
-
-
-
-
-
-
-
-
-
-        String commentS=dbcon.comment(user,cookieStr,url);
+        String commentS=dbcon.comment(shopACC,url);
         String[] commentArr=commentS.split("]");
         commentSQL = new makeComment[commentArr.length];
-        System.out.println(commentArr.length);
+
 
 
         for (int i=0; i<commentArr.length; i++) {
-            if(commentArr.length==1)
+            if(commentS.equals(shopACC))
             {
                 break;
-            }
 
+            }
             String tmp=commentArr[i];
             String[] commentArr2=tmp.split(",");
-
             String img=dbcon.userInfo(commentArr2[0],imgU);
-            System.out.println(img);
             String[] imgArr=img.split(",");
-            System.out.println(imgArr[1]);
-
             commentSQL[i] = new makeComment(commentArr2[0], commentArr2[1], commentArr2[2],commentArr2[3],imgArr[3]);//評論資料
 
 
         }
         int btnId=0;
         for (makeComment point : commentSQL) {
+            if(commentS.equals(shopACC))
+            {
+                break;
+
+            }
             view = LayoutInflater.from(pageShop.this).inflate(R.layout.personal_object, null);
-
-
-
             account=view.findViewById(R.id.textView1);
             title=view.findViewById(R.id.textView2);
             text=view.findViewById(R.id.textView3);
             headC=view.findViewById(R.id.shopHead);
             btnPost=view.findViewById(R.id.btn_Post);
-
-
-
             btnPost.setId(btnId);//將按鈕帶入id 以供監聽時辨識使用
             btnId++;
             ll.addView(view);
@@ -225,9 +191,6 @@ public class pageShop extends AppCompatActivity {
             text=k;
             picture=l;
             head=n;
-
-
-
         }
 
 
@@ -258,39 +221,46 @@ public class pageShop extends AppCompatActivity {
 
         @Override
         public void onClick(View v) {
-
-
-
             Intent intent = new Intent();
             intent.setClass(pageShop.this, pageShop.class);
             startActivity(intent);
-
-
-
         }
     };
-    public static void setName(String i){
-        user=i;
+    public static void setName(String i,String j){
+        shopACC=i;
+        userAcc=j;
     }
-    private void Wcookie(Context context) {
-        webView=new WebView(context);
-        CookieSyncManager.createInstance(context);
-        cookieManager= CookieManager.getInstance();
 
-        webView.setWebViewClient(new WebViewClient(){
-            public void onPageFinished (WebView view, String url){
-                super.onPageFinished(view, url);
-                cookieManager.setAcceptCookie(true);
-                cookieStr=cookieManager.getCookie(url);
+    private void setActions(){
+        btnLike.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(dbcon.insertLikeShop(userAcc,shopACC,selectL).equals(shopACC)){
+                    dbcon.insertLikeShop(userAcc,shopACC,updateL);
+
+
+
+                }
+                else {
+                    dbcon.insertLikeShop(userAcc,shopACC,insertL);
+                }
+
+
+
 
             }
         });
-        webView.loadUrl(url);
-        webView.clearCache(true);
-        webView.clearHistory();
+        btnOwner.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
-        cookieManager.removeAllCookie();
-        cookieManager.removeSessionCookie();
+            }
+        });
+
 
     }
+    public static void setShopName(String i){
+        shopACC=i;
+    }
+
 }

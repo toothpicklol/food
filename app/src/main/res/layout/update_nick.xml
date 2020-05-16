@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent" android:id="@+id/ll">
+    <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="100dp">
+        <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+            <TextView
+                    android:text="暱稱"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" android:id="@+id/textView38" android:layout_weight="1"
+                    android:textSize="18sp" android:textStyle="bold" android:textAlignment="center"/>
+            <EditText
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:inputType="textPersonName"
+                    android:ems="10"
+                    android:id="@+id/etNick" android:layout_weight="1"/>
+        </LinearLayout>
+    </LinearLayout>
+    <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="100dp">
+            <TextView
+                    android:text="稱號"
+                    android:layout_width="115dp"
+                    android:layout_height="39dp" android:id="@+id/textView42"
+                    android:textStyle="bold" android:textAlignment="center" android:textSize="18sp"/>
+            <Spinner
+                    android:layout_width="296dp"
+                    android:layout_height="41dp" android:id="@+id/spinner" android:spinnerMode="dropdown"
+            />
+        </LinearLayout>
+        <Button
+                android:text="更改"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:id="@+id/btnChangeNickC"/>
+        <Button
+                android:text="返回"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:id="@+id/btnBack"/>
+    </LinearLayout>
+</LinearLayout>

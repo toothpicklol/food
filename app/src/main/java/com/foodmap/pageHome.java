@@ -6,9 +6,11 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import androidx.annotation.NonNull;
 import com.foodmap.ui.home.HomeFragment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
@@ -43,6 +45,7 @@ public class pageHome extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_page_home);
+        HomeFragment.setName(user);
 
 
 
@@ -78,6 +81,7 @@ public class pageHome extends AppCompatActivity {
                     Intent intent = new Intent();
                     intent.setClass(pageHome.this, pageCreateShop.class);
                     startActivity(intent);
+                    finish();
                 }
 
 
@@ -116,12 +120,7 @@ public class pageHome extends AppCompatActivity {
         NavigationUI.setupWithNavController(navigationView, navController);
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.page_home, menu);
-        return true;
-    }
+
 
     @Override
     public boolean onSupportNavigateUp() {
@@ -129,6 +128,8 @@ public class pageHome extends AppCompatActivity {
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
     }
+
+
     class makeInfo {
 
         public String username,userLV,bigHead,bg;
@@ -158,6 +159,7 @@ public class pageHome extends AppCompatActivity {
             return null;
         }
     }
+
 
 
 }

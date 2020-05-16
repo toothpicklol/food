@@ -27,12 +27,9 @@ public class pageUser extends AppCompatActivity {
     View buttonView,view,comment;
     TextView account,title,text,username,userLV,fans,gold;
     ImageView bigHead,headC;
-
-    WebView webView;
     String url="http://114.32.152.202/foodphp/comment.php";
     String info="http://114.32.152.202/foodphp/userinfo.php";
-    CookieManager cookieManager;
-    String cookieStr;
+
     makeComment[] commentSQL;
 
 
@@ -90,7 +87,7 @@ public class pageUser extends AppCompatActivity {
         makeInfo[] InfoSQL = new makeInfo[1];
         String userInfo=dbcon.userInfo(user,info);
         String[] infoArr=userInfo.split(",");
-        InfoSQL[0] = new makeInfo(infoArr[0], infoArr[1], infoArr[2],infoArr[3]);
+        InfoSQL[0] = new makeInfo(infoArr[0], infoArr[1], infoArr[2],infoArr[3],infoArr[4]);
 
 
         for (makeInfo point : InfoSQL) {
@@ -105,17 +102,17 @@ public class pageUser extends AppCompatActivity {
             ll.addView(comment);
 
             username.setText(point.username);
-            userLV.setText("等級"+point.userLV);
+            userLV.setText("等級"+point.userLV+"-"+point.title);
             bigHead.setImageDrawable(loadImageFromURL(point.bigHead));
             bgU.setBackground(loadImageFromURL(point.bg));
 
         }
         ll.addView(buttonView);
-        String commentS=dbcon.comment(user,cookieStr,url);
+        String commentS=dbcon.comment(user,url);
         String[] commentArr=commentS.split("]");
         commentSQL = new makeComment[commentArr.length];
         for (int i=0; i<commentArr.length; i++) {
-            if(commentArr.length==1)
+            if(commentS.equals(user))
             {
                 break;
             }
@@ -130,7 +127,7 @@ public class pageUser extends AppCompatActivity {
 
         int btnId=0;
         for (makeComment point : commentSQL) {
-            if(commentArr.length==1)
+            if(commentS.equals(user))
             {
                 break;
             }
@@ -184,6 +181,7 @@ public class pageUser extends AppCompatActivity {
                 Intent intent = new Intent();
                 intent.setClass(pageUser.this, pageUserInfo.class);
                 startActivity(intent);
+                pageUserInfo.setName(user);
 
             }
         });
@@ -215,27 +213,6 @@ public class pageUser extends AppCompatActivity {
         });
 
     }
-    private void Wcookie(Context context) {
-        webView=new WebView(context);
-        CookieSyncManager.createInstance(context);
-        cookieManager= CookieManager.getInstance();
-
-        webView.setWebViewClient(new WebViewClient(){
-            public void onPageFinished (WebView view, String url){
-                super.onPageFinished(view, url);
-                cookieManager.setAcceptCookie(true);
-                cookieStr=cookieManager.getCookie(url);
-
-            }
-        });
-        webView.loadUrl(url);
-        webView.clearCache(true);
-        webView.clearHistory();
-
-        cookieManager.removeAllCookie();
-        cookieManager.removeSessionCookie();
-
-    }
 
     class makeComment {
 
@@ -254,12 +231,13 @@ public class pageUser extends AppCompatActivity {
     }
     class makeInfo {
 
-        public String username,userLV,bigHead,bg;
-        public makeInfo( String i, String j,String k,String l) {
+        public String username,userLV,bigHead,bg,title;
+        public makeInfo( String i, String j,String k,String l,String m) {
             username=i;
             userLV=j;
             bigHead=k;
             bg=l;
+            title=m;
 
 
         }

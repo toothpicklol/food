@@ -39,12 +39,12 @@ public class dbcon {
         return result;
     }
 
-    public static String  dbReg(String  i ,String Wcook,String url){
+    public static String  dbReg(String  i ,String url){
         String result = "空";
         try{
             HttpClient hc =new DefaultHttpClient();
             HttpPost  hP=new HttpPost(url);
-            hP.addHeader("cookie",Wcook+";expires=Thu,31-Dec-37 23:55:55 GMT;path=/");
+            hP.addHeader("cookie","...");
 
             ArrayList<NameValuePair> params=new ArrayList<NameValuePair>();
             params.add(new BasicNameValuePair("un01",i));
@@ -64,21 +64,40 @@ public class dbcon {
 
         return result;
     }
-    public static String  insertReg(String[]  i ,String Wcook,String url){
+    public static String  insertReg(String[]  i ,String url){
         String result = "空";
         try{
             HttpClient hc =new DefaultHttpClient();
             HttpPost  hP=new HttpPost(url);
-            hP.addHeader("cookie",Wcook+";expires=Thu,31-Dec-37 23:55:55 GMT;path=/");
+            hP.addHeader("cookie","...");
 
             ArrayList<NameValuePair> params=new ArrayList<NameValuePair>();
             params.add(new BasicNameValuePair("S1",i[0]));
             params.add(new BasicNameValuePair("S2",i[1]));
             params.add(new BasicNameValuePair("S3",i[2]));
+            hP.setEntity(new UrlEncodedFormEntity(params, HTTP.UTF_8));
+            HttpResponse hR=hc.execute(hP);
+            result= EntityUtils.toString(hR.getEntity(),HTTP.UTF_8);
+
+
+        }
+        catch (Exception e){
+            return e.toString();
+        }
 
 
 
+        return result;
+    }
+    public static String  insertUser(String  i ,String url){
+        String result = "空";
+        try{
+            HttpClient hc =new DefaultHttpClient();
+            HttpPost  hP=new HttpPost(url);
+            hP.addHeader("cookie","...");
 
+            ArrayList<NameValuePair> params=new ArrayList<NameValuePair>();
+            params.add(new BasicNameValuePair("S1",i));
 
             hP.setEntity(new UrlEncodedFormEntity(params, HTTP.UTF_8));
             HttpResponse hR=hc.execute(hP);
@@ -149,19 +168,15 @@ public class dbcon {
         return result;
     }
 
-    public static String  comment(String i,String Wcook,String url){
+    public static String  comment(String i,String url){
         String[] result;
         try{
             HttpClient hc =new DefaultHttpClient();
             HttpPost  hP=new HttpPost(url);
-            hP.addHeader("cookie",Wcook+";expires=Thu,31-Dec-37 23:55:55 GMT;path=/");
+            hP.addHeader("cookie","...");
 
             ArrayList<NameValuePair> params=new ArrayList<NameValuePair>();
             params.add(new BasicNameValuePair("S1",i));
-
-
-
-
             hP.setEntity(new UrlEncodedFormEntity(params, HTTP.UTF_8));
             HttpResponse hR=hc.execute(hP);
             result= new String[]{EntityUtils.toString(hR.getEntity(), HTTP.UTF_8)};
@@ -178,18 +193,16 @@ public class dbcon {
 
         return result[0];
     }
-    public static String  updateImg(String i,String j,String Wcook,String url){
+    public static String  updateImg(String i,String j,String k,String url){
         String result = "空";
         try{
             HttpClient hc =new DefaultHttpClient();
             HttpPost  hP=new HttpPost(url);
-            hP.addHeader("cookie",Wcook+";expires=Thu,31-Dec-37 23:55:55 GMT;path=/");
-
+            hP.addHeader("cookie","...");
             ArrayList<NameValuePair> params=new ArrayList<NameValuePair>();
             params.add(new BasicNameValuePair("S1",i));
             params.add(new BasicNameValuePair("S2",j));
-
-
+            params.add(new BasicNameValuePair("S3",k));
 
 
             hP.setEntity(new UrlEncodedFormEntity(params, HTTP.UTF_8));
@@ -217,8 +230,39 @@ public class dbcon {
             params.add(new BasicNameValuePair("S1",i));
             params.add(new BasicNameValuePair("S2",j));
 
+            hP.setEntity(new UrlEncodedFormEntity(params, HTTP.UTF_8));
+            HttpResponse hR=hc.execute(hP);
+            result= EntityUtils.toString(hR.getEntity(),HTTP.UTF_8);
 
 
+        }
+        catch (Exception e){
+            return e.toString();
+        }
+
+
+
+        return result;
+    }
+    public static String  insertShop(String[]  i ,String url){
+        String result = "空";
+        try{
+            HttpClient hc =new DefaultHttpClient();
+            HttpPost  hP=new HttpPost(url);
+            hP.addHeader("cookie","...");
+
+            ArrayList<NameValuePair> params=new ArrayList<NameValuePair>();
+            params.add(new BasicNameValuePair("S1",i[0]));
+            params.add(new BasicNameValuePair("S2",i[1]));
+            params.add(new BasicNameValuePair("S3",i[2]));
+            params.add(new BasicNameValuePair("S4",i[3]));
+            params.add(new BasicNameValuePair("S5",i[4]));
+            params.add(new BasicNameValuePair("S6",i[5]));
+            params.add(new BasicNameValuePair("S7",i[6]));
+            params.add(new BasicNameValuePair("S8",i[7]));
+            params.add(new BasicNameValuePair("S9",i[8]));
+            params.add(new BasicNameValuePair("S10",i[9]));
+            params.add(new BasicNameValuePair("S11",i[10]));
 
             hP.setEntity(new UrlEncodedFormEntity(params, HTTP.UTF_8));
             HttpResponse hR=hc.execute(hP);
@@ -234,6 +278,94 @@ public class dbcon {
 
         return result;
     }
+    public static String  title(String i,String url){
+        String[] result;
+        try{
+            HttpClient hc =new DefaultHttpClient();
+            HttpPost  hP=new HttpPost(url);
+            hP.addHeader("cookie","...");
+            ArrayList<NameValuePair> params=new ArrayList<NameValuePair>();
+            params.add(new BasicNameValuePair("S1",i));
+            hP.setEntity(new UrlEncodedFormEntity(params, HTTP.UTF_8));
+            HttpResponse hR=hc.execute(hP);
+            result= new String[]{EntityUtils.toString(hR.getEntity(), HTTP.UTF_8)};
+        }
+        catch (Exception e){
+            return e.toString();
+        }
+
+
+
+        return result[0];
+    }
+    public static String  updateTitle(String i,String j,String k,String url){
+        String[] result;
+        try{
+            HttpClient hc =new DefaultHttpClient();
+            HttpPost  hP=new HttpPost(url);
+            hP.addHeader("cookie","...");
+            ArrayList<NameValuePair> params=new ArrayList<NameValuePair>();
+            params.add(new BasicNameValuePair("S1",i));
+            params.add(new BasicNameValuePair("S2",j));
+            params.add(new BasicNameValuePair("S3",k));
+            hP.setEntity(new UrlEncodedFormEntity(params, HTTP.UTF_8));
+            HttpResponse hR=hc.execute(hP);
+            result= new String[]{EntityUtils.toString(hR.getEntity(), HTTP.UTF_8)};
+        }
+        catch (Exception e){
+            return e.toString();
+        }
+
+
+
+        return result[0];
+    }
+    public static String  updatePass(String i,String j,String url){
+        String[] result;
+        try{
+            HttpClient hc =new DefaultHttpClient();
+            HttpPost  hP=new HttpPost(url);
+            hP.addHeader("cookie","...");
+            ArrayList<NameValuePair> params=new ArrayList<NameValuePair>();
+            params.add(new BasicNameValuePair("S1",i));
+            params.add(new BasicNameValuePair("S2",j));
+
+            hP.setEntity(new UrlEncodedFormEntity(params, HTTP.UTF_8));
+            HttpResponse hR=hc.execute(hP);
+            result= new String[]{EntityUtils.toString(hR.getEntity(), HTTP.UTF_8)};
+        }
+        catch (Exception e){
+            return e.toString();
+        }
+
+
+
+        return result[0];
+    }
+    public static String  insertLikeShop(String i,String j,String url){
+        String[] result;
+        try{
+            HttpClient hc =new DefaultHttpClient();
+            HttpPost  hP=new HttpPost(url);
+            hP.addHeader("cookie","...");
+            ArrayList<NameValuePair> params=new ArrayList<NameValuePair>();
+            params.add(new BasicNameValuePair("S1",i));
+            params.add(new BasicNameValuePair("S2",j));
+
+            hP.setEntity(new UrlEncodedFormEntity(params, HTTP.UTF_8));
+            HttpResponse hR=hc.execute(hP);
+            result= new String[]{EntityUtils.toString(hR.getEntity(), HTTP.UTF_8)};
+        }
+        catch (Exception e){
+            return e.toString();
+        }
+
+
+
+        return result[0];
+    }
+
+
 
 
 

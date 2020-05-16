@@ -10,7 +10,6 @@
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="300dp"
-                android:background="@drawable/homeback"
                 android:id="@+id/userBg">
                 <LinearLayout
                         android:orientation="vertical"
@@ -28,6 +27,11 @@
                                 android:focusableInTouchMode="false"
                                 android:scaleType="fitStart"
                         />
+                        <LinearLayout
+                                android:orientation="horizontal"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent">
+                        </LinearLayout>
                         <TextView
                                 android:id="@+id/username"
                                 android:layout_width="match_parent"
@@ -48,6 +52,11 @@
                                 android:textSize="18sp"
                                 android:textStyle="bold"
                         />
+                        <FrameLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent">
+
+                        </FrameLayout>
                 </LinearLayout>
         </LinearLayout>
         <TableLayout

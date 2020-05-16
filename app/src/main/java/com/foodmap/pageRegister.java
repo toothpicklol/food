@@ -10,17 +10,18 @@ import android.webkit.CookieSyncManager;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.TextView;
+import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class pageRegister extends AppCompatActivity {
 
     TextView regAcc,regPass,regPassC,fail,email;
     Context context=this;
-    WebView webView;
     String url="http://114.32.152.202/foodphp/register.php";
-    String insterReg="http://114.32.152.202/foodphp/insterReg.php";
-    CookieManager cookieManager;
-    String cookieStr;
+    String insertReg="http://114.32.152.202/foodphp/insertReg.php";
+    String insertUser="http://114.32.152.202/foodphp/insertUser.php";
+    String emailU="http://114.32.152.202/foodphp/registerEmail.php";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,41 +49,20 @@ public class pageRegister extends AppCompatActivity {
                 .penaltyLog()
                 .penaltyDeath()
                 .build());
-        Wcookie(context);
 
     }
-    private void Wcookie(Context context) {
-        webView=new WebView(context);
-        CookieSyncManager.createInstance(context);
-        cookieManager=CookieManager.getInstance();
 
-        webView.setWebViewClient(new WebViewClient(){
-            public void onPageFinished (WebView view, String url){
-                super.onPageFinished(view, url);
-                cookieManager.setAcceptCookie(true);
-                cookieStr=cookieManager.getCookie(url);
-
-            }
-        });
-        webView.loadUrl(url);
-        webView.clearCache(true);
-        webView.clearHistory();
-
-        cookieManager.removeAllCookie();
-        cookieManager.removeSessionCookie();
-
-    }
 
     public void confirm(View v) {
-        String r="xxxxx";
-        r=dbcon.dbReg(regAcc.getText().toString(),cookieStr,url);
+        String r=dbcon.dbReg(regAcc.getText().toString(),url);
+        String s=dbcon.dbReg(email.getText().toString(),emailU);
 
         fail.setVisibility(View.INVISIBLE);
 
 
 
 
-        if (r.equals(regAcc.getText().toString())) {
+        if (r.equals(regAcc.getText().toString())&&s.equals(email.getText().toString())) {
             if(regAcc.getText().toString().length()==0|regPass.getText().toString().length()==0|regPassC.getText().toString().length()==0|email.getText().toString().length()==0)
             {
                 fail.setText("尚未輸入");
@@ -93,13 +73,12 @@ public class pageRegister extends AppCompatActivity {
                 {
                     if(regPass.getText().toString().equals(regPassC.getText().toString())){
                         String [] in=new String[]{regAcc.getText().toString(),regPass.getText().toString(),email.getText().toString()};
-                        dbcon.insertReg(in,cookieStr,insterReg);
+                        dbcon.insertReg(in,insertReg);
+                        //dbcon.insertUser(regAcc.getText().toString(),insertUser);
                         Intent intent = new Intent();
                         intent.setClass(pageRegister.this, MainActivity.class);
                         startActivity(intent);
-
-
-
+                        Toast.makeText(getApplicationContext()," 註冊成功", Toast.LENGTH_LONG).show();
 
                     }
                     else

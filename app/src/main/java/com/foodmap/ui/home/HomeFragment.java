@@ -40,6 +40,7 @@ public class HomeFragment extends Fragment
     private static GoogleMap mMap;
     private static Double nX,nY;
     private static final String TAG = "LocationFragment";
+    private static String user;
     private LocationManager mLocationManager;
     Button search;
     EditText searchBar;
@@ -116,11 +117,18 @@ public class HomeFragment extends Fragment
             public void onInfoWindowClick(Marker marker) {
 
                 String name=marker.getSnippet();
-                String[] nameArr=name.split("#");
+                if(marker.getTitle().equals("你的位置")){
 
-                Intent intent = new Intent(getActivity(), pageShop.class);
-                startActivity(intent);
-                pageShop.setName(nameArr[1]);
+                }
+                else{
+                    String[] nameArr=name.split("#");
+
+                    Intent intent = new Intent(getActivity(), pageShop.class);
+                    startActivity(intent);
+                    pageShop.setName(nameArr[1],user);
+                }
+
+
 
 
 
@@ -175,14 +183,11 @@ public class HomeFragment extends Fragment
 
     }
 
-
-
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         mLocationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
     }
-
     @Override
     public void onResume() {
         super.onResume();
@@ -290,6 +295,11 @@ public class HomeFragment extends Fragment
 
             return "Point:( "+latitude + " , " + longitude+" )";
         }
+
+    }
+
+    public static void setName(String i){
+        user=i;
 
     }
 

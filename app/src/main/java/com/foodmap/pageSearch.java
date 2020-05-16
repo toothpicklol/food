@@ -16,10 +16,15 @@ import android.os.Bundle;
 
 import java.io.InputStream;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 public class pageSearch extends AppCompatActivity {
 
 
+    private static String user;
     CheckBox checkBox1,checkBox2,checkBox3,checkBox4,
              checkBox5,checkBox6,checkBox7,checkBox8,
              checkBox9,checkBox10,checkBox11,checkBox12,
@@ -27,7 +32,7 @@ public class pageSearch extends AppCompatActivity {
     EditText search;
     Button go,shop;
 
-    String tmp=" ";
+    String tmp="";
     LinearLayout ll;
     View view;
     ImageView shopHead;
@@ -114,12 +119,12 @@ public class pageSearch extends AppCompatActivity {
 
                         if(search.getText().length()==0){
 
-                            tmp+="'"+buttonView.getText().toString()+"'";
+                            tmp+=buttonView.getText().toString();
 
                         }
                         else
                         {
-                            tmp+="AND"+"'"+buttonView.getText().toString()+"'";
+                            tmp+=","+buttonView.getText().toString();
                         }
                         search.setText(tmp);
 
@@ -130,70 +135,53 @@ public class pageSearch extends AppCompatActivity {
 
 
 
-
-
-
-
-
-
-
                     }
 
                 }
             };
-    private void Wcookie(Context context) {
-        webView=new WebView(context);
-        CookieSyncManager.createInstance(context);
-        cookieManager= CookieManager.getInstance();
 
-        webView.setWebViewClient(new WebViewClient(){
-            public void onPageFinished (WebView view, String url){
-                super.onPageFinished(view, url);
-                cookieManager.setAcceptCookie(true);
-                cookieStr=cookieManager.getCookie(url);
-
-            }
-        });
-        webView.loadUrl(info);
-        webView.clearCache(true);
-        webView.clearHistory();
-
-        cookieManager.removeAllCookie();
-        cookieManager.removeSessionCookie();
-
-    }
     private Button.OnClickListener goSearch = new Button.OnClickListener() {
         @Override
         public void onClick(View v) {
-            //SELECT Store_Name
-            //FROM Store_Information
-            //WHERE tag='日式'
 
+            String[] tmpArr=tmp.split(",");
+            String commentS="";
 
-            String commentS=dbcon.SearchShop(tmp,cookieStr,info);
-            String[] searchArr=commentS.split("]");
-            searchSQL = new makeShop[searchArr.length];
-            System.out.println(commentS);
-            for (int i=0; i<searchArr.length; i++) {
-                if(searchArr.length==1)
-                {
-                    break;
-                }
-                String tmp=searchArr[i];
-                String[] searchArr2=tmp.split(",");
-                System.out.println(tmp);
-
-
-                searchSQL[i] = new makeShop(searchArr2[0], searchArr2[7], searchArr2[3],searchArr2[4]+"~"+searchArr2[5],searchArr2[1],searchArr2[8],searchArr2[9],searchArr2[10],searchArr2[11]);//評論資料
-
+            for(int i=0;i<tmpArr.length;i++){
+                commentS+=dbcon.SearchShop(tmpArr[i],cookieStr,info);
             }
 
 
-            ll.removeAllViews();
+            String[] searchArr=commentS.split("]");
+
+            List<String> list = new ArrayList<String>();
+            for (int j=0; j<searchArr.length;j++) {
+                if(!list.contains(searchArr[j])) {
+                    list.add(searchArr[j]);
+                }
+            }
+            String[] searchArr3 = new String[list.size()];
+            searchArr3 = list.toArray(searchArr3);
+            searchSQL = new makeShop[searchArr3.length];
 
 
+            for (int i=0; i<searchArr3.length; i++) {
+                if(commentS.equals(tmp))
+                {
+                    break;
+                }
+                String tmp=searchArr3[i];
+                String[] searchArr2=tmp.split(",");
+                searchSQL[i] = new makeShop(searchArr2[0], searchArr2[7], searchArr2[3],searchArr2[4]+"~"+searchArr2[5],searchArr2[1],searchArr2[8],searchArr2[9],searchArr2[10],searchArr2[11]);
+                ll.removeAllViews();
+            }
             int btnId = 0;
             for (makeShop p : searchSQL) {
+                if(commentS.equals(tmp))
+                {
+                    break;
+
+                }
                 view = LayoutInflater.from(pageSearch.this).inflate(R.layout.search_object, null);
                 shop = view.findViewById(R.id.btn_Shop);
                 shopHead = view.findViewById(R.id.shopHead);
@@ -222,7 +210,10 @@ public class pageSearch extends AppCompatActivity {
 
 
             }
+            tmp="";
+
         }
+
     };
 
     private Drawable loadImageFromURL(String url) {
@@ -272,9 +263,13 @@ public class pageSearch extends AppCompatActivity {
             Intent intent = new Intent();
             intent.setClass(pageSearch.this, pageShop.class);
             startActivity(intent);
-            pageShop.setName(searchSQL[id].acc);
-            System.out.println(searchSQL[id].acc);
+            pageShop.setName(searchSQL[id].acc,user);
+
         }
     };
+    public static void setName(String i,String j){
+        user=i;
+    }
+
 
 }

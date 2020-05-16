@@ -22,7 +22,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="130dp"
                         android:id="@+id/imageLib"
-                        app:srcCompat="@drawable/bighead"/>
+                        />
             </FrameLayout>
         </TableRow>
         <TableRow android:layout_width="match_parent" android:layout_height="match_parent"/>
