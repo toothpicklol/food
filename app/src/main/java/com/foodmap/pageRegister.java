@@ -16,7 +16,6 @@ import androidx.appcompat.app.AppCompatActivity;
 public class pageRegister extends AppCompatActivity {
 
     TextView regAcc,regPass,regPassC,fail,email;
-    Context context=this;
     String url="http://114.32.152.202/foodphp/register.php";
     String insertReg="http://114.32.152.202/foodphp/insertReg.php";
     String insertUser="http://114.32.152.202/foodphp/insertUser.php";

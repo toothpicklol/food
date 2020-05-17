@@ -114,12 +114,12 @@ public class dbcon {
         return result;
     }
 
-    public static String  SearchShop(String  i ,String Wcook,String url){
+    public static String  SearchShop(String  i ,String url){
         String result = "空";
         try{
             HttpClient hc =new DefaultHttpClient();
             HttpPost  hP=new HttpPost(url);
-            hP.addHeader("cookie",Wcook+";expires=Thu,31-Dec-37 23:55:55 GMT;path=/");
+            hP.addHeader("cookie","");
 
             ArrayList<NameValuePair> params=new ArrayList<NameValuePair>();
             params.add(new BasicNameValuePair("S1",i));

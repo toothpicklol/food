@@ -100,12 +100,10 @@ public class pageShop extends AppCompatActivity {
             userLV=comment.findViewById(R.id.userLV);
             username=comment.findViewById(R.id.username);
             ll.addView(comment);
-
             username.setText(point.username);
             userLV.setText(point.userLV);
             bigHead.setImageDrawable(loadImageFromURL(point.bigHead));
             bgU.setBackground(loadImageFromURL(point.bg));
-
             shopText= LayoutInflater.from(pageShop.this).inflate(R.layout.shop_info, null);
             pointS=shopText.findViewById(R.id.shopPoint);
             commentC=shopText.findViewById(R.id.shopCommentCount);
@@ -138,6 +136,7 @@ public class pageShop extends AppCompatActivity {
         for (int i=0; i<commentArr.length; i++) {
             if(commentS.equals(shopACC))
             {
+                Toast.makeText(getApplicationContext()," 尚未有評論，快去發文吧!", Toast.LENGTH_LONG).show();
                 break;
 
             }
@@ -235,14 +234,13 @@ public class pageShop extends AppCompatActivity {
         btnLike.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(dbcon.insertLikeShop(userAcc,shopACC,selectL).equals(shopACC)){
-                    dbcon.insertLikeShop(userAcc,shopACC,updateL);
-
-
-
+                if(dbcon.insertLikeShop(userAcc,shopACC,selectL).equals(userAcc)){
+                    dbcon.insertLikeShop(userAcc,shopACC,insertL);
+                    Toast.makeText(getApplicationContext()," 已收藏!", Toast.LENGTH_LONG).show();
                 }
                 else {
-                    dbcon.insertLikeShop(userAcc,shopACC,insertL);
+                    dbcon.insertLikeShop(userAcc,shopACC,updateL);
+                    Toast.makeText(getApplicationContext()," 取消收藏!", Toast.LENGTH_LONG).show();
                 }
 
 
