@@ -205,7 +205,7 @@ public class HomeFragment extends Fragment
             return;
         }
 
-        mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 5, this);
+        mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 2000, 5, this);
     }
 
     private int checkSelfPermission(String accessFineLocation) {
@@ -233,7 +233,7 @@ public class HomeFragment extends Fragment
         X=location.getLatitude();
         Y=location.getLongitude();
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(
-                new LatLng(location.getLatitude(), location.getLongitude()), 15));
+                new LatLng(location.getLatitude(), location.getLongitude()), 17));
         onMapReady(mMap);
 
     }

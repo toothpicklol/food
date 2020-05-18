@@ -220,7 +220,6 @@ public class pageSearch extends AppCompatActivity {
             }
             else {
                 String searchUser =dbcon.userInfo(search.getText().toString(),info2);
-
                 String[] userArr = searchUser.split("]");
                 userSQL = new makeUser[userArr.length];
                 for (int i = 0; i < userArr.length; i++) {

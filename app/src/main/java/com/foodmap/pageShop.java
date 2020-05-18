@@ -3,6 +3,7 @@ package com.foodmap;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -92,6 +93,7 @@ public class pageShop extends AppCompatActivity {
         String userInfo=dbcon.userInfo(shopACC,info);
         String[] infoArr=userInfo.split(",");
         InfoSQL[0] = new makeInfo(infoArr[0], infoArr[6], infoArr[1],infoArr[2],infoArr[7],infoArr[4],infoArr[4]+"~"+infoArr[5],infoArr[9],infoArr[8],infoArr[10]);
+
         for (makeInfo point : InfoSQL) {
 
             comment=LayoutInflater.from(pageShop.this).inflate(R.layout.comment, null);
@@ -251,6 +253,17 @@ public class pageShop extends AppCompatActivity {
         btnOwner.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                String userInfo=dbcon.userInfo(shopACC,info);
+                String[] infoArr=userInfo.split(",");
+                String[] infoArr2=infoArr[11].split("]");
+                if(!infoArr2[0].equals(userAcc)){
+                    Uri web = Uri.parse("https://docs.google.com/forms/d/e/1FAIpQLScjv-fExVswZw1KFeUdongUCM66KnEYuqFM_yHhIAX6hfHJQg/viewform?usp=sf_link");
+                    Intent webIntent = new Intent(Intent.ACTION_VIEW, web);
+                    startActivity(webIntent);
+                }
+
+
 
             }
         });

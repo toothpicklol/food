@@ -35,6 +35,7 @@ public class pageUser extends AppCompatActivity {
     String insertL="http://114.32.152.202/foodphp/insertLikeUser.php";
     String selectL="http://114.32.152.202/foodphp/selectLikeUser.php";
     String updateL="http://114.32.152.202/foodphp/updateLikeUser.php";
+    String fansU="http://114.32.152.202/foodphp/fansCount.php";
 
 
     makeComment[] commentSQL;
@@ -77,6 +78,12 @@ public class pageUser extends AppCompatActivity {
         setActions();
 
     }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        setMode="";
+        // The activity has become visible (it is now "resumed").
+    }
     private Drawable loadImageFromURL(String url) {
         try {
             InputStream is = (InputStream) new URL(url).getContent();
@@ -98,7 +105,9 @@ public class pageUser extends AppCompatActivity {
             makeInfo[] InfoSQL = new makeInfo[1];
             String userInfo = dbcon.userInfo(user, info);
             String[] infoArr = userInfo.split(",");
-            InfoSQL[0] = new makeInfo(infoArr[0], infoArr[1], infoArr[2], infoArr[3], infoArr[4]);
+            InfoSQL[0] = new makeInfo(infoArr[0], infoArr[1], infoArr[2], infoArr[3], infoArr[4],infoArr[5]);
+            String fansC=dbcon.userInfo(user,fansU);
+
 
 
             for (makeInfo point : InfoSQL) {
@@ -112,9 +121,12 @@ public class pageUser extends AppCompatActivity {
                 gold = comment.findViewById(R.id.txGoldGood);
                 ll.addView(comment);
                 username.setText(point.username);
+                fans.setText(fansC);
+                gold.setText(point.gold);
                 userLV.setText("等級" + point.userLV + "-" + point.title);
                 bigHead.setImageDrawable(loadImageFromURL(point.bigHead));
                 bgU.setBackground(loadImageFromURL(point.bg));
+
 
             }
 
@@ -181,7 +193,8 @@ public class pageUser extends AppCompatActivity {
             makeInfo[] InfoSQL = new makeInfo[1];
             String userInfo = dbcon.userInfo(otherUser, info);
             String[] infoArr = userInfo.split(",");
-            InfoSQL[0] = new makeInfo(infoArr[0], infoArr[1], infoArr[2], infoArr[3], infoArr[4]);
+            InfoSQL[0] = new makeInfo(infoArr[0], infoArr[1], infoArr[2], infoArr[3], infoArr[4],infoArr[5]);
+            String fansC=dbcon.userInfo(otherUser,fansU);
 
 
             for (makeInfo point : InfoSQL) {
@@ -194,6 +207,9 @@ public class pageUser extends AppCompatActivity {
                 fans = comment.findViewById(R.id.txFans);
                 gold = comment.findViewById(R.id.txGoldGood);
                 ll.addView(comment);
+
+                fans.setText(fansC);
+                gold.setText(point.gold);
                 username.setText(point.username);
                 userLV.setText("等級" + point.userLV + "-" + point.title);
                 bigHead.setImageDrawable(loadImageFromURL(point.bigHead));
@@ -325,13 +341,14 @@ public class pageUser extends AppCompatActivity {
     }
     class makeInfo {
 
-        public String username,userLV,bigHead,bg,title;
-        public makeInfo( String i, String j,String k,String l,String m) {
+        public String username,userLV,bigHead,bg,title,gold;
+        public makeInfo( String i, String j,String k,String l,String m,String n) {
             username=i;
             userLV=j;
             bigHead=k;
             bg=l;
             title=m;
+            gold=n;
 
 
         }
