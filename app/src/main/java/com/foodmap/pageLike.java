@@ -156,7 +156,6 @@ public class pageLike extends AppCompatActivity {
             head=k;
             exp=l;
             nTitle=m;
-
         }
 
 
@@ -186,7 +185,6 @@ public class pageLike extends AppCompatActivity {
 
             Button post =  (Button)v; //在new 出所按下的按鈕
             int id = post.getId();
-
             Intent intent = new Intent();
             intent.setClass(pageLike.this, pageUser.class);
             startActivity(intent);
@@ -197,6 +195,7 @@ public class pageLike extends AppCompatActivity {
     };
     public static void setName(String i){
         user=i;
+
     }
 }
 

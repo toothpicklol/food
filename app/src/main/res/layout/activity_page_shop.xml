@@ -10,14 +10,13 @@
             android:id="@+id/mainLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical" >
+            android:orientation="vertical">
 
 
         <ScrollView
                 android:id="@+id/sv"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:gravity="center"
                 android:background="#EEEAEA">
 
 
@@ -38,7 +37,15 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentLeft="true"
-                android:gravity="center" />
+                android:gravity="center|right|center_vertical">
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/fabPost"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    app:srcCompat="@android:drawable/ic_menu_edit"
+            />
+        </LinearLayout>
     </RelativeLayout>
 
 

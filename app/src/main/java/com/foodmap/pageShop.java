@@ -15,6 +15,9 @@ import android.widget.*;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
+import com.foodmap.ui.home.HomeFragment;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.io.InputStream;
 import java.net.URL;
@@ -72,6 +75,18 @@ public class pageShop extends AppCompatActivity {
 
         addListView();
         setActions();
+        FloatingActionButton fab = findViewById(R.id.fabPost);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent();
+                intent.setClass(pageShop.this, pagePost.class);
+                startActivity(intent);
+                finish();
+
+
+            }
+        });
 
 
     }

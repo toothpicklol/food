@@ -106,7 +106,7 @@ public class pageCreateShop extends AppCompatActivity {
 
         @Override
         public void onClick(View v) {
-            pageUpload.setMode();
+            pageUpload.setMode(1);
             Intent intent = new Intent();
             intent.setClass(pageCreateShop.this, pageUpload.class);
             startActivity(intent);

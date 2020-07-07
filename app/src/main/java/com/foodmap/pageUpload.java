@@ -33,6 +33,8 @@ import java.net.URL;
 public class pageUpload extends AppCompatActivity implements View.OnClickListener{
 
     private static String user;
+    private static String postTitle;
+    private static String postText;
     private final String PERMISSION_WRITE_STORAGE = "android.permission.WRITE_EXTERNAL_STORAGE";
     private TextView messageText;
     private Button btnHead,btnBg;
@@ -41,8 +43,8 @@ public class pageUpload extends AppCompatActivity implements View.OnClickListene
     private ProgressDialog dialog = null;
     private String upLoadServerUri = null;
     private String imagepath = null;
-    int checkImage=0;
-    public static int checkShop;
+    int checkImage=0;//檢查上傳模式
+    public static int check;
     String update="http://114.32.152.202/foodphp/updateimage.php";
 
     @Override
@@ -61,6 +63,14 @@ public class pageUpload extends AppCompatActivity implements View.OnClickListene
         //設定Button的監聽事件。
         btnHead.setOnClickListener(this);
         btnBg.setOnClickListener(this);
+        System.out.println(check);
+        if(check==3){
+            Intent intent = new Intent();
+            intent.setType("image/*");
+            intent.setAction(Intent.ACTION_GET_CONTENT);
+            //回傳時，要如何處理。請重新Override onActivityResult函式。
+            startActivityForResult(Intent.createChooser(intent, "Complete action using"), 1);
+        }
 
 
         //設定連結到PHP的網址。(建議用手機來測試，再連到固定IP的網址。)
@@ -275,7 +285,7 @@ public class pageUpload extends AppCompatActivity implements View.OnClickListene
                             Toast.makeText(pageUpload.this, "File Upload Complete.", Toast.LENGTH_SHORT).show();
                         }
                     });
-                    if (checkShop == 0) {
+                    if (check == 0) {
                         if (checkImage == 1) {
                             String r = "http://114.32.152.202/foodphp/upload/" + sourceFile.getName();
                             dbcon.updateImg(r, user, "bg", update);
@@ -295,31 +305,39 @@ public class pageUpload extends AppCompatActivity implements View.OnClickListene
                                 Toast.makeText(pageUpload.this, "File Upload Complete.", Toast.LENGTH_SHORT).show();
                             }
                         });
-                        if (checkShop == 1) {
-                            if (checkImage == 1) {
+                    if (check == 1) {
+                        if (checkImage == 1) {
                                 String r = "http://114.32.152.202/foodphp/upload/" + sourceFile.getName();
                                 pageCreateShop.returnImg(null, r);
                                 Intent intent = new Intent();
                                 intent.setClass(pageUpload.this, pageCreateShop.class);
                                 startActivity(intent);
                                 finish();
-
                                 //update 背景網址 http;//114.32.152.202/foodphp/upload/檔名
-                            } else {
+                        }
+                        else {
                                 String r = "http://114.32.152.202/foodphp/upload/" + sourceFile.getName();
                                 pageCreateShop.returnImg(r, null);
                                 Intent intent = new Intent();
                                 intent.setClass(pageUpload.this, pageCreateShop.class);
                                 startActivity(intent);
                                 finish();
-
-
-
                                 //update 頭像網址 http;//114.32.152.202/foodphp/upload/檔名
 
                             }
 
                         }
+                    if(check==3){
+
+                        String r = "http://114.32.152.202/foodphp/upload/" + sourceFile.getName();
+
+                        pagePost.postTmp(postTitle,postText+"\n"+"[img="+r+"]");
+                        Intent intent = new Intent();
+                        intent.setClass(pageUpload.this, pagePost.class);
+                        startActivity(intent);
+                        finish();
+
+                    }
                     }
                 }
 
@@ -361,8 +379,13 @@ public class pageUpload extends AppCompatActivity implements View.OnClickListene
         user=i;
     }
 
-    public static void setMode(){
-        checkShop=1;
+    public static void setMode(int x){
+        check=x;
+
+    }
+    public static void tmpPost(String title,String text){
+        postTitle=title;
+        postText=text;
 
     }
 
