@@ -35,6 +35,7 @@ public class pageUpload extends AppCompatActivity implements View.OnClickListene
     private static String user;
     private static String postTitle;
     private static String postText;
+    private static String postImg;
     private final String PERMISSION_WRITE_STORAGE = "android.permission.WRITE_EXTERNAL_STORAGE";
     private TextView messageText;
     private Button btnHead,btnBg;
@@ -46,6 +47,7 @@ public class pageUpload extends AppCompatActivity implements View.OnClickListene
     int checkImage=0;//檢查上傳模式
     public static int check;
     String update="http://114.32.152.202/foodphp/updateimage.php";
+    String insert="http://114.32.152.202/foodphp/insertImgLib.php";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,7 +65,7 @@ public class pageUpload extends AppCompatActivity implements View.OnClickListene
         //設定Button的監聽事件。
         btnHead.setOnClickListener(this);
         btnBg.setOnClickListener(this);
-        System.out.println(check);
+
         if(check==3){
             Intent intent = new Intent();
             intent.setType("image/*");
@@ -281,7 +283,7 @@ public class pageUpload extends AppCompatActivity implements View.OnClickListene
                         public void run() {
                             String msg = "File Upload Completed.\n\n See uploaded file your server. \n\n";
                             messageText.setText(msg);
-                            System.out.println(sourceFile.getName());
+
                             Toast.makeText(pageUpload.this, "File Upload Complete.", Toast.LENGTH_SHORT).show();
                         }
                     });
@@ -289,10 +291,12 @@ public class pageUpload extends AppCompatActivity implements View.OnClickListene
                         if (checkImage == 1) {
                             String r = "http://114.32.152.202/foodphp/upload/" + sourceFile.getName();
                             dbcon.updateImg(r, user, "bg", update);
+                            dbcon.insertImgLib(user,r,insert);
                             //update 背景網址 http;//114.32.152.202/foodphp/upload/檔名
                         } else {
                             String r = "http://114.32.152.202/foodphp/upload/" + sourceFile.getName();
                             dbcon.updateImg(r, user, "head", update);
+                            dbcon.insertImgLib(user,r,insert);
                             //update 頭像網址 http;//114.32.152.202/foodphp/upload/檔名
 
                         }
@@ -301,7 +305,7 @@ public class pageUpload extends AppCompatActivity implements View.OnClickListene
                             public void run() {
                                 String msg = "File Upload Completed.\n\n See uploaded file your server. \n\n";
                                 messageText.setText(msg);
-                                System.out.println(sourceFile.getName());
+
                                 Toast.makeText(pageUpload.this, "File Upload Complete.", Toast.LENGTH_SHORT).show();
                             }
                         });
@@ -330,10 +334,18 @@ public class pageUpload extends AppCompatActivity implements View.OnClickListene
                     if(check==3){
 
                         String r = "http://114.32.152.202/foodphp/upload/" + sourceFile.getName();
+                        dbcon.insertImgLib(user,r,insert);
+                        if(postImg==null){
+                            pageEditor.postTmp(postTitle,postText+"<img src="+r+" alt=a>",r);
+                        }
+                        else{
+                            pageEditor.postTmp(postTitle,postText+"<img src="+r+" alt=a>",null);
+                        }
 
-                        pagePost.postTmp(postTitle,postText+"\n"+"[img="+r+"]");
+
+                        System.out.println(r);
                         Intent intent = new Intent();
-                        intent.setClass(pageUpload.this, pagePost.class);
+                        intent.setClass(pageUpload.this, pageEditor.class);
                         startActivity(intent);
                         finish();
 
@@ -383,9 +395,11 @@ public class pageUpload extends AppCompatActivity implements View.OnClickListene
         check=x;
 
     }
-    public static void tmpPost(String title,String text){
+    public static void tmpPost(String title,String text,String firstImg){
         postTitle=title;
         postText=text;
+        postImg=firstImg;
+
 
     }
 

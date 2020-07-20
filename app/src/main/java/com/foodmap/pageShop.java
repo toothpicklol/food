@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Build;
+import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,25 +33,17 @@ public class pageShop extends AppCompatActivity {
     String url="http://114.32.152.202/foodphp/shopcomment.php";
     String info="http://114.32.152.202/foodphp/shopinfo.php";
     String imgU="http://114.32.152.202/foodphp/userinfo.php";
-
     String insertL="http://114.32.152.202/foodphp/insertLikeShop.php";
     String selectL="http://114.32.152.202/foodphp/selectLikeShop.php";
     String updateL="http://114.32.152.202/foodphp/updateLikeShop.php";
-
     Button btnPost,btnOwner,btnLike;
     LinearLayout ll,bgU;
-
     View view,comment,shopText;
     TextView account,title,text,username,userLV;
     ImageView bigHead,headC;
     EditText etAccount;
     TextView pointS,commentC,message,shopInfo;
     makeComment[] commentSQL;
-
-
-
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,8 +74,9 @@ public class pageShop extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent();
-                intent.setClass(pageShop.this, pagePost.class);
+                intent.setClass(pageShop.this, pageEditor.class);
                 startActivity(intent);
+                pageEditor.setName(userAcc,shopACC);
                 finish();
 
 
@@ -104,7 +99,6 @@ public class pageShop extends AppCompatActivity {
     }
     public void addListView(){
         makeInfo[] InfoSQL = new makeInfo[1];
-
         String userInfo=dbcon.userInfo(shopACC,info);
         String[] infoArr=userInfo.split(",");
         InfoSQL[0] = new makeInfo(infoArr[0], infoArr[6], infoArr[1],infoArr[2],infoArr[7],infoArr[4],infoArr[4]+"~"+infoArr[5],infoArr[9],infoArr[8],infoArr[10]);
@@ -164,6 +158,7 @@ public class pageShop extends AppCompatActivity {
             commentSQL[i] = new makeComment(commentArr2[0], commentArr2[1], commentArr2[2],commentArr2[3],imgArr[3]);//評論資料
 
 
+
         }
         int btnId=0;
         for (makeComment point : commentSQL) {
@@ -190,8 +185,14 @@ public class pageShop extends AppCompatActivity {
 
             }
             else{
-                text.getLayoutParams().height = 100;
-                text.setText(point.text);
+
+                text.getLayoutParams().height = 95;
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                    text.setText(Html.fromHtml(point.text, Html.FROM_HTML_MODE_COMPACT));
+                } else {
+                    text.setText(Html.fromHtml(point.text));
+                }
+
             }
         }
 

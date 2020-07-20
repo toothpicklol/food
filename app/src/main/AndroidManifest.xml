@@ -21,6 +21,12 @@
             android:theme="@style/AppTheme"
             android:usesCleartextTraffic="true"
             tools:ignore="GoogleAppIndexingWarning">
+        <activity android:name=".pagePoint">
+        </activity>
+        <activity
+                android:name=".pageEditor"
+                android:theme="@style/AppTheme.NoActionBar">
+        </activity>
         <activity android:name=".pagePost">
         </activity>
         <activity android:name=".pageSocial">
@@ -28,8 +34,6 @@
         <activity android:name=".pageCreateShop">
         </activity>
         <activity android:name=".pageLike">
-        </activity>
-        <activity android:name=".pageImageLibery">
         </activity>
         <activity android:name=".pageUserInfo">
         </activity>

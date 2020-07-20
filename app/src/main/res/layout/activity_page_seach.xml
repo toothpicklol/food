@@ -22,12 +22,12 @@
                     android:text="找店家"
                     android:layout_width="106dp"
                     android:layout_height="wrap_content" android:id="@+id/radBtnShop"
-                    android:layout_weight="1" android:checked="true"/>
+                    android:layout_weight="1" android:checked="true" android:textSize="24sp"/>
             <RadioButton
                     android:text="找作者"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" android:id="@+id/radBtnWriter"
-                    android:layout_weight="1"/>
+                    android:layout_weight="1" android:textSize="24sp"/>
         </LinearLayout>
         <LinearLayout
                 android:orientation="horizontal"
@@ -36,7 +36,7 @@
                 app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent"
                 android:background="#FFFFFF">
             <EditText
-                    android:layout_width="354dp"
+                    android:layout_width="367dp"
                     android:layout_height="match_parent"
                     android:inputType="textPersonName"
                     android:ems="10"
