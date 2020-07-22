@@ -3,6 +3,8 @@ package com.foodmap;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
+import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -179,8 +181,12 @@ public class pageUser extends AppCompatActivity {
 
 
                 } else {
-                    text.getLayoutParams().height = 100;
-                    text.setText(point.text);
+                    text.getLayoutParams().height = 95;
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                        text.setText(Html.fromHtml(point.text, Html.FROM_HTML_MODE_COMPACT));
+                    } else {
+                        text.setText(Html.fromHtml(point.text));
+                    }
 
                 }
 
@@ -365,7 +371,7 @@ public class pageUser extends AppCompatActivity {
             Button post =  (Button)v; //在new 出所按下的按鈕
             int id = post.getId();
 
-            System.out.println(commentSQL[id]);
+            System.out.println(commentSQL[id].picture);
 
 
 

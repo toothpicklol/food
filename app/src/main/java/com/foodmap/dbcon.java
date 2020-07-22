@@ -386,7 +386,7 @@ public class dbcon {
 
         return result[0];
     }
-    public static String  insertPost(String i,String j,String k,String l,String m,String n,String url){
+    public static String  insertPost(String i,String j,String k,String l,String m,String n,String o,String url){
         String[] result;
         try{
             HttpClient hc =new DefaultHttpClient();
@@ -399,6 +399,8 @@ public class dbcon {
             params.add(new BasicNameValuePair("S4",l));
             params.add(new BasicNameValuePair("S5",m));
             params.add(new BasicNameValuePair("S6",n));
+            params.add(new BasicNameValuePair("S7",o));
+
 
             hP.setEntity(new UrlEncodedFormEntity(params, HTTP.UTF_8));
             HttpResponse hR=hc.execute(hP);
@@ -412,6 +414,64 @@ public class dbcon {
 
         return result[0];
     }
+
+    public static String  insertPoint(String  i,String j,String k ,String url){
+        String result = "空";
+        try{
+            HttpClient hc =new DefaultHttpClient();
+            HttpPost  hP=new HttpPost(url);
+            hP.addHeader("cookie","...");
+
+            ArrayList<NameValuePair> params=new ArrayList<NameValuePair>();
+            params.add(new BasicNameValuePair("S1",i));
+            params.add(new BasicNameValuePair("S2",j));
+            params.add(new BasicNameValuePair("S3",k));
+
+
+            hP.setEntity(new UrlEncodedFormEntity(params, HTTP.UTF_8));
+            HttpResponse hR=hc.execute(hP);
+            result= EntityUtils.toString(hR.getEntity(),HTTP.UTF_8);
+
+
+        }
+        catch (Exception e){
+            return e.toString();
+        }
+
+
+
+        return result;
+    }
+
+    public static String  updatePoint(String i,String j,String k ,String url){
+        String result = "空";
+        try{
+            HttpClient hc =new DefaultHttpClient();
+            HttpPost  hP=new HttpPost(url);
+            hP.addHeader("cookie","...");
+
+            ArrayList<NameValuePair> params=new ArrayList<NameValuePair>();
+            params.add(new BasicNameValuePair("S1",i));
+            params.add(new BasicNameValuePair("S2",j));
+            params.add(new BasicNameValuePair("S3",k));
+
+
+
+            hP.setEntity(new UrlEncodedFormEntity(params, HTTP.UTF_8));
+            HttpResponse hR=hc.execute(hP);
+            result= EntityUtils.toString(hR.getEntity(),HTTP.UTF_8);
+
+
+        }
+        catch (Exception e){
+            return e.toString();
+        }
+
+
+
+        return result;
+    }
+
 
 
 

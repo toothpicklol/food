@@ -27,6 +27,7 @@ public class pageEditor extends AppCompatActivity {
     EditText title;
     ImageButton postBtn;
     String postUrl="http://114.32.152.202/foodphp/insertPost.php";
+    String pointUrl="http://114.32.152.202/foodphp/insertPoint.php";
 
 
     @Override protected void onCreate(Bundle savedInstanceState) {
@@ -42,9 +43,16 @@ public class pageEditor extends AppCompatActivity {
                 if(firstImg==null){
                     firstImg="null";
                 }
-                dbcon.insertPost(user,title.getText().toString(),mEditor.getHtml(),firstImg,Time.toString(),shop,postUrl);
-                System.out.println(user+";"+title.getText().toString()+";"+mEditor.getHtml()+";"+Time.toString()+";"+shop);
+                String postID="post"+pageCreateShop.getRandomString(10);
+                dbcon.insertPost(user,title.getText().toString(),mEditor.getHtml(),firstImg,Time.toString(),shop,postID,postUrl);
+                dbcon.insertPoint(user,postID,shop,pointUrl);
+
+                pagePoint.setName(user,shop,postID);
+                Intent intent = new Intent();
+                intent.setClass(pageEditor.this, pagePoint.class);
+                startActivity(intent);
                 finish();
+
 
             }
         });
@@ -127,11 +135,7 @@ public class pageEditor extends AppCompatActivity {
 
             }
         });
-        findViewById(R.id.action_insert_checkbox).setOnClickListener(new View.OnClickListener() {
-            @Override public void onClick(View v) {
-
-            }
-        });
+        
     }
     public static void postTmp(String title,String text,String firstImgI){
         postTitle=title;
