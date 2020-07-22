@@ -64,6 +64,7 @@ public class HomeFragment extends Fragment
 
         mapFragment.getMapAsync(this);
 
+
         return root;
 
 
@@ -97,6 +98,7 @@ public class HomeFragment extends Fragment
         
 
         mMap = googleMap;
+        mMap.setMapType(GoogleMap.MAP_TYPE_TERRAIN);
 
         for (GoogleMapV2_MarkPoint point : MysqlPointSet) {
 
@@ -137,6 +139,7 @@ public class HomeFragment extends Fragment
 
             }
         });
+        mMap.setMyLocationEnabled(true);
 
 
 
@@ -229,7 +232,7 @@ public class HomeFragment extends Fragment
         Log.i(TAG, String.valueOf(location.getLatitude()));
         Log.i(TAG, String.valueOf(location.getLongitude()));
         mMap.clear();
-        mMap.addMarker(new MarkerOptions().position(new LatLng(location.getLatitude(), location.getLongitude())).title("你的位置"));
+        //mMap.addMarker(new MarkerOptions().position(new LatLng(location.getLatitude(), location.getLongitude())).title("你的位置"));
         X=location.getLatitude();
         Y=location.getLongitude();
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(

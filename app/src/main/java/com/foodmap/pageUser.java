@@ -174,19 +174,20 @@ public class pageUser extends AppCompatActivity {
                 account.setText(point.account);
                 headC.setImageDrawable(loadImageFromURL(point.head));
                 title.setText(point.title);
-                System.out.println(point.text);
 
-                if (loadImageFromURL(point.picture) != null) {
-                    text.setBackground(loadImageFromURL(point.picture));
+                if (point.picture .equals("null")) {
 
-
-                } else {
-                    text.getLayoutParams().height = 95;
+                    text.getLayoutParams().height = 100;
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                         text.setText(Html.fromHtml(point.text, Html.FROM_HTML_MODE_COMPACT));
                     } else {
                         text.setText(Html.fromHtml(point.text));
                     }
+
+
+                } else {
+                    text.setBackground(loadImageFromURL(point.picture));
+
 
                 }
 
@@ -258,11 +259,21 @@ public class pageUser extends AppCompatActivity {
                 account.setText(point.account);
                 headC.setImageDrawable(loadImageFromURL(point.head));
                 title.setText(point.title);
-                if (loadImageFromURL(point.picture) != null) {
-                    text.setBackground(loadImageFromURL(point.picture));
-                } else {
+
+                if (point.picture .equals("null")) {
+
                     text.getLayoutParams().height = 100;
-                    text.setText(point.text);
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                        text.setText(Html.fromHtml(point.text, Html.FROM_HTML_MODE_COMPACT));
+                    } else {
+                        text.setText(Html.fromHtml(point.text));
+                    }
+
+
+                } else {
+                    text.setBackground(loadImageFromURL(point.picture));
+
+
                 }
 
 

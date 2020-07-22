@@ -135,7 +135,7 @@ public class pageEditor extends AppCompatActivity {
 
             }
         });
-        
+
     }
     public static void postTmp(String title,String text,String firstImgI){
         postTitle=title;

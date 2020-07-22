@@ -179,14 +179,14 @@ public class pageShop extends AppCompatActivity {
             account.setText(point.account);
             headC.setImageDrawable(loadImageFromURL(point.head));
             title.setText(point.title);
-            if(loadImageFromURL(point.picture)!=null){
+            if(!point.picture.equals("null")){
                 text.setBackground(loadImageFromURL(point.picture));
 
 
             }
             else{
 
-                text.getLayoutParams().height = 95;
+                text.getLayoutParams().height = 100;
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                     text.setText(Html.fromHtml(point.text, Html.FROM_HTML_MODE_COMPACT));
                 } else {
