@@ -343,7 +343,7 @@ public class pageUpload extends AppCompatActivity implements View.OnClickListene
                         }
 
 
-                        System.out.println(r);
+
                         Intent intent = new Intent();
                         intent.setClass(pageUpload.this, pageEditor.class);
                         startActivity(intent);

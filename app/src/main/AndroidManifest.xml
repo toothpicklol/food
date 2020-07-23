@@ -29,8 +29,6 @@
                 android:name=".pageEditor"
                 android:theme="@style/AppTheme.NoActionBar">
         </activity>
-        <activity android:name=".pagePost">
-        </activity>
         <activity android:name=".pageSocial">
         </activity>
         <activity android:name=".pageCreateShop">

@@ -3,6 +3,7 @@ package com.foodmap;
 import android.content.Intent;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.graphics.Color;
@@ -43,15 +44,21 @@ public class pageEditor extends AppCompatActivity {
                 if(firstImg==null){
                     firstImg="null";
                 }
-                String postID="post"+pageCreateShop.getRandomString(10);
-                dbcon.insertPost(user,title.getText().toString(),mEditor.getHtml(),firstImg,Time.toString(),shop,postID,postUrl);
-                dbcon.insertPoint(user,postID,shop,pointUrl);
+                if(title.getText().toString().length()>=5&&mEditor.getHtml()!=null){
+                    String postID="post"+pageCreateShop.getRandomString(10);
+                    dbcon.insertPost(user,title.getText().toString(),mEditor.getHtml(),firstImg,Time.toString(),shop,postID,postUrl);
+                    dbcon.insertPoint(user,postID,shop,pointUrl);
 
-                pagePoint.setName(user,shop,postID);
-                Intent intent = new Intent();
-                intent.setClass(pageEditor.this, pagePoint.class);
-                startActivity(intent);
-                finish();
+                    pagePoint.setName(user,shop,postID);
+                    Intent intent = new Intent();
+                    intent.setClass(pageEditor.this, pagePoint.class);
+                    startActivity(intent);
+                    finish();
+                }
+                else {
+                    Toast.makeText(getApplicationContext()," 標題字數需大於5字、內文不可為空", Toast.LENGTH_LONG).show();
+                }
+
 
 
             }

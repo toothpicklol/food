@@ -14,7 +14,8 @@
         <com.google.android.material.appbar.AppBarLayout
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"
-                android:theme="@style/AppTheme.AppBarOverlay">
+                android:theme="@style/AppTheme.AppBarOverlay"
+                android:background="?attr/colorPrimary">
 
             <LinearLayout
                     android:orientation="horizontal"
@@ -22,10 +23,15 @@
                     android:layout_height="match_parent">
                 <androidx.appcompat.widget.Toolbar
                         android:id="@+id/postToolbar"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="?attr/actionBarSize"
                         android:background="?attr/colorPrimary"
-                        app:popupTheme="@style/AppTheme.PopupOverlay" android:layout_weight="30"/>
+                        app:popupTheme="@style/AppTheme.PopupOverlay" android:layout_weight="40"/>
+                <Button
+                        android:text="進階評分    (選填)"
+                        android:layout_width="14dp"
+                        android:layout_height="match_parent" android:id="@+id/btnPointAdv" android:layout_weight="10"
+                        android:background="?attr/colorPrimary" android:textColor="#FFEB3B"/>
                 <ImageButton
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent" app:srcCompat="@android:drawable/ic_menu_send"
@@ -47,182 +53,239 @@
                 <LinearLayout
                         android:orientation="horizontal"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-                    <CheckBox
-                            android:text="餐聽整潔度"
-                            android:layout_width="100dp"
-                            android:layout_height="wrap_content" android:id="@+id/cbPoint" android:layout_weight="1"/>
+                        android:layout_height="wrap_content">
+                    <TextView
+                            android:text="總體評分"
+                            android:layout_width="150dp"
+                            android:layout_height="match_parent" android:id="@+id/textView19" android:textStyle="bold"
+                            android:textSize="24sp"/>
                     <EditText
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:inputType="number"
                             android:ems="10"
-                            android:layout_weight="1" android:id="@+id/edPoint"/>
+                            android:id="@+id/edPointTotal" android:layout_weight="1"/>
                 </LinearLayout>
-                <LinearLayout
-                        android:orientation="horizontal"
+                <ScrollView
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-                    <CheckBox
-                            android:text="菜單多樣性"
-                            android:layout_width="100dp"
-                            android:layout_height="wrap_content" android:id="@+id/cbPoint1" android:layout_weight="1"/>
-                    <EditText
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:inputType="number"
-                            android:ems="10"
-                            android:id="@+id/edPoint1" android:layout_weight="1"/>
-                </LinearLayout>
+                        android:layout_height="wrap_content" tools:visibility="invisible" android:id="@+id/scPoint">
+                    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                                  android:orientation="vertical">
+                        <LinearLayout
+                                android:orientation="horizontal"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent">
+                            <CheckBox
+                                    android:text="餐聽整潔度"
+                                    android:layout_width="100dp"
+                                    android:layout_height="match_parent" android:id="@+id/cbPoint"
+                                    android:layout_weight="1"/>
+                            <EditText
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:inputType="number"
+                                    android:ems="10"
+                                    android:layout_weight="1" android:id="@+id/edPoint"/>
+                        </LinearLayout>
+                        <LinearLayout
+                                android:orientation="horizontal"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent">
+                            <CheckBox
+                                    android:text="菜單多樣性"
+                                    android:layout_width="100dp"
+                                    android:layout_height="match_parent" android:id="@+id/cbPoint1"
+                                    android:layout_weight="1"/>
+                            <EditText
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:inputType="number"
+                                    android:ems="10"
+                                    android:id="@+id/edPoint1" android:layout_weight="1"/>
+                        </LinearLayout>
+                        <LinearLayout
+                                android:orientation="horizontal"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent">
+                            <CheckBox
+                                    android:layout_width="100dp"
+                                    android:layout_height="match_parent" android:id="@+id/cbPoint2"
+                                    android:layout_weight="1"
+                                    android:text="「色」香味"/>
+                            <EditText
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:inputType="number"
+                                    android:ems="10"
+                                    android:id="@+id/edPoint2" android:layout_weight="1"/>
+                        </LinearLayout>
+                        <LinearLayout
+                                android:orientation="horizontal"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent">
+                            <CheckBox
+                                    android:text="色「香」味"
+                                    android:layout_width="100dp"
+                                    android:layout_height="match_parent" android:id="@+id/cbPoint3"
+                                    android:layout_weight="1"/>
+                            <EditText
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:inputType="number"
+                                    android:ems="10"
+                                    android:id="@+id/edPoint3" android:layout_weight="1"/>
+                        </LinearLayout>
+                        <LinearLayout
+                                android:orientation="horizontal"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent">
+                            <CheckBox
+                                    android:text="色香「味」"
+                                    android:layout_width="100dp"
+                                    android:layout_height="match_parent" android:id="@+id/cbPoint4"
+                                    android:layout_weight="1"/>
+                            <EditText
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:inputType="number"
+                                    android:ems="10"
+                                    android:id="@+id/edPoint4" android:layout_weight="1"/>
+                        </LinearLayout>
+                        <LinearLayout
+                                android:orientation="horizontal"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent">
+                            <CheckBox
+                                    android:text="餐廳裝潢"
+                                    android:layout_width="100dp"
+                                    android:layout_height="match_parent" android:id="@+id/cbPoint5"
+                                    android:layout_weight="1"/>
+                            <EditText
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:inputType="number"
+                                    android:ems="10"
+                                    android:id="@+id/edPoint5" android:layout_weight="1"/>
+                        </LinearLayout>
+                        <LinearLayout
+                                android:orientation="horizontal"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent">
+                            <CheckBox
+                                    android:text="服務品質"
+                                    android:layout_width="100dp"
+                                    android:layout_height="match_parent" android:id="@+id/cbPoint6"
+                                    android:layout_weight="1"/>
+                            <EditText
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:inputType="number"
+                                    android:ems="10"
+                                    android:id="@+id/edPoint6" android:layout_weight="1"/>
+                        </LinearLayout>
+                        <LinearLayout
+                                android:orientation="horizontal"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent">
+                            <CheckBox
+                                    android:text="商品價格"
+                                    android:layout_width="100dp"
+                                    android:layout_height="match_parent" android:id="@+id/cbPoint7"
+                                    android:layout_weight="1"/>
+                            <EditText
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:inputType="number"
+                                    android:ems="10"
+                                    android:id="@+id/edPoint7" android:layout_weight="1" android:hint="越能接受分數越高"/>
+                        </LinearLayout>
+                        <LinearLayout
+                                android:orientation="horizontal"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent">
+                            <CheckBox
+                                    android:text="送餐速度"
+                                    android:layout_width="100dp"
+                                    android:layout_height="match_parent" android:id="@+id/cbPoint8"
+                                    android:layout_weight="1"/>
+                            <EditText
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:inputType="number"
+                                    android:ems="10"
+                                    android:id="@+id/edPoint8" android:layout_weight="1"/>
+                        </LinearLayout>
+                        <LinearLayout
+                                android:orientation="horizontal"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent">
+                            <CheckBox
+                                    android:text="份量"
+                                    android:layout_width="100dp"
+                                    android:layout_height="match_parent" android:id="@+id/cbPoint9"
+                                    android:layout_weight="1"/>
+                            <EditText
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:inputType="number"
+                                    android:ems="10"
+                                    android:id="@+id/edPoint9" android:layout_weight="1"/>
+                        </LinearLayout>
+                        <LinearLayout
+                                android:orientation="horizontal"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent">
+                            <CheckBox
+                                    android:text="餐廳氣氛"
+                                    android:layout_width="100dp"
+                                    android:layout_height="match_parent" android:id="@+id/cbPoint10"
+                                    android:layout_weight="1"/>
+                            <EditText
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:inputType="number"
+                                    android:ems="10"
+                                    android:id="@+id/edPoint10" android:layout_weight="1"/>
+                        </LinearLayout>
+                        <LinearLayout
+                                android:orientation="horizontal"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent">
+                            <CheckBox
+                                    android:text="排隊時間"
+                                    android:layout_width="100dp"
+                                    android:layout_height="match_parent" android:id="@+id/cbPoint11"
+                                    android:layout_weight="1"/>
+                            <EditText
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:inputType="number"
+                                    android:ems="10"
+                                    android:id="@+id/edPoint11" android:layout_weight="1" android:hint="越快分數越高"/>
+                        </LinearLayout>
+                    </LinearLayout>
+                </ScrollView>
                 <LinearLayout
-                        android:orientation="horizontal"
+                        android:orientation="vertical"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-                    <CheckBox
-                            android:layout_width="100dp"
-                            android:layout_height="wrap_content" android:id="@+id/cbPoint2" android:layout_weight="1"
-                            android:text="「色」香味"/>
+                        android:layout_height="wrap_content" android:id="@+id/ll" tools:visibility="invisible">
+                    <TextView
+                            android:text="輸入Tag，一次一個"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" android:id="@+id/textView26"/>
+                    <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" android:id="@+id/txTag"/>
                     <EditText
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:inputType="number"
+                            android:inputType="textPersonName"
                             android:ems="10"
-                            android:id="@+id/edPoint2" android:layout_weight="1"/>
-                </LinearLayout>
-                <LinearLayout
-                        android:orientation="horizontal"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-                    <CheckBox
-                            android:text="色「香」味"
-                            android:layout_width="100dp"
-                            android:layout_height="wrap_content" android:id="@+id/cbPoint3" android:layout_weight="1"/>
-                    <EditText
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:inputType="number"
-                            android:ems="10"
-                            android:id="@+id/edPoint3" android:layout_weight="1"/>
-                </LinearLayout>
-                <LinearLayout
-                        android:orientation="horizontal"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-                    <CheckBox
-                            android:text="色香「味」"
-                            android:layout_width="100dp"
-                            android:layout_height="wrap_content" android:id="@+id/cbPoint4" android:layout_weight="1"/>
-                    <EditText
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:inputType="number"
-                            android:ems="10"
-                            android:id="@+id/edPoint4" android:layout_weight="1"/>
-                </LinearLayout>
-                <LinearLayout
-                        android:orientation="horizontal"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-                    <CheckBox
-                            android:text="餐廳裝潢"
-                            android:layout_width="100dp"
-                            android:layout_height="wrap_content" android:id="@+id/cbPoint5" android:layout_weight="1"/>
-                    <EditText
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:inputType="number"
-                            android:ems="10"
-                            android:id="@+id/edPoint5" android:layout_weight="1"/>
-                </LinearLayout>
-                <LinearLayout
-                        android:orientation="horizontal"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-                    <CheckBox
-                            android:text="服務品質"
-                            android:layout_width="100dp"
-                            android:layout_height="wrap_content" android:id="@+id/cbPoint6" android:layout_weight="1"/>
-                    <EditText
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:inputType="number"
-                            android:ems="10"
-                            android:id="@+id/edPoint6" android:layout_weight="1"/>
-                </LinearLayout>
-                <LinearLayout
-                        android:orientation="horizontal"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-                    <CheckBox
-                            android:text="商品價格"
-                            android:layout_width="100dp"
-                            android:layout_height="wrap_content" android:id="@+id/cbPoint7" android:layout_weight="1"/>
-                    <EditText
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:inputType="number"
-                            android:ems="10"
-                            android:id="@+id/edPoint7" android:layout_weight="1" android:hint="越能接受分數越高"/>
-                </LinearLayout>
-                <LinearLayout
-                        android:orientation="horizontal"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-                    <CheckBox
-                            android:text="送餐速度"
-                            android:layout_width="100dp"
-                            android:layout_height="wrap_content" android:id="@+id/cbPoint8" android:layout_weight="1"/>
-                    <EditText
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:inputType="number"
-                            android:ems="10"
-                            android:id="@+id/edPoint8" android:layout_weight="1"/>
-                </LinearLayout>
-                <LinearLayout
-                        android:orientation="horizontal"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-                    <CheckBox
-                            android:text="份量"
-                            android:layout_width="100dp"
-                            android:layout_height="wrap_content" android:id="@+id/cbPoint9" android:layout_weight="1"/>
-                    <EditText
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:inputType="number"
-                            android:ems="10"
-                            android:id="@+id/edPoint9" android:layout_weight="1"/>
-                </LinearLayout>
-                <LinearLayout
-                        android:orientation="horizontal"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-                    <CheckBox
-                            android:text="餐廳氣氛"
-                            android:layout_width="100dp"
-                            android:layout_height="wrap_content" android:id="@+id/cbPoint10" android:layout_weight="1"/>
-                    <EditText
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:inputType="number"
-                            android:ems="10"
-                            android:id="@+id/edPoint10" android:layout_weight="1"/>
-                </LinearLayout>
-                <LinearLayout
-                        android:orientation="horizontal"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-                    <CheckBox
-                            android:text="排隊時間"
-                            android:layout_width="100dp"
-                            android:layout_height="wrap_content" android:id="@+id/cbPoint11" android:layout_weight="1"/>
-                    <EditText
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:inputType="number"
-                            android:ems="10"
-                            android:id="@+id/edPoint11" android:layout_weight="1" android:hint="越快分數越高"/>
+                            android:id="@+id/edTag" android:hint="ex:停車位、日式、中式"/>
+                    <Button
+                            android:text="確定新增TAG(選填)"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" android:id="@+id/btnTag"/>
                 </LinearLayout>
             </LinearLayout>
         </ScrollView>

@@ -105,7 +105,7 @@ public class pageRegister extends AppCompatActivity {
     public static boolean passwordCheck(String str) {
         boolean check = false;
         if(str.length() > 7) {
-            System.out.println(str.length());
+
 
 
             boolean isDigit = false;

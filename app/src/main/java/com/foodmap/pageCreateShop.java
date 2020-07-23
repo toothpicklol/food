@@ -61,8 +61,7 @@ public class pageCreateShop extends AppCompatActivity {
         head.setImageDrawable(loadImageFromURL(headS));
 
 
-        System.out.println(x);
-        System.out.println(y);
+
 
 
     }

@@ -102,7 +102,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-        //System.out.println(r);
+
         if (r.equals(acc)) {
             Intent intent = new Intent();
             intent.setClass(MainActivity.this, pageHome.class);
