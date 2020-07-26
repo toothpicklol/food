@@ -23,15 +23,16 @@ public class pageWatchPost extends AppCompatActivity {
     String point="http://114.32.152.202/foodphp/pointInfo.php";
     String messageUrl="http://114.32.152.202/foodphp/message.php";
     String info="http://114.32.152.202/foodphp/userinfo.php";
+    String checkLikeUrl="http://114.32.152.202/foodphp/likeCheck.php";
+    String insertLike="http://114.32.152.202/foodphp/insertLike.php";
     View viewM;
 
 
     TextView account,title,text,good,bad,total,infoPoint,accountM,timeM,textM;
-    ImageView head;
+    ImageView messageOtherHead,postHead;
     ImageButton GP,BP,headM;
     Button otherUser,message;
     makeMessage[] messageSQL;
-    EditText fakeEdMess;
     String userInfo = dbcon.userInfo(user, info);
     final String[] infoArr = userInfo.split(",");
 
@@ -44,7 +45,7 @@ public class pageWatchPost extends AppCompatActivity {
         account = findViewById(R.id.txNickLv);
         title = findViewById(R.id.txTitle);
         text = findViewById(R.id.txText);
-        head = findViewById(R.id.imgMessageHead);
+        postHead=findViewById(R.id.imgPostHead);
         good=findViewById(R.id.txGP);
         bad=findViewById(R.id.txBP);
         mEditor = (RichEditor) findViewById(R.id.editor);
@@ -54,16 +55,37 @@ public class pageWatchPost extends AppCompatActivity {
         BP=findViewById(R.id.imgBtnBP);
         otherUser=findViewById(R.id.btnPostUser);
         message=findViewById(R.id.btnMessage);
+        messageOtherHead = findViewById(R.id.imgMessageHead);
 
         GP.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                
+
+                if(!dbcon.likeCheck(idS,user,checkLikeUrl).equals("1")){
+
+                    dbcon.insertLike(user,idS,"isLike",insertLike);
+                    int count=Integer.parseInt(good.getText().toString())+1;
+                    good.setText(Integer.toString(count));
+                }
+                else {
+                    Toast.makeText(getApplicationContext(), "你已經按過讚或噓了!", Toast.LENGTH_LONG).show();
+                }
             }
         });
         BP.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                System.out.println(dbcon.likeCheck(idS,user,checkLikeUrl));
+
+                if(!dbcon.likeCheck(idS,user,checkLikeUrl).equals("1")){
+
+                    dbcon.insertLike(user,idS,"disLike",insertLike);
+                    int count=Integer.parseInt(bad.getText().toString())+1;
+                    bad.setText(Integer.toString(count));
+                }
+                else {
+                    Toast.makeText(getApplicationContext(), "你已經按過讚或噓了!", Toast.LENGTH_LONG).show();
+                }
 
             }
         });
@@ -89,8 +111,9 @@ public class pageWatchPost extends AppCompatActivity {
         account.setText(accountS);
         title.setText(titleS);
         mEditor.setHtml(textS);
-        head.setImageDrawable(loadImageFromURL(headS));
+        postHead.setImageDrawable(loadImageFromURL(headS));
         mEditor.setInputEnabled(false);
+        messageOtherHead.setImageDrawable(loadImageFromURL(infoArr[3]));
 
         String likeInfo=dbcon.likeCount(idS,likeUrl);
         String[]  like= likeInfo.split("]");
@@ -230,7 +253,6 @@ public class pageWatchPost extends AppCompatActivity {
                 //上傳message
             }
         });
-        head.setImageDrawable(loadImageFromURL(infoArr[3]));
         int height = (int)(getResources().getDisplayMetrics().heightPixels);
         int width = (int)(getResources().getDisplayMetrics().widthPixels);
 
@@ -254,6 +276,10 @@ public class pageWatchPost extends AppCompatActivity {
             messageSQL[i] = new makeMessage(infoArr1[0], messageArr2[1], infoArr1[3], messageArr2[2]);
 
         }
+        if(messageSQL[0]!=null){
+            txCount.setText("留言("+messageSQL.length+")");
+        }
+
 
 
         for (makeMessage point : messageSQL) {
