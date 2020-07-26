@@ -72,6 +72,7 @@ public class pageEditor extends AppCompatActivity {
         mEditor.setPlaceholder("內文");
 
 
+
         if(postTitle!=null){
             title.setText(postTitle);
         }

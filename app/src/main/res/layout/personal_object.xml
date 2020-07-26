@@ -7,10 +7,42 @@
               android:orientation="vertical" >
 
     <LinearLayout
+            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_height="match_parent">
+        <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp">
 
+            <Button
+                    android:layout_width="133dp"
+                    android:layout_height="wrap_content" android:id="@+id/btnPostUser"
+                    style="@style/Widget.AppCompat.Button.Borderless"/>
+            <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                    <ImageView
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            android:id="@+id/userHead"
+                            android:background="@color/common_google_signin_btn_text_dark_pressed"
+                            android:adjustViewBounds="true" android:scaleType="fitXY"/>
+                    <TextView
+                            android:id="@+id/txNickLv"
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp"
+                            android:text="暱稱+等級"
+                            android:textColor="#DD000000"
+                            android:textSize="14sp" android:background="@android:color/background_light"
+                            android:textAlignment="viewStart"/>
+                </LinearLayout>
+            </LinearLayout>
+        </FrameLayout>
         <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" android:background="@android:color/background_light">
@@ -25,30 +57,11 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
                 <LinearLayout
-                        android:orientation="horizontal"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-                    <ImageView
-                            android:layout_width="60dp"
-                            android:layout_height="match_parent"
-                            android:id="@+id/shopHead"
-                            android:background="@color/common_google_signin_btn_text_dark_pressed"/>
-                    <TextView
-                            android:id="@+id/textView1"
-                            android:layout_width="50dp"
-                            android:layout_height="40dp"
-                            android:layout_weight="1"
-                            android:text="暱稱+等級"
-                            android:textColor="#DD000000"
-                            android:textSize="14sp" android:background="@android:color/background_light"
-                            android:textAlignment="viewStart"/>
-                </LinearLayout>
-                <LinearLayout
                         android:orientation="vertical"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
                     <TextView
-                            android:id="@+id/textView2"
+                            android:id="@+id/txTitle"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:textColor="#DD000000"
@@ -57,7 +70,7 @@
                             android:textStyle="bold"
                             android:text="1111"/>
                     <TextView
-                            android:id="@+id/textView3"
+                            android:id="@+id/txText"
                             android:layout_width="match_parent"
                             android:layout_height="200dp"
                             android:textColor="#DD000000"
@@ -67,7 +80,6 @@
                 </LinearLayout>
             </LinearLayout>
         </FrameLayout>
-
     </LinearLayout>
 
     <LinearLayout

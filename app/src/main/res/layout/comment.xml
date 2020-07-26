@@ -22,36 +22,41 @@
                         android:layout_height="wrap_content">
                         <ImageView
                                 android:id="@+id/bighead"
-                                android:layout_width="117dp"
+                                android:layout_width="110dp"
                                 android:layout_height="110dp"
                                 android:focusableInTouchMode="false"
-                                android:scaleType="fitStart"
+                                android:scaleType="fitXY"
                         />
                         <LinearLayout
                                 android:orientation="horizontal"
                                 android:layout_width="match_parent"
-                                android:layout_height="match_parent">
+                                android:layout_height="match_parent"/>
+                        <LinearLayout
+                                android:orientation="vertical"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:background="@android:color/background_light">
+                                <TextView
+                                        android:id="@+id/username"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="33dp"
+                                        android:text="暱稱"
+                                        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                                        android:textColor="#0F0F0F"
+                                        android:textSize="18sp"
+                                        android:textStyle="bold"
+                                        android:background="@android:color/background_light"/>
+                                <TextView
+                                        android:id="@+id/userLV"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="35dp"
+                                        android:text="等級:87"
+                                        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                                        android:textColor="#111111"
+                                        android:textSize="18sp"
+                                        android:textStyle="bold"
+                                        android:backgroundTint="@android:color/background_light"/>
                         </LinearLayout>
-                        <TextView
-                                android:id="@+id/username"
-                                android:layout_width="match_parent"
-                                android:layout_height="23dp"
-                                android:text="暱稱"
-                                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                                android:textColor="#0F0F0F"
-                                android:textSize="18sp"
-                                android:textStyle="bold"
-                        />
-                        <TextView
-                                android:id="@+id/userLV"
-                                android:layout_width="match_parent"
-                                android:layout_height="23dp"
-                                android:text="等級:87"
-                                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                                android:textColor="#111111"
-                                android:textSize="18sp"
-                                android:textStyle="bold"
-                        />
                         <FrameLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent">

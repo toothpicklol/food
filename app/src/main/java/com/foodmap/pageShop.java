@@ -1,6 +1,5 @@
 package com.foodmap;
 
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -9,21 +8,13 @@ import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.webkit.CookieManager;
-import android.webkit.CookieSyncManager;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
 import android.widget.*;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
-import com.foodmap.ui.home.HomeFragment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 
 import java.io.InputStream;
 import java.net.URL;
-import java.security.acl.Owner;
 
 public class pageShop extends AppCompatActivity {
 
@@ -36,12 +27,11 @@ public class pageShop extends AppCompatActivity {
     String insertL="http://114.32.152.202/foodphp/insertLikeShop.php";
     String selectL="http://114.32.152.202/foodphp/selectLikeShop.php";
     String updateL="http://114.32.152.202/foodphp/updateLikeShop.php";
-    Button btnPost,btnOwner,btnLike;
+    Button btnPost,btnOwner,btnLike,btnOtherUser;
     LinearLayout ll,bgU;
     View view,comment,shopText;
     TextView account,title,text,username,userLV;
     ImageView bigHead,headC;
-    EditText etAccount;
     TextView pointS,commentC,message,shopInfo;
     makeComment[] commentSQL;
 
@@ -50,16 +40,7 @@ public class pageShop extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_page_shop);
         ll = (LinearLayout)findViewById(R.id.ll_in_sv);
-        account=findViewById(R.id.textView1);
-        title=findViewById(R.id.textView2);
-        text=findViewById(R.id.textView3);
-        bgU =findViewById(R.id.userBg);
-        bigHead=findViewById(R.id.bighead);
-        headC =findViewById(R.id.shopHead);
-        userLV=findViewById(R.id.userLV);
-        username=findViewById(R.id.username);
         btnPost =findViewById(R.id.btn_Post);
-        etAccount=findViewById(R.id.etAcc);
         pointS=findViewById(R.id.shopPoint);
         commentC=findViewById(R.id.shopCommentCount);
         message=findViewById(R.id.shopMess);
@@ -155,7 +136,7 @@ public class pageShop extends AppCompatActivity {
             String[] commentArr2=tmp.split(",");
             String img=dbcon.userInfo(commentArr2[0],imgU);
             String[] imgArr=img.split(",");
-            commentSQL[i] = new makeComment(commentArr2[0], commentArr2[1], commentArr2[2],commentArr2[3],imgArr[3]);//評論資料
+            commentSQL[i] = new makeComment(commentArr2[0], commentArr2[1], commentArr2[2],commentArr2[3],imgArr[3],commentArr2[4]);//評論資料
 
 
 
@@ -168,13 +149,17 @@ public class pageShop extends AppCompatActivity {
 
             }
             view = LayoutInflater.from(pageShop.this).inflate(R.layout.personal_object, null);
-            account=view.findViewById(R.id.textView1);
-            title=view.findViewById(R.id.textView2);
-            text=view.findViewById(R.id.textView3);
-            headC=view.findViewById(R.id.shopHead);
+            account=view.findViewById(R.id.txNickLv);
+            title=view.findViewById(R.id.txTitle);
+            text=view.findViewById(R.id.txText);
+            headC=view.findViewById(R.id.userHead);
             btnPost=view.findViewById(R.id.btn_Post);
             btnPost.setId(btnId);//將按鈕帶入id 以供監聽時辨識使用
+            btnOtherUser=view.findViewById(R.id.btnPostUser);
+            btnOtherUser.setId(btnId);
+            btnOtherUser.setOnClickListener(checkOtherUser);
             btnId++;
+            btnPost.setOnClickListener(commCheck);
             ll.addView(view);
             account.setText(point.account);
             headC.setImageDrawable(loadImageFromURL(point.head));
@@ -201,13 +186,14 @@ public class pageShop extends AppCompatActivity {
 
     class makeComment {
 
-        public String text,title,account,picture,head;
-        public makeComment( String i, String j,String k,String l,String n) {
+        public String text,title,account,picture,head,postId;
+        public makeComment( String i, String j,String k,String l,String n,String o) {
             account=i;
             title=j;
             text=k;
             picture=l;
             head=n;
+            postId=o;
         }
 
 
@@ -220,7 +206,6 @@ public class pageShop extends AppCompatActivity {
             userLV=j;
             bigHead=k;
             bg=l;
-
             address=m;
             tel=n;
             time=o;
@@ -286,8 +271,48 @@ public class pageShop extends AppCompatActivity {
 
 
     }
-    public static void setShopName(String i){
-        shopACC=i;
-    }
+
+
+    private View.OnClickListener commCheck= new View.OnClickListener() {
+
+
+        @Override
+        public void onClick(View v) {
+
+            Button post =  (Button)v; //在new 出所按下的按鈕
+            int id = post.getId();
+
+            pageWatchPost.setPost(commentSQL[id].head,commentSQL[id].title,commentSQL[id].text,commentSQL[id].account,commentSQL[id].postId);
+            pageWatchPost.setName(userAcc);
+            Intent intent = new Intent();
+            intent.setClass(pageShop.this, pageWatchPost.class);
+            startActivity(intent);
+
+
+
+
+        }
+    };
+    private View.OnClickListener checkOtherUser= new View.OnClickListener() {
+
+
+        @Override
+        public void onClick(View v) {
+
+            Button post =  (Button)v; //在new 出所按下的按鈕
+            int id = post.getId();
+            if(!commentSQL[id].account.equals(userAcc)){
+                pageUser.otherUser(commentSQL[id].account);
+                Intent intent = new Intent();
+                intent.setClass(pageShop.this, pageUser.class);
+                startActivity(intent);
+            }
+
+
+
+
+
+        }
+    };
 
 }

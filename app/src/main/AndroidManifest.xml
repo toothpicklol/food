@@ -21,9 +21,11 @@
             android:theme="@style/AppTheme"
             android:usesCleartextTraffic="true"
             tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".pagePoint"
-                  android:theme="@style/AppTheme.NoActionBar">
-
+        <activity android:name=".pageWatchPost">
+        </activity>
+        <activity
+                android:name=".pagePoint"
+                android:theme="@style/AppTheme.NoActionBar">
         </activity>
         <activity
                 android:name=".pageEditor"

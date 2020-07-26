@@ -41,7 +41,6 @@ public class pageCreateShop extends AppCompatActivity {
         xShop=findViewById(R.id.txShopX);
         yShop=findViewById(R.id.txShopY);
         shopAcc=findViewById(R.id.txShopAcc);
-
         oTime=findViewById(R.id.etOpen);
         cTime=findViewById(R.id.etClose);
         address=findViewById(R.id.etAddress);
@@ -53,7 +52,6 @@ public class pageCreateShop extends AppCompatActivity {
         create.setOnClickListener(createCheck);
         head=findViewById(R.id.imgShopH);
         bg=findViewById(R.id.imgShopBg);
-
         xShop.setText(String.valueOf(x));
         yShop.setText(String.valueOf(y));
         shopAcc.setText(r);

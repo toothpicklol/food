@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools"
+              android:id="@+id/llp"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="vertical" >
+
+    <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent"
+                      android:orientation="vertical">
+            <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                <Button
+                        android:layout_width="135dp"
+                        android:layout_height="wrap_content" android:id="@+id/btnPostUser"
+                        style="@style/Widget.AppCompat.Button.Borderless"/>
+                <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                    <ImageView
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            android:id="@+id/userHead"
+                            android:background="@color/common_google_signin_btn_text_dark_pressed"
+                            android:adjustViewBounds="true" android:scaleType="fitXY"/>
+                    <TextView
+                            android:id="@+id/txNickLv"
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp"
+                            android:text="暱稱+等級"
+                            android:textColor="#DD000000"
+                            android:textSize="14sp" android:background="@android:color/background_light"
+                            android:textAlignment="viewStart"/>
+                </LinearLayout>
+            </FrameLayout>
+            <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                <TextView
+                        android:id="@+id/txTitle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="#DD000000"
+                        android:textSize="24sp"
+                        android:background="@android:color/background_light"
+                        android:textStyle="bold"
+                        android:text="1111"/>
+
+                <TextView
+                        android:text="餐廳總分:"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" android:id="@+id/txTotalPoint" android:textStyle="bold"
+                        android:textSize="24sp" android:textAlignment="center"
+                        android:background="@android:drawable/screen_background_light"/>
+                <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" android:id="@+id/txPointInfo"
+                        android:background="@android:color/background_light" android:textStyle="bold"
+                        android:textSize="18sp" android:textAlignment="center"/>
+                <com.foodmap.richeditor.RichEditor
+                        android:id="@+id/editor"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                />
+            </LinearLayout>
+            <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" android:gravity="right"
+                    android:backgroundTint="@android:color/background_light"
+                    android:background="@android:color/background_light">
+                <ImageButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        app:srcCompat="@drawable/like"
+                        android:id="@+id/imgBtnGP"
+                        android:backgroundTint="@android:color/background_light"
+                />
+                <TextView
+                        android:text="0"
+                        android:layout_width="50dp"
+                        android:layout_height="match_parent" android:id="@+id/txGP"
+                        android:textAlignment="center"/>
+                <ImageButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        app:srcCompat="@drawable/bad"
+                        android:id="@+id/imgBtnBP"
+                        android:backgroundTint="@android:color/background_light"
+                />
+                <TextView
+                        android:text="0"
+                        android:layout_width="50dp"
+                        android:layout_height="match_parent" android:id="@+id/txBP"
+                        android:textAlignment="center"/>
+            </LinearLayout>
+            <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" android:background="@android:drawable/screen_background_light">
+
+                <Button
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp" android:id="@+id/btnMessage"
+                        android:background="#00000000"
+                />
+                <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+                    <ImageView
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            android:id="@+id/imgMessageHead"/>
+                    <EditText
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp"
+                            android:ems="0"
+                            android:id="@+id/edMessFake" android:hint="留言"
+                    />
+                </LinearLayout>
+            </FrameLayout>
+        </LinearLayout>
+    </ScrollView>
+
+
+</LinearLayout>

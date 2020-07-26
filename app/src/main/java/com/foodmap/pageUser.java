@@ -1,6 +1,5 @@
 package com.foodmap;
 
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
@@ -8,10 +7,6 @@ import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.webkit.CookieManager;
-import android.webkit.CookieSyncManager;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
 import android.widget.*;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -25,7 +20,7 @@ public class pageUser extends AppCompatActivity {
     private static String user;
     private static String otherUser;
     private static String setMode="";
-    Button btUserInfo,btUserLike,btUserMore,btUserCom,btnPost,follow;
+    Button btUserInfo,btUserLike,btUserMore,btUserCom,btnPost,follow,btnOtherUser;
     LinearLayout ll,bgU;
 
     View buttonView,view,comment,like;
@@ -33,7 +28,6 @@ public class pageUser extends AppCompatActivity {
     ImageView bigHead,headC;
     String url="http://114.32.152.202/foodphp/comment.php";
     String info="http://114.32.152.202/foodphp/userinfo.php";
-
     String insertL="http://114.32.152.202/foodphp/insertLikeUser.php";
     String selectL="http://114.32.152.202/foodphp/selectLikeUser.php";
     String updateL="http://114.32.152.202/foodphp/updateLikeUser.php";
@@ -60,22 +54,9 @@ public class pageUser extends AppCompatActivity {
         btUserMore = (Button)buttonView.findViewById(R.id.btnUserMore);
         btUserCom = (Button)buttonView.findViewById(R.id.btnUserCom);
         follow=like.findViewById(R.id.btnFollow);
-
-
-        account=findViewById(R.id.textView1);
-        title=findViewById(R.id.textView2);
-        text=findViewById(R.id.textView3);
-
-        bgU =findViewById(R.id.userBg);
-        bigHead=findViewById(R.id.bighead);
-        headC =findViewById(R.id.shopHead);
-        userLV=findViewById(R.id.userLV);
-        username=findViewById(R.id.username);
         btnPost =findViewById(R.id.btn_Post);
         fans=findViewById(R.id.txFans);
         gold=findViewById(R.id.txGoldGood);
-
-
         addListView();
         setActions();
 
@@ -145,7 +126,7 @@ public class pageUser extends AppCompatActivity {
                 String[] commentArr2 = tmp.split(",");
 
 
-                commentSQL[i] = new makeComment(commentArr2[0], commentArr2[1], commentArr2[2], commentArr2[3], infoArr[3]);//評論資料
+                commentSQL[i] = new makeComment(commentArr2[0], commentArr2[1], commentArr2[2], commentArr2[3], infoArr[3],commentArr2[4]);//評論資料
 
             }
 
@@ -158,11 +139,14 @@ public class pageUser extends AppCompatActivity {
                 view = LayoutInflater.from(pageUser.this).inflate(R.layout.personal_object, null);
 
 
-                account = view.findViewById(R.id.textView1);
-                title = view.findViewById(R.id.textView2);
-                text = view.findViewById(R.id.textView3);
-                headC = view.findViewById(R.id.shopHead);
+                account = view.findViewById(R.id.txNickLv);
+                title = view.findViewById(R.id.txTitle);
+                text = view.findViewById(R.id.txText);
+                headC = view.findViewById(R.id.userHead);
                 btnPost = view.findViewById(R.id.btn_Post);
+                btnOtherUser=view.findViewById(R.id.btnPostUser);
+                btnOtherUser.setId(btnId);
+                btnOtherUser.setOnClickListener(checkOtherUser);
 
 
                 btnPost.setId(btnId);//將按鈕帶入id 以供監聽時辨識使用
@@ -234,7 +218,7 @@ public class pageUser extends AppCompatActivity {
                 }
                 String tmp = commentArr[i];
                 String[] commentArr2 = tmp.split(",");
-                commentSQL[i] = new makeComment(commentArr2[0], commentArr2[1], commentArr2[2], commentArr2[3], infoArr[3]);//評論資料
+                commentSQL[i] = new makeComment(commentArr2[0], commentArr2[1], commentArr2[2], commentArr2[3], infoArr[3],commentArr2[4]);//評論資料
 
             }
 
@@ -245,10 +229,10 @@ public class pageUser extends AppCompatActivity {
                     break;
                 }
                 view = LayoutInflater.from(pageUser.this).inflate(R.layout.personal_object, null);
-                account = view.findViewById(R.id.textView1);
-                title = view.findViewById(R.id.textView2);
-                text = view.findViewById(R.id.textView3);
-                headC = view.findViewById(R.id.shopHead);
+                account = view.findViewById(R.id.txNickLv);
+                title = view.findViewById(R.id.txTitle);
+                text = view.findViewById(R.id.txText);
+                headC = view.findViewById(R.id.userHead);
                 btnPost = view.findViewById(R.id.btn_Post);
                 btnPost.setId(btnId);//將按鈕帶入id 以供監聽時辨識使用
                 btnPost.setOnClickListener(check);
@@ -343,15 +327,14 @@ public class pageUser extends AppCompatActivity {
 
     class makeComment {
 
-        public String text,title,account,picture,head;
-        public makeComment( String i, String j,String k,String l,String n) {
+        public String text,title,account,picture,head,postId;
+        public makeComment( String i, String j,String k,String l,String n,String o) {
             account=i;
             title=j;
             text=k;
             picture=l;
             head=n;
-
-
+            postId=o;
         }
 
 
@@ -381,8 +364,26 @@ public class pageUser extends AppCompatActivity {
 
             Button post =  (Button)v; //在new 出所按下的按鈕
             int id = post.getId();
+            pageWatchPost.setPost(commentSQL[id].head,commentSQL[id].title,commentSQL[id].text,commentSQL[id].account,commentSQL[id].postId);
+            pageWatchPost.setName(user);
+            Intent intent = new Intent();
+            intent.setClass(pageUser.this, pageWatchPost.class);
+            startActivity(intent);
 
-            System.out.println(commentSQL[id].picture);
+
+
+        }
+    };
+    private View.OnClickListener checkOtherUser= new View.OnClickListener() {
+
+
+        @Override
+        public void onClick(View v) {
+
+            Button post =  (Button)v; //在new 出所按下的按鈕
+            int id = post.getId();
+            pageUser.otherUser(commentSQL[id].account);
+
 
 
 

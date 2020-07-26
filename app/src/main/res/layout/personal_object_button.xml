@@ -31,7 +31,7 @@
                 android:id="@+id/btnUserMore"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="更多" style="@android:style/Widget.DeviceDefault.Button.Colored"
+                android:text="物品欄" style="@android:style/Widget.DeviceDefault.Button.Colored"
                 android:layout_weight="1"/>
     </LinearLayout>
 </LinearLayout>
