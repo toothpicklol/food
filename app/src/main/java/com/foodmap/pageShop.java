@@ -29,6 +29,7 @@ public class pageShop extends AppCompatActivity {
     String insertL="http://114.32.152.202/foodphp/insertLikeShop.php";
     String selectL="http://114.32.152.202/foodphp/selectLikeShop.php";
     String updateL="http://114.32.152.202/foodphp/updateLikeShop.php";
+    String pointUrl="http://114.32.152.202/foodphp/shopPointInfo.php";
     Button btnPost,btnOwner,btnLike,btnOtherUser,btnPointInfo;
     LinearLayout ll,bgU;
     View view,comment,shopText,viewP;
@@ -36,6 +37,8 @@ public class pageShop extends AppCompatActivity {
     ImageView bigHead,headC;
     TextView pointS,commentC,message,shopInfo;
     makeComment[] commentSQL;
+
+    TextView pointBox,listBox,countBox;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -135,7 +138,7 @@ public class pageShop extends AppCompatActivity {
             btnPointInfo.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
+                    setAlert();
                 }
             });
 
@@ -217,14 +220,53 @@ public class pageShop extends AppCompatActivity {
 
     }
     public void setAlert(){
-        viewP = LayoutInflater.from(pageShop.this).inflate(R.layout.point_object, null);
+
         final Dialog dialog = new Dialog(pageShop.this,R.style.MyDialog);
         dialog.setContentView(R.layout.pointbox);//指定自定義layout
-
         LinearLayout ll = (LinearLayout)dialog.findViewById(R.id.llPoint);
-
         int height = (int)(getResources().getDisplayMetrics().heightPixels);
         int width = (int)(getResources().getDisplayMetrics().widthPixels);
+
+        String[]object=new String[]{"a","b","c","d","e","f","g","h","i","j","k","l"};
+
+        for(int i=0;i<12;i++){
+            viewP = LayoutInflater.from(pageShop.this).inflate(R.layout.point_object, null);
+
+
+            if(dbcon.shopPointInfo(object[i],shopACC,pointUrl)!=null&&!dbcon.shopPointInfo(object[i],shopACC,pointUrl).equals("")){
+                String tmp=dbcon.shopPointInfo(object[i],shopACC,pointUrl);
+                String[] pointArr=tmp.split(",");
+
+                System.out.println(dbcon.shopPointInfo(object[i],shopACC,pointUrl));
+
+                System.out.println(pointArr[0]);
+                System.out.println(pointArr.length);
+
+                 pointBox=viewP.findViewById(R.id.txPointInfo);
+                 listBox=viewP.findViewById(R.id.txPointList);
+                 countBox=viewP.findViewById(R.id.txPointCount);
+                ll.addView(viewP);
+
+                listBox.setText(pointArr[0]);
+                pointBox.setText(pointArr[1]+"分");
+                if(Integer.parseInt(pointArr[2])>999){
+                    countBox.setText(999+"+則評分");
+                }
+                else {
+                    countBox.setText(pointArr[2]+"則評分");
+                }
+
+
+
+
+
+
+            }
+
+        }
+
+
+
 
 
 
