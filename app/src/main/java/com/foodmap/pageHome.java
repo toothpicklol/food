@@ -119,30 +119,11 @@ public class pageHome extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.page_home, menu);
         return true;
     }
-
-
-
     @Override
     public boolean onSupportNavigateUp() {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
-    }
-
-
-    class makeInfo {
-
-        public String username,userLV,bigHead,bg;
-        public makeInfo( String i, String j,String k,String l) {
-            username=i;
-            userLV=j;
-            bigHead=k;
-            bg=l;
-
-
-        }
-
-
     }
     public static void setName(String i){
         user=i;
@@ -158,6 +139,20 @@ public class pageHome extends AppCompatActivity {
             Log.i("loadingImg", e.toString());
             return null;
         }
+    }
+    class makeInfo {
+
+        public String username,userLV,bigHead,bg;
+        public makeInfo( String i, String j,String k,String l) {
+            username=i;
+            userLV=j;
+            bigHead=k;
+            bg=l;
+
+
+        }
+
+
     }
 
 

@@ -1,5 +1,6 @@
 package com.foodmap;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -16,6 +17,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.io.InputStream;
 import java.net.URL;
 
+
 public class pageShop extends AppCompatActivity {
 
 
@@ -27,9 +29,9 @@ public class pageShop extends AppCompatActivity {
     String insertL="http://114.32.152.202/foodphp/insertLikeShop.php";
     String selectL="http://114.32.152.202/foodphp/selectLikeShop.php";
     String updateL="http://114.32.152.202/foodphp/updateLikeShop.php";
-    Button btnPost,btnOwner,btnLike,btnOtherUser;
+    Button btnPost,btnOwner,btnLike,btnOtherUser,btnPointInfo;
     LinearLayout ll,bgU;
-    View view,comment,shopText;
+    View view,comment,shopText,viewP;
     TextView account,title,text,username,userLV;
     ImageView bigHead,headC;
     TextView pointS,commentC,message,shopInfo;
@@ -39,7 +41,7 @@ public class pageShop extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_page_shop);
-        ll = (LinearLayout)findViewById(R.id.ll_in_sv);
+        ll = findViewById(R.id.ll_in_sv);
         btnPost =findViewById(R.id.btn_Post);
         pointS=findViewById(R.id.shopPoint);
         commentC=findViewById(R.id.shopCommentCount);
@@ -49,7 +51,6 @@ public class pageShop extends AppCompatActivity {
         btnLike=findViewById(R.id.btnLike);
 
         addListView();
-        setActions();
         FloatingActionButton fab = findViewById(R.id.fabPost);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -72,7 +73,7 @@ public class pageShop extends AppCompatActivity {
             Drawable draw = Drawable.createFromStream(is, "src");
             return draw;
         } catch (Exception e) {
-            //TODO handle error
+
             System.out.println("erroooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooor");
             Log.i("loadingImg", e.toString());
             return null;
@@ -103,8 +104,40 @@ public class pageShop extends AppCompatActivity {
             shopInfo=shopText.findViewById(R.id.shopinfo);
             btnOwner=shopText.findViewById(R.id.shopOwner);
             btnLike=shopText.findViewById(R.id.btnLike);
-            btnOwner.setOnClickListener(check);
-            btnLike.setOnClickListener(check);
+            btnPointInfo=shopText.findViewById(R.id.btn_pointinfo);
+            btnOwner.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String userInfo=dbcon.userInfo(shopACC,info);
+                    String[] infoArr=userInfo.split(",");
+                    String[] infoArr2=infoArr[11].split("]");
+                    if(!infoArr2[0].equals(userAcc)){
+                        Uri web = Uri.parse("https://docs.google.com/forms/d/e/1FAIpQLScjv-fExVswZw1KFeUdongUCM66KnEYuqFM_yHhIAX6hfHJQg/viewform?usp=sf_link");
+                        Intent webIntent = new Intent(Intent.ACTION_VIEW, web);
+                        startActivity(webIntent);
+                    }
+                }
+            });
+            btnLike.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(dbcon.insertLikeShop(userAcc,shopACC,selectL).equals(userAcc)){
+                        dbcon.insertLikeShop(userAcc,shopACC,insertL);
+                        Toast.makeText(getApplicationContext()," 已收藏!", Toast.LENGTH_LONG).show();
+                    }
+                    else {
+                        dbcon.insertLikeShop(userAcc,shopACC,updateL);
+                        Toast.makeText(getApplicationContext()," 取消收藏!", Toast.LENGTH_LONG).show();
+                    }
+                }
+            });
+
+            btnPointInfo.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                }
+            });
 
             message.setText(point.message);
             commentC.setText(point.comment);
@@ -183,6 +216,24 @@ public class pageShop extends AppCompatActivity {
 
 
     }
+    public void setAlert(){
+        viewP = LayoutInflater.from(pageShop.this).inflate(R.layout.point_object, null);
+        final Dialog dialog = new Dialog(pageShop.this,R.style.MyDialog);
+        dialog.setContentView(R.layout.pointbox);//指定自定義layout
+
+        LinearLayout ll = (LinearLayout)dialog.findViewById(R.id.llPoint);
+
+        int height = (int)(getResources().getDisplayMetrics().heightPixels);
+        int width = (int)(getResources().getDisplayMetrics().widthPixels);
+
+
+
+
+
+        dialog.getWindow().setLayout(width, height);
+
+        dialog.show();
+    }
 
     class makeComment {
 
@@ -212,67 +263,14 @@ public class pageShop extends AppCompatActivity {
             message=p;
             comment=q;
             point=r;
-
-
-
         }
 
 
     }
-    private View.OnClickListener check= new View.OnClickListener() {
-
-        @Override
-        public void onClick(View v) {
-            Intent intent = new Intent();
-            intent.setClass(pageShop.this, pageShop.class);
-            startActivity(intent);
-        }
-    };
     public static void setName(String i,String j){
         shopACC=i;
         userAcc=j;
     }
-
-    private void setActions(){
-        btnLike.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(dbcon.insertLikeShop(userAcc,shopACC,selectL).equals(userAcc)){
-                    dbcon.insertLikeShop(userAcc,shopACC,insertL);
-                    Toast.makeText(getApplicationContext()," 已收藏!", Toast.LENGTH_LONG).show();
-                }
-                else {
-                    dbcon.insertLikeShop(userAcc,shopACC,updateL);
-                    Toast.makeText(getApplicationContext()," 取消收藏!", Toast.LENGTH_LONG).show();
-                }
-
-
-
-
-            }
-        });
-        btnOwner.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                String userInfo=dbcon.userInfo(shopACC,info);
-                String[] infoArr=userInfo.split(",");
-                String[] infoArr2=infoArr[11].split("]");
-                if(!infoArr2[0].equals(userAcc)){
-                    Uri web = Uri.parse("https://docs.google.com/forms/d/e/1FAIpQLScjv-fExVswZw1KFeUdongUCM66KnEYuqFM_yHhIAX6hfHJQg/viewform?usp=sf_link");
-                    Intent webIntent = new Intent(Intent.ACTION_VIEW, web);
-                    startActivity(webIntent);
-                }
-
-
-
-            }
-        });
-
-
-    }
-
-
     private View.OnClickListener commCheck= new View.OnClickListener() {
 
 
@@ -281,16 +279,11 @@ public class pageShop extends AppCompatActivity {
 
             Button post =  (Button)v; //在new 出所按下的按鈕
             int id = post.getId();
-
             pageWatchPost.setPost(commentSQL[id].head,commentSQL[id].title,commentSQL[id].text,commentSQL[id].account,commentSQL[id].postId);
             pageWatchPost.setName(userAcc);
             Intent intent = new Intent();
             intent.setClass(pageShop.this, pageWatchPost.class);
             startActivity(intent);
-
-
-
-
         }
     };
     private View.OnClickListener checkOtherUser= new View.OnClickListener() {
@@ -307,12 +300,8 @@ public class pageShop extends AppCompatActivity {
                 intent.setClass(pageShop.this, pageUser.class);
                 startActivity(intent);
             }
-
-
-
-
-
         }
     };
+
 
 }

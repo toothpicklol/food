@@ -224,7 +224,7 @@ public class dbcon {
         try{
             HttpClient hc =new DefaultHttpClient();
             HttpPost  hP=new HttpPost(url);
-            hP.addHeader("cookie",";expires=Thu,31-Dec-37 23:55:55 GMT;path=/");
+            hP.addHeader("cookie","...");
 
             ArrayList<NameValuePair> params=new ArrayList<NameValuePair>();
             params.add(new BasicNameValuePair("S1",i));
@@ -609,6 +609,65 @@ public class dbcon {
             params.add(new BasicNameValuePair("S1",i));
             params.add(new BasicNameValuePair("S2",j));
             params.add(new BasicNameValuePair("S3",k));
+
+
+            hP.setEntity(new UrlEncodedFormEntity(params, HTTP.UTF_8));
+            HttpResponse hR=hc.execute(hP);
+            result= EntityUtils.toString(hR.getEntity(),HTTP.UTF_8);
+
+
+        }
+        catch (Exception e){
+            return e.toString();
+        }
+
+
+
+        return result;
+    }
+    public static String  insertMessage(String  i,String j,String k,String l,String m,String url){
+        String result = "空";
+        try{
+            HttpClient hc =new DefaultHttpClient();
+            HttpPost  hP=new HttpPost(url);
+            hP.addHeader("cookie","...");
+
+            ArrayList<NameValuePair> params=new ArrayList<NameValuePair>();
+            params.add(new BasicNameValuePair("S1",i));
+            params.add(new BasicNameValuePair("S2",j));
+            params.add(new BasicNameValuePair("S3",k));
+            params.add(new BasicNameValuePair("S4",l));
+            params.add(new BasicNameValuePair("S5",m));
+
+
+
+            hP.setEntity(new UrlEncodedFormEntity(params, HTTP.UTF_8));
+            HttpResponse hR=hc.execute(hP);
+            result= EntityUtils.toString(hR.getEntity(),HTTP.UTF_8);
+
+
+        }
+        catch (Exception e){
+            return e.toString();
+        }
+
+
+
+        return result;
+    }
+
+
+    public static String  searchShopId(String  i,String url){
+        String result = "空";
+        try{
+            HttpClient hc =new DefaultHttpClient();
+            HttpPost  hP=new HttpPost(url);
+            hP.addHeader("cookie","...");
+
+            ArrayList<NameValuePair> params=new ArrayList<NameValuePair>();
+            params.add(new BasicNameValuePair("S1",i));
+
+
 
 
             hP.setEntity(new UrlEncodedFormEntity(params, HTTP.UTF_8));

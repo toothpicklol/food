@@ -325,6 +325,46 @@ public class pageUser extends AppCompatActivity {
 
     }
 
+
+
+    private View.OnClickListener check= new View.OnClickListener() {
+
+
+        @Override
+        public void onClick(View v) {
+
+            Button post =  (Button)v; //在new 出所按下的按鈕
+            int id = post.getId();
+            pageWatchPost.setPost(commentSQL[id].head,commentSQL[id].title,commentSQL[id].text,commentSQL[id].account,commentSQL[id].postId);
+            pageWatchPost.setName(user);
+            Intent intent = new Intent();
+            intent.setClass(pageUser.this, pageWatchPost.class);
+            startActivity(intent);
+        }
+    };
+    private View.OnClickListener checkOtherUser= new View.OnClickListener() {
+
+
+        @Override
+        public void onClick(View v) {
+
+            Button post =  (Button)v; //在new 出所按下的按鈕
+            int id = post.getId();
+            pageUser.otherUser(commentSQL[id].account);
+
+
+
+
+        }
+    };
+
+    public static void setName(String i){
+        user=i;
+    }
+    public static void otherUser(String i){
+        otherUser=i;
+        setMode="other";
+    }
     class makeComment {
 
         public String text,title,account,picture,head,postId;
@@ -356,45 +396,4 @@ public class pageUser extends AppCompatActivity {
 
     }
 
-    private View.OnClickListener check= new View.OnClickListener() {
-
-
-        @Override
-        public void onClick(View v) {
-
-            Button post =  (Button)v; //在new 出所按下的按鈕
-            int id = post.getId();
-            pageWatchPost.setPost(commentSQL[id].head,commentSQL[id].title,commentSQL[id].text,commentSQL[id].account,commentSQL[id].postId);
-            pageWatchPost.setName(user);
-            Intent intent = new Intent();
-            intent.setClass(pageUser.this, pageWatchPost.class);
-            startActivity(intent);
-
-
-
-        }
-    };
-    private View.OnClickListener checkOtherUser= new View.OnClickListener() {
-
-
-        @Override
-        public void onClick(View v) {
-
-            Button post =  (Button)v; //在new 出所按下的按鈕
-            int id = post.getId();
-            pageUser.otherUser(commentSQL[id].account);
-
-
-
-
-        }
-    };
-
-    public static void setName(String i){
-        user=i;
-    }
-    public static void otherUser(String i){
-        otherUser=i;
-        setMode="other";
-    }
 }

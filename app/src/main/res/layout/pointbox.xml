@@ -16,7 +16,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_gravity="center_horizontal"
-                android:text="留言(0)" android:textAlignment="center" android:gravity="center_vertical"
+                android:text="詳細評分" android:textAlignment="center" android:gravity="center_vertical"
                 android:textSize="18sp" android:textColor="@android:color/black"/>
         <ScrollView
                 android:layout_width="match_parent"
@@ -27,33 +27,9 @@
                 <LinearLayout
                         android:orientation="vertical"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent" android:id="@+id/llDialog">
+                        android:layout_height="match_parent" android:id="@+id/llPoint">
                 </LinearLayout>
             </LinearLayout>
         </ScrollView>
-        <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:background="?attr/colorPrimary">
-            <ImageButton
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:id="@+id/imgBtnMessageUserHead"
-                    style="@style/Widget.AppCompat.Button.Borderless"
-                    android:scaleType="fitXY"/>
-            <EditText
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:inputType="textPersonName"
-                    android:ems="10"
-                    android:id="@+id/edMessage" android:layout_weight="1"
-                    android:backgroundTint="@android:color/background_light"/>
-            <ImageButton
-                    android:layout_width="50dp"
-                    android:layout_height="match_parent" app:srcCompat="@android:drawable/ic_menu_send"
-                    android:id="@+id/imgBtnMessagePost"
-                    android:background="?attr/colorPrimary"/>
-        </LinearLayout>
     </LinearLayout>
 </LinearLayout>

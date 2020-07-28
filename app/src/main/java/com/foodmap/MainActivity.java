@@ -27,9 +27,9 @@ public class MainActivity extends AppCompatActivity {
 
     TextView account,password,loginfail;
     Context context=this;
-    WebView webView;
+
     String url="http://114.32.152.202/foodphp/login.php";
-    CookieManager cookieManager;
+
     String cookieStr;
     private GoogleMap mMap;
     private LocationManager mloc;
@@ -55,34 +55,11 @@ public class MainActivity extends AppCompatActivity {
                 .penaltyLog()
                 .penaltyDeath()
                 .build());
-        Wcookie(context);
         mloc=(LocationManager)getSystemService(LOCATION_SERVICE);
 
         checkLocationPermissionAndEnableIt(true);
 
 
-
-    }
-
-    private void Wcookie(Context context) {
-        webView=new WebView(context);
-        CookieSyncManager.createInstance(context);
-        cookieManager=CookieManager.getInstance();
-
-        webView.setWebViewClient(new WebViewClient(){
-            public void onPageFinished (WebView view, String url){
-                super.onPageFinished(view, url);
-                cookieManager.setAcceptCookie(true);
-                cookieStr=cookieManager.getCookie(url);
-
-            }
-        });
-        webView.loadUrl(url);
-        webView.clearCache(true);
-        webView.clearHistory();
-
-        cookieManager.removeAllCookie();
-        cookieManager.removeSessionCookie();
 
     }
 
@@ -125,14 +102,14 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
-    public void onReQust_PERMISSIOIN_FOR_ACCESS_FINE_LOCATION(int requestCode, @NonNull int[]grantResults){
-        if(requestCode==ReQust_PERMISSIOIN_FOR_ACCESS_FINE_LOCATION){
-            if(grantResults[0]== PackageManager.PERMISSION_GRANTED){
-                checkLocationPermissionAndEnableIt(true);
-                return;
-            }
-        }
-    }
+//    public void onReQust_PERMISSIOIN_FOR_ACCESS_FINE_LOCATION(int requestCode, @NonNull int[]grantResults){
+//        if(requestCode==ReQust_PERMISSIOIN_FOR_ACCESS_FINE_LOCATION){
+//            if(grantResults[0]== PackageManager.PERMISSION_GRANTED){
+//                checkLocationPermissionAndEnableIt(true);
+//                return;
+//            }
+//        }
+//    }
     private void checkLocationPermissionAndEnableIt(boolean on){
         if(ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_FINE_LOCATION)!=
                 PackageManager.PERMISSION_GRANTED){
@@ -148,6 +125,7 @@ public class MainActivity extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int which) {
                         ActivityCompat.requestPermissions(MainActivity.this, new String[]{
                                 Manifest.permission.ACCESS_FINE_LOCATION}, ReQust_PERMISSIOIN_FOR_ACCESS_FINE_LOCATION);
+
                     }
                 });
                 altDlgBuilder.show();
@@ -166,37 +144,5 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
-    private void checkStorge(boolean on){
-        if(ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_FINE_LOCATION)!=
-                PackageManager.PERMISSION_GRANTED){
-            if(ActivityCompat.shouldShowRequestPermissionRationale(MainActivity.this, Manifest.permission.ACCESS_FINE_LOCATION)){
-                AlertDialog.Builder altDlgBuilder =new AlertDialog.Builder(MainActivity.this);
 
-                altDlgBuilder.setTitle("提示");
-                altDlgBuilder.setMessage("APP需要開啟定位功能");
-                altDlgBuilder.setIcon(android.R.drawable.ic_dialog_info);
-                altDlgBuilder.setCancelable(false);
-                altDlgBuilder.setPositiveButton("確定", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        ActivityCompat.requestPermissions(MainActivity.this, new String[]{
-                                Manifest.permission.ACCESS_FINE_LOCATION}, ReQust_PERMISSIOIN_FOR_ACCESS_FINE_LOCATION);
-                    }
-                });
-                altDlgBuilder.show();
-                return;
-
-
-
-            }
-            else
-            {
-                ActivityCompat.requestPermissions(MainActivity.this,new String[]{Manifest.permission.ACCESS_FINE_LOCATION},ReQust_PERMISSIOIN_FOR_ACCESS_FINE_LOCATION);
-                return;
-            }
-        }
-
-
-
-    }
 }

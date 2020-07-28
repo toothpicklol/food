@@ -34,9 +34,6 @@ public class pageRegister extends AppCompatActivity {
         email=findViewById(R.id.etEmail);
 
 
-
-
-
         StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
                 .detectDiskReads()
                 .detectDiskWrites()

@@ -390,7 +390,6 @@ public class pageUpload extends AppCompatActivity implements View.OnClickListene
     public static void setName(String i){
         user=i;
     }
-
     public static void setMode(int x){
         check=x;
 

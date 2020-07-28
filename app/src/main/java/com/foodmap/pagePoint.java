@@ -165,7 +165,6 @@ public class pagePoint extends AppCompatActivity {
 
 
     }
-
     public static void setName(String userI,String shopI,String postIDI){
         user=userI;
         shop=shopI;

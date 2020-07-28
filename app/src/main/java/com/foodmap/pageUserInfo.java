@@ -109,13 +109,11 @@ public class pageUserInfo extends AppCompatActivity {
         public void onClick(View v) {
             ll.removeAllViews();
             llUpPass=view.findViewById(R.id.ll);
-
             changeC=view.findViewById(R.id.btnchngePassC);
             oldPass=view.findViewById(R.id.oldP);
             newPass=view.findViewById(R.id.newP);
             newPassC=view.findViewById(R.id.newPC);
             back=view.findViewById(R.id.btnBack);
-
             ll.addView(llUpPass);
             changeC.setOnClickListener(checkPass);
             back.setOnClickListener(checkBack);
@@ -131,7 +129,6 @@ public class pageUserInfo extends AppCompatActivity {
                 dbcon.updatePass(user,newPassC.getText().toString(),updatePass);
 
             }
-
 
         }
     };
@@ -179,23 +176,15 @@ public class pageUserInfo extends AppCompatActivity {
             ll.addView(llUpNick);
             changeNickC.setOnClickListener(nickC);
 
-
-
-
-
-
         }
     };
-    public static void setName(String i){
-        user=i;
-    }
+
     private View.OnClickListener nickC= new View.OnClickListener() {
 
         @Override
         public void onClick(View v) {
             String newN=newNick.getText().toString();
             String text = title.getSelectedItem().toString();
-
             dbcon.updateTitle(user,text,newN,updateN);
 
             Intent intent = new Intent();
@@ -204,12 +193,11 @@ public class pageUserInfo extends AppCompatActivity {
             finish();
             Toast.makeText(getApplicationContext()," 更改成功", Toast.LENGTH_LONG).show();
 
-
-
-
-
         }
     };
+    public static void setName(String i){
+        user=i;
+    }
     class makeInfo {
 
         public String username,userLV,bigHead,bg,title;

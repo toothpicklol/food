@@ -122,8 +122,7 @@ public class pageSearch extends AppCompatActivity {
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
                 { //buttonView 為目前觸發此事件的 CheckBox, isChecked 為此 CheckBox 目前的選取狀態
 
-                    if(isChecked)//等於 buttonView.isChecked()
-                    {
+                    if(isChecked){
 
 
                         if(searchL!=search.getText().length()){
@@ -152,7 +151,6 @@ public class pageSearch extends AppCompatActivity {
     private Button.OnClickListener goSearch = new Button.OnClickListener() {
         @Override
         public void onClick(View v) {
-
 
 
             if (setMode == 0) {
@@ -274,6 +272,39 @@ public class pageSearch extends AppCompatActivity {
             return null;
         }
     }
+
+    private View.OnClickListener check= new View.OnClickListener() {
+
+        @Override
+        public void onClick(View v) {
+
+            Button post =  (Button)v; //在new 出所按下的按鈕
+            int id = post.getId();
+
+            Intent intent = new Intent();
+            intent.setClass(pageSearch.this, pageShop.class);
+            startActivity(intent);
+            pageShop.setName(searchSQL[id].acc,user);
+
+        }
+    };
+    private View.OnClickListener checkL= new View.OnClickListener() {
+
+        @Override
+        public void onClick(View v) {
+
+            Button post =  (Button)v; //在new 出所按下的按鈕
+            int id = post.getId();
+            Intent intent = new Intent();
+            intent.setClass(pageSearch.this, pageUser.class);
+            startActivity(intent);
+            pageUser.otherUser(userSQL[id].account);
+
+        }
+    };
+    public static void setName(String i,String j){
+        user=i;
+    }
     class makeShop {
 
         public String shopName,shopHead,address,tel,time,message,point,comment,acc;
@@ -308,40 +339,6 @@ public class pageSearch extends AppCompatActivity {
         }
 
 
-    }
-
-    private View.OnClickListener check= new View.OnClickListener() {
-
-        @Override
-        public void onClick(View v) {
-
-            Button post =  (Button)v; //在new 出所按下的按鈕
-            int id = post.getId();
-
-            Intent intent = new Intent();
-            intent.setClass(pageSearch.this, pageShop.class);
-            startActivity(intent);
-            pageShop.setName(searchSQL[id].acc,user);
-
-        }
-    };
-
-    private View.OnClickListener checkL= new View.OnClickListener() {
-
-        @Override
-        public void onClick(View v) {
-
-            Button post =  (Button)v; //在new 出所按下的按鈕
-            int id = post.getId();
-            Intent intent = new Intent();
-            intent.setClass(pageSearch.this, pageUser.class);
-            startActivity(intent);
-            pageUser.otherUser(userSQL[id].account);
-
-        }
-    };
-    public static void setName(String i,String j){
-        user=i;
     }
 
 

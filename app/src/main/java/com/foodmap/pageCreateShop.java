@@ -70,8 +70,18 @@ public class pageCreateShop extends AppCompatActivity {
 
 
     }
-    public static String getRandomString(int length)
-    {
+    public static void returnImg(String head,String bg){
+        if(head==null&&bg!=null){
+            bgS=bg;
+        }
+        else if(head!=null&&bg==null){
+            headS=head;
+        }
+
+
+
+    }
+    public static String getRandomString(int length){
         String str="abcdefghigklmnopkrstuvwxyzABCDEFGHIGKLMNOPQRSTUVWXYZ0123456789";
         Random random=new Random();
         StringBuffer sf=new StringBuffer();
@@ -84,7 +94,7 @@ public class pageCreateShop extends AppCompatActivity {
         }
         return sf.toString();
     }
-   public static boolean checkAcc(){
+    public static boolean checkAcc(){
 
        if (r.equals(tmpAcc)){
 
@@ -108,8 +118,6 @@ public class pageCreateShop extends AppCompatActivity {
             intent.setClass(pageCreateShop.this, pageUpload.class);
             startActivity(intent);
             finish();
-
-
         }
     };
     private View.OnClickListener createCheck= new View.OnClickListener() {
@@ -128,22 +136,9 @@ public class pageCreateShop extends AppCompatActivity {
 
 
             }
-
-
-
         }
     };
-    public static void returnImg(String head,String bg){
-        if(head==null&&bg!=null){
-            bgS=bg;
-        }
-        else if(head!=null&&bg==null){
-            headS=head;
-        }
 
-
-
-    }
     private Drawable loadImageFromURL(String url) {
         try {
             InputStream is = (InputStream) new URL(url).getContent();

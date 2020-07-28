@@ -15,9 +15,11 @@ import com.foodmap.richeditor.RichEditor;
 
 import java.io.InputStream;
 import java.net.URL;
+import java.util.Calendar;
+import java.util.Date;
 
 public class pageWatchPost extends AppCompatActivity {
-    private static String headS,titleS,textS,accountS,idS,user;
+    private static String headS,titleS,textS,accountS,idS,user,shop;
     private RichEditor mEditor;
     String likeUrl="http://114.32.152.202/foodphp/likeCount.php";
     String point="http://114.32.152.202/foodphp/pointInfo.php";
@@ -25,6 +27,8 @@ public class pageWatchPost extends AppCompatActivity {
     String info="http://114.32.152.202/foodphp/userinfo.php";
     String checkLikeUrl="http://114.32.152.202/foodphp/likeCheck.php";
     String insertLike="http://114.32.152.202/foodphp/insertLike.php";
+    String insertMessage="http://114.32.152.202/foodphp/insertMessage.php";
+    String shopIdUrl="http://114.32.152.202/foodphp/searchShopId.php";
     View viewM;
 
 
@@ -174,11 +178,12 @@ public class pageWatchPost extends AppCompatActivity {
                     tmp+=":"+pointTMP[i]+"分"+"/";
                     j++;
                 }
+                if(j%3==0){
+                    tmp+="\n";
+                }
 
             }
-            if(j%3==0){
-                tmp+="\n";
-            }
+
 
 
         }
@@ -186,60 +191,9 @@ public class pageWatchPost extends AppCompatActivity {
 
 
     }
-    public static void setPost(String head,String title,String text,String account,String id){
-        headS=head;
-        titleS=title;
-        textS=text;
-        accountS=account;
-        idS=id;
-
-    }
-    private Drawable loadImageFromURL(String url) {
-        try {
-            InputStream is = (InputStream) new URL(url).getContent();
-            Drawable draw = Drawable.createFromStream(is, "src");
-            return draw;
-        } catch (Exception e) {
-            //TODO handle error
-            System.out.println("error");
-            Log.i("loadingImg", e.toString());
-            return null;
-        }
-    }
-
-    public static void setName(String i){
-        user=i;
-    }
-    class makeMessage {
-
-        public String text,account,head,time;
-        public makeMessage( String i, String j,String k,String l) {
-            account=i;
-            text=j;
-            head=k;
-            time=l;
-        }
-
-
-    }
-    private View.OnClickListener checkOtherUser= new View.OnClickListener() {
-
-
-        @Override
-        public void onClick(View v) {
-
-            ImageButton post =  (ImageButton)v; //在new 出所按下的按鈕
-            int id = post.getId();
-            pageUser.otherUser(messageSQL[id].account);
-
-
-
-
-        }
-    };
     public void setAlert(){
         viewM = LayoutInflater.from(pageWatchPost.this).inflate(R.layout.message_object, null);
-        Dialog dialog = new Dialog(pageWatchPost.this,R.style.MyDialog);
+        final Dialog dialog = new Dialog(pageWatchPost.this,R.style.MyDialog);
         dialog.setContentView(R.layout.messagebox);//指定自定義layout
 
         LinearLayout ll = (LinearLayout)dialog.findViewById(R.id.llDialog);
@@ -247,10 +201,16 @@ public class pageWatchPost extends AppCompatActivity {
         TextView txCount=dialog.findViewById(R.id.txMessageCount);
         ImageButton messagePost =dialog.findViewById(R.id.imgBtnMessagePost);
         userHead.setImageDrawable(loadImageFromURL(infoArr[3]));
+        final EditText text=dialog.findViewById(R.id.edMessage);
         messagePost.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //上傳message
+                String shopId=dbcon.searchShopId(idS,shopIdUrl);
+                Date Time = Calendar.getInstance().getTime();
+                dbcon.insertMessage(idS,user,text.getText().toString(),Time.toString(),shopId,insertMessage);
+                text.setText("");
+                dialog.cancel();
+                setAlert();
             }
         });
         int height = (int)(getResources().getDisplayMetrics().heightPixels);
@@ -273,7 +233,7 @@ public class pageWatchPost extends AppCompatActivity {
             String userInfo1 = dbcon.userInfo(messageArr2[0], info);
             String[] infoArr1 = userInfo1.split(",");
 
-            messageSQL[i] = new makeMessage(infoArr1[0], messageArr2[1], infoArr1[3], messageArr2[2]);
+            messageSQL[i] = new makeMessage(infoArr1[0], messageArr2[1], infoArr1[3], messageArr2[2],messageArr2[0]);
 
         }
         if(messageSQL[0]!=null){
@@ -294,12 +254,26 @@ public class pageWatchPost extends AppCompatActivity {
             timeM=viewM.findViewById(R.id.txMessageTime);
 
             headM.setId(btnId);//將按鈕帶入id 以供監聽時辨識使用
-            headM.setOnClickListener(checkOtherUser);
+            headM.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    ImageButton post =  (ImageButton)v; //在new 出所按下的按鈕
+                    int id = post.getId();
+                    if(!user.equals(messageSQL[id].account)){
+                        pageUser.otherUser(messageSQL[id].account);
+                        Intent intent = new Intent();
+                        intent.setClass(pageWatchPost.this, pageUser.class);
+                        startActivity(intent);
+                    }
+
+                }
+            });
 
             btnId++;
             ll.addView(viewM);
 
-            accountM.setText(point.account);
+            accountM.setText(point.nick);
             textM.setText(point.text);
             timeM.setText(point.time);
             headM.setImageDrawable(loadImageFromURL(point.head));
@@ -313,5 +287,45 @@ public class pageWatchPost extends AppCompatActivity {
 
         dialog.show();
     }
+    private Drawable loadImageFromURL(String url) {
+        try {
+            InputStream is = (InputStream) new URL(url).getContent();
+            Drawable draw = Drawable.createFromStream(is, "src");
+            return draw;
+        } catch (Exception e) {
+            //TODO handle error
+            System.out.println("error");
+            Log.i("loadingImg", e.toString());
+            return null;
+        }
+    }
+    public static void setName(String i){
+        user=i;
+
+    }
+    public static void setPost(String head,String title,String text,String account,String id){
+        headS=head;
+        titleS=title;
+        textS=text;
+        accountS=account;
+        idS=id;
+
+    }
+    class makeMessage {
+
+        public String text,account,head,time,nick;
+        public makeMessage( String i, String j,String k,String l,String m) {
+            nick=i;
+            text=j;
+            head=k;
+            time=l;
+            account=m;
+
+        }
+
+
+    }
+
+
 
 }
