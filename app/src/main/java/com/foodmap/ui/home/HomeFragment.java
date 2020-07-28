@@ -44,7 +44,7 @@ public class HomeFragment extends Fragment
     private LocationManager mLocationManager;
     Button search;
     EditText searchBar;
-    int first=1;
+    int first=1,length=0;
     String info="http://114.32.152.202/foodphp/userinfo.php";
     String mapShop="http://114.32.152.202/foodphp/mapshop.php";
     GoogleMapV2_MarkPoint[] MysqlPointSet;
@@ -80,66 +80,73 @@ public class HomeFragment extends Fragment
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-
-
-        String commentS=dbcon.mark(String.valueOf(Y+=0.1),String.valueOf(X+=0.1),mapShop);
-        String[] markArr=commentS.split("]");
-        MysqlPointSet = new GoogleMapV2_MarkPoint[markArr.length];
-
-        for (int i=0; i<markArr.length; i++) {
-
-            String tmp=markArr[i];
-            String[] commentArr2=tmp.split(",");
-
-
-            MysqlPointSet[i] = new GoogleMapV2_MarkPoint(Double.parseDouble(commentArr2[0]), Double.parseDouble(commentArr2[1]), commentArr2[2],commentArr2[3],commentArr2[4],commentArr2[5]);//評論資料
-
-        }
-        
-
         mMap = googleMap;
-        mMap.setMapType(GoogleMap.MAP_TYPE_TERRAIN);
-
-        for (GoogleMapV2_MarkPoint point : MysqlPointSet) {
-
-            mMap.addMarker(new MarkerOptions().position(new LatLng(point.latitude, point.longitude)).title(point.title)
-                    .snippet(point.point+"#"+point.account).icon(BitmapDescriptorFactory.fromBitmap(getBitmapFromURL(point.head))));
 
 
-        }
-        //地圖單位0.001=100M
+        String commentS=dbcon.mark(String.valueOf(X),String.valueOf(Y),mapShop);
+        System.out.println(commentS);
 
-        if(first==1){
-        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(
-                new LatLng(23.5,121.0), 6));
-            first++;
-        }
-        mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
-            @Override
-            public void onInfoWindowClick(Marker marker) {
+        String[] markArr=commentS.split("]");
+        System.out.println(markArr.length);
 
-                String name=marker.getSnippet();
-                if(marker.getTitle().equals("你的位置")){
+        if(markArr.length!=1){
+            MysqlPointSet = new GoogleMapV2_MarkPoint[markArr.length];
+            for (int i=0; i<markArr.length; i++) {
+                String tmp=markArr[i];
+                String[] commentArr2=tmp.split(",");
+                MysqlPointSet[i] = new GoogleMapV2_MarkPoint(Double.parseDouble(commentArr2[0]), Double.parseDouble(commentArr2[1]), commentArr2[2],commentArr2[3],commentArr2[4],commentArr2[5]);//評論資料
 
-                }
-                else{
-                    String[] nameArr=name.split("#");
+            }
 
-                    Intent intent = new Intent(getActivity(), pageShop.class);
-                    startActivity(intent);
-                    pageShop.setName(nameArr[1],user);
-                }
+            mMap.setMapType(GoogleMap.MAP_TYPE_TERRAIN);
+            for (GoogleMapV2_MarkPoint point : MysqlPointSet) {
 
 
-
-
-
-
+                mMap.addMarker(new MarkerOptions().position(new LatLng(point.latitude, point.longitude)).title(point.title)
+                        .snippet(point.point+"#"+point.account).icon(BitmapDescriptorFactory.fromBitmap(getBitmapFromURL(point.head))));
 
 
             }
-        });
-        mMap.setMyLocationEnabled(true);
+            if(first==1){
+                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(
+                        new LatLng(23.5,121.0), 6));
+                first++;
+            }
+            mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+                @Override
+                public void onInfoWindowClick(Marker marker) {
+
+                    String name=marker.getSnippet();
+                    if(marker.getTitle().equals("你的位置")){
+
+                    }
+                    else{
+                        String[] nameArr=name.split("#");
+
+                        Intent intent = new Intent(getActivity(), pageShop.class);
+                        startActivity(intent);
+                        pageShop.setName(nameArr[1],user);
+                    }
+
+
+
+
+
+
+
+
+                }
+            });
+            mMap.setMyLocationEnabled(true);
+        }
+        
+
+
+
+
+
+
+
 
 
 
@@ -243,6 +250,7 @@ public class HomeFragment extends Fragment
 
     @Override
     public void onStatusChanged(String provider, int status, Bundle extras) {
+
 
     }
 
