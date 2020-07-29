@@ -126,7 +126,7 @@ public class pageUser extends AppCompatActivity {
                 String[] commentArr2 = tmp.split(",");
 
 
-                commentSQL[i] = new makeComment(commentArr2[0], commentArr2[1], commentArr2[2], commentArr2[3], infoArr[3],commentArr2[4],commentArr2[5]);//評論資料
+                commentSQL[i] = new makeComment(commentArr2[0], commentArr2[1], commentArr2[2], commentArr2[3], infoArr[3],commentArr2[4]);//評論資料
 
             }
 
@@ -218,7 +218,7 @@ public class pageUser extends AppCompatActivity {
                 }
                 String tmp = commentArr[i];
                 String[] commentArr2 = tmp.split(",");
-                commentSQL[i] = new makeComment(commentArr2[0], commentArr2[1], commentArr2[2], commentArr2[3], infoArr[3],commentArr2[4],commentArr2[5]);//評論資料
+                commentSQL[i] = new makeComment(commentArr2[0], commentArr2[1], commentArr2[2], commentArr2[3], infoArr[3],commentArr2[4]);//評論資料
 
             }
 
@@ -246,7 +246,7 @@ public class pageUser extends AppCompatActivity {
 
                 if (point.picture .equals("null")) {
 
-                    text.getLayoutParams().height = 150;
+                    text.getLayoutParams().height = 100;
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                         text.setText(Html.fromHtml(point.text, Html.FROM_HTML_MODE_COMPACT));
                     } else {
@@ -298,10 +298,6 @@ public class pageUser extends AppCompatActivity {
         btUserCom.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                pageSocial.setName(user);
-                Intent intent = new Intent();
-                intent.setClass(pageUser.this, pageSocial.class);
-                startActivity(intent);
 
             }
         });
@@ -371,15 +367,14 @@ public class pageUser extends AppCompatActivity {
     }
     class makeComment {
 
-        public String text,title,account,picture,head,postId,time;
-        public makeComment( String i, String j,String k,String l,String n,String o,String p) {
+        public String text,title,account,picture,head,postId;
+        public makeComment( String i, String j,String k,String l,String n,String o) {
             account=i;
             title=j;
             text=k;
             picture=l;
             head=n;
             postId=o;
-            time=p;
         }
 
 

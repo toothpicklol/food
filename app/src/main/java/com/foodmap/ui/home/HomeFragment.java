@@ -35,18 +35,16 @@ import java.net.URL;
 
 public class HomeFragment extends Fragment
         implements OnMapReadyCallback,
-        LocationListener, GoogleMap.OnMarkerClickListener,GoogleMap.OnCameraMoveStartedListener,GoogleMap.OnCameraIdleListener
-,GoogleMap.OnCameraMoveListener,GoogleMap.OnCameraMoveCanceledListener{
+        LocationListener, GoogleMap.OnMarkerClickListener{
 
     private static GoogleMap mMap;
     private static Double nX,nY;
-    private static Double cX,cY;
     private static final String TAG = "LocationFragment";
     private static String user;
     private LocationManager mLocationManager;
     Button search;
     EditText searchBar;
-    int first=1;
+    int first=1,length=0;
     String info="http://114.32.152.202/foodphp/userinfo.php";
     String mapShop="http://114.32.152.202/foodphp/mapshop.php";
     GoogleMapV2_MarkPoint[] MysqlPointSet;
@@ -54,8 +52,6 @@ public class HomeFragment extends Fragment
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-
-
         View root = inflater.inflate(R.layout.fragment_home, container, false);
 
         search=root.findViewById(R.id.btn_search);
@@ -67,7 +63,6 @@ public class HomeFragment extends Fragment
         Toast.makeText(getActivity(), getResources().getString(R.string.map), Toast.LENGTH_SHORT).show();
 
         mapFragment.getMapAsync(this);
-
 
 
         return root;
@@ -86,21 +81,15 @@ public class HomeFragment extends Fragment
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-        //mMap.setOnCameraIdleListener(this);
-        mMap.setOnCameraMoveStartedListener(this);
-
-        //mMap.setOnCameraMoveListener(this);
-        //mMap.setOnCameraMoveCanceledListener(this);
 
 
-
-        String commentS=dbcon.mark(String.valueOf(cX),String.valueOf(cY),mapShop);
+        String commentS=dbcon.mark(String.valueOf(X),String.valueOf(Y),mapShop);
         System.out.println(commentS);
 
         String[] markArr=commentS.split("]");
+        System.out.println(markArr.length);
 
-
-        if(!commentS.equals("")){
+        if(markArr.length!=1){
             MysqlPointSet = new GoogleMapV2_MarkPoint[markArr.length];
             for (int i=0; i<markArr.length; i++) {
                 String tmp=markArr[i];
@@ -120,7 +109,7 @@ public class HomeFragment extends Fragment
             }
             if(first==1){
                 mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(
-                        new LatLng(X,Y), 13));
+                        new LatLng(23.5,121.0), 6));
                 first++;
             }
             mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
@@ -274,52 +263,7 @@ public class HomeFragment extends Fragment
     public void onProviderDisabled(String provider) {
 
     }
-    @Override
-    public void onCameraMoveStarted(int reason) {
 
-        if (reason == GoogleMap.OnCameraMoveStartedListener.REASON_GESTURE) {
-
-           cX=mMap.getCameraPosition().target.latitude;
-           cY=mMap.getCameraPosition().target.longitude;
-           onMapReady(mMap);
-
-
-        } else if (reason == GoogleMap.OnCameraMoveStartedListener
-                .REASON_API_ANIMATION) {
-            //Toast.makeText(getActivity(), "The user tapped something on the map.",Toast.LENGTH_SHORT).show();
-        } else if (reason == GoogleMap.OnCameraMoveStartedListener
-                .REASON_DEVELOPER_ANIMATION) {
-            //Toast.makeText(getActivity(), "The app moved the camera.", Toast.LENGTH_SHORT).show();
-        }
-    }
-    @Override
-    public boolean onMarkerClick(Marker marker) {
-
-
-        return true;
-    }
-
-    @Override
-    public void onCameraIdle() {
-        Toast.makeText(getActivity(), "The camera has stopped moving.",
-                Toast.LENGTH_SHORT).show();
-
-
-    }
-
-    @Override
-    public void onCameraMove() {
-        Toast.makeText(getActivity(), "The camera is moving.",
-                Toast.LENGTH_SHORT).show();
-
-    }
-
-    @Override
-    public void onCameraMoveCanceled() {
-        Toast.makeText(getActivity(), "Camera movement canceled.",
-                Toast.LENGTH_SHORT).show();
-
-    }
     public Bitmap getBitmapFromURL(String imageUrl) {
         try {
             URL url = new URL(imageUrl);
@@ -336,7 +280,12 @@ public class HomeFragment extends Fragment
         }
     }
 
+    @Override
+    public boolean onMarkerClick(Marker marker) {
 
+
+        return true;
+    }
 
     class GoogleMapV2_MarkPoint {
         public double latitude, longitude;

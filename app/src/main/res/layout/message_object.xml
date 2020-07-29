@@ -23,11 +23,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" android:id="@+id/txMessageTime" android:layout_weight="1"
                 android:textSize="18sp"/>
-        <ImageButton
-                android:layout_width="25dp"
-                android:layout_height="match_parent" app:srcCompat="@android:drawable/ic_menu_info_details"
-                android:id="@+id/imgBtnMessageInfo"
-                style="@style/Widget.AppCompat.Button.Borderless"/>
     </LinearLayout>
     <TextView
             android:text="TextView"

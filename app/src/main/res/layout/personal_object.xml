@@ -65,7 +65,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="50dp"
                             android:textColor="#DD000000"
-                            android:textSize="24sp"
+                            android:textSize="18sp"
                             android:background="@android:color/background_light"
                             android:textStyle="bold"
                             android:text="1111" android:gravity="center_vertical"/>

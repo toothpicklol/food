@@ -12,8 +12,6 @@ import android.view.View;
 import android.widget.TextView;
 import androidx.appcompat.widget.Toolbar;
 import com.foodmap.richeditor.RichEditor;
-
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -43,13 +41,12 @@ public class pageEditor extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Date Time = Calendar.getInstance().getTime();
-                SimpleDateFormat Format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                 if(firstImg==null){
                     firstImg="null";
                 }
                 if(title.getText().toString().length()>=5&&mEditor.getHtml()!=null){
                     String postID="post"+pageCreateShop.getRandomString(10);
-                    dbcon.insertPost(user,title.getText().toString(),mEditor.getHtml(),firstImg,Format.format(Time).toString(),shop,postID,postUrl);
+                    dbcon.insertPost(user,title.getText().toString(),mEditor.getHtml(),firstImg,Time.toString(),shop,postID,postUrl);
                     dbcon.insertPoint(user,postID,shop,pointUrl);
 
                     pagePoint.setName(user,shop,postID);

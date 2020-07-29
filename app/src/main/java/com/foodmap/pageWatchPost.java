@@ -15,7 +15,6 @@ import com.foodmap.richeditor.RichEditor;
 
 import java.io.InputStream;
 import java.net.URL;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -192,12 +191,6 @@ public class pageWatchPost extends AppCompatActivity {
 
 
     }
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.page_watch_post, menu);
-        return true;
-    }
     public void setAlert(){
         viewM = LayoutInflater.from(pageWatchPost.this).inflate(R.layout.message_object, null);
         final Dialog dialog = new Dialog(pageWatchPost.this,R.style.MyDialog);
@@ -213,9 +206,8 @@ public class pageWatchPost extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String shopId=dbcon.searchShopId(idS,shopIdUrl);
-                SimpleDateFormat Format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                 Date Time = Calendar.getInstance().getTime();
-                dbcon.insertMessage(idS,user,text.getText().toString(),Format.format(Time).toString(),shopId,insertMessage);
+                dbcon.insertMessage(idS,user,text.getText().toString(),Time.toString(),shopId,insertMessage);
                 text.setText("");
                 dialog.cancel();
                 setAlert();
