@@ -8,6 +8,7 @@ import android.os.Build;
 import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.View;
 import android.widget.*;
 import androidx.appcompat.app.AppCompatActivity;
@@ -69,6 +70,12 @@ public class pageShop extends AppCompatActivity {
         });
 
 
+    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.page_shop, menu);
+        return true;
     }
     private Drawable loadImageFromURL(String url) {
         try {
@@ -158,9 +165,6 @@ public class pageShop extends AppCompatActivity {
         String commentS=dbcon.comment(shopACC,url);
         String[] commentArr=commentS.split("]");
         commentSQL = new makeComment[commentArr.length];
-
-
-
         for (int i=0; i<commentArr.length; i++) {
             if(commentS.equals(shopACC))
             {
@@ -172,7 +176,7 @@ public class pageShop extends AppCompatActivity {
             String[] commentArr2=tmp.split(",");
             String img=dbcon.userInfo(commentArr2[0],imgU);
             String[] imgArr=img.split(",");
-            commentSQL[i] = new makeComment(commentArr2[0], commentArr2[1], commentArr2[2],commentArr2[3],imgArr[3],commentArr2[4]);//評論資料
+            commentSQL[i] = new makeComment(commentArr2[0], commentArr2[1], commentArr2[2],commentArr2[3],imgArr[3],commentArr2[4],commentArr2[5]);//評論資料
 
 
 
@@ -207,7 +211,7 @@ public class pageShop extends AppCompatActivity {
             }
             else{
 
-                text.getLayoutParams().height = 100;
+                text.getLayoutParams().height = 150;
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                     text.setText(Html.fromHtml(point.text, Html.FROM_HTML_MODE_COMPACT));
                 } else {
@@ -279,14 +283,15 @@ public class pageShop extends AppCompatActivity {
 
     class makeComment {
 
-        public String text,title,account,picture,head,postId;
-        public makeComment( String i, String j,String k,String l,String n,String o) {
+        public String text,title,account,picture,head,postId,time;
+        public makeComment( String i, String j,String k,String l,String n,String o,String p) {
             account=i;
             title=j;
             text=k;
             picture=l;
             head=n;
             postId=o;
+            time=p;
         }
 
 
