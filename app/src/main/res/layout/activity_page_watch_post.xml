@@ -8,12 +8,12 @@
 
     <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-        <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent"
+            android:layout_height="wrap_content" android:id="@+id/sc">
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
                       android:orientation="vertical">
             <FrameLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="wrap_content">
 
                 <Button
                         android:layout_width="135dp"
@@ -36,13 +36,17 @@
                             android:text="暱稱+等級"
                             android:textColor="#DD000000"
                             android:textSize="14sp" android:background="@android:color/background_light"
-                            android:textAlignment="viewStart"/>
+                            android:textAlignment="viewStart" android:gravity="center_vertical"/>
                 </LinearLayout>
             </FrameLayout>
+            <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@android:color/darker_gray"/>
             <LinearLayout
                     android:orientation="vertical"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="wrap_content">
                 <TextView
                         android:id="@+id/txTitle"
                         android:layout_width="match_parent"
@@ -64,10 +68,14 @@
                         android:layout_height="wrap_content" android:id="@+id/txPointInfo"
                         android:background="@android:color/background_light" android:textStyle="bold"
                         android:textSize="18sp" android:textAlignment="center"/>
+                <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@android:color/darker_gray"/>
                 <com.foodmap.richeditor.RichEditor
                         android:id="@+id/editor"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
                 />
             </LinearLayout>
             <LinearLayout
@@ -101,9 +109,13 @@
                         android:layout_height="match_parent" android:id="@+id/txBP"
                         android:textAlignment="center"/>
             </LinearLayout>
+            <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@android:color/darker_gray" android:id="@+id/view"/>
             <FrameLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent" android:background="@android:drawable/screen_background_light">
+                    android:layout_height="wrap_content" android:background="@android:drawable/screen_background_light">
 
                 <Button
                         android:layout_width="match_parent"
@@ -126,6 +138,7 @@
                     />
                 </LinearLayout>
             </FrameLayout>
+
         </LinearLayout>
     </ScrollView>
 

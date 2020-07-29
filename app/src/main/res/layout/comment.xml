@@ -30,7 +30,12 @@
                         <LinearLayout
                                 android:orientation="horizontal"
                                 android:layout_width="match_parent"
-                                android:layout_height="match_parent"/>
+                                android:layout_height="match_parent">
+                                <View
+                                        android:layout_width="match_parent"
+                                        android:layout_height="1dp"
+                                        android:background="@android:color/darker_gray" android:id="@+id/view3"/>
+                        </LinearLayout>
                         <LinearLayout
                                 android:orientation="vertical"
                                 android:layout_width="match_parent"
@@ -46,6 +51,7 @@
                                         android:textSize="18sp"
                                         android:textStyle="bold"
                                         android:background="@android:color/background_light"/>
+
                                 <TextView
                                         android:id="@+id/userLV"
                                         android:layout_width="match_parent"
@@ -64,6 +70,10 @@
                         </FrameLayout>
                 </LinearLayout>
         </LinearLayout>
+        <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@android:color/darker_gray" android:id="@+id/view2"/>
         <TableLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
@@ -75,13 +85,15 @@
                                 android:layout_height="wrap_content" android:id="@+id/textView20"
                                 android:textSize="18sp" android:textStyle="bold"
                                 android:layout_weight="1" android:textAlignment="center"
-                                android:background="@android:color/background_light"/>
+                                android:background="@android:color/background_light"
+                                android:textColor="@android:color/black"/>
                         <TextView
                                 android:text="TextView"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content" android:id="@+id/txGoldGood"
                                 android:textSize="18sp" android:textStyle="bold"
-                                android:layout_weight="7" android:background="@android:color/background_light"/>
+                                android:layout_weight="7" android:background="@android:color/background_light"
+                                android:textColor="@android:color/black"/>
                 </TableRow>
                 <TableRow android:layout_width="match_parent" android:layout_height="match_parent">
                         <TextView
@@ -90,15 +102,21 @@
                                 android:layout_height="wrap_content" android:id="@+id/textView22"
                                 android:textSize="18sp" android:textStyle="bold"
                                 android:layout_weight="1" android:textAlignment="center"
-                                android:background="@android:color/background_light"/>
+                                android:background="@android:color/background_light"
+                                android:textColor="@android:color/black"/>
                         <TextView
                                 android:text="TextView"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content" android:id="@+id/txFans"
                                 android:textSize="18sp" android:textStyle="bold"
-                                android:layout_weight="7" android:background="@android:color/background_light"/>
+                                android:layout_weight="7" android:background="@android:color/background_light"
+                                android:textColor="@android:color/black"/>
                 </TableRow>
         </TableLayout>
+        <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@android:color/darker_gray" android:id="@+id/view"/>
 
 
 </LinearLayout>

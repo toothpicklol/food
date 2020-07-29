@@ -38,6 +38,7 @@ public class pageWatchPost extends AppCompatActivity {
     ImageButton GP,BP,headM;
     Button otherUser,message;
     makeMessage[] messageSQL;
+    ScrollView sc;
     String userInfo = dbcon.userInfo(user, info);
     final String[] infoArr = userInfo.split(",");
 
@@ -61,6 +62,7 @@ public class pageWatchPost extends AppCompatActivity {
         otherUser=findViewById(R.id.btnPostUser);
         message=findViewById(R.id.btnMessage);
         messageOtherHead = findViewById(R.id.imgMessageHead);
+        sc=findViewById(R.id.sc);
 
         GP.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -118,7 +120,19 @@ public class pageWatchPost extends AppCompatActivity {
         mEditor.setHtml(textS);
         postHead.setImageDrawable(loadImageFromURL(headS));
         mEditor.setInputEnabled(false);
+
+        if(mEditor.getHtml().length()<20){
+            mEditor.getLayoutParams().height=500;
+
+        }
+
+
+
+
+
+
         messageOtherHead.setImageDrawable(loadImageFromURL(infoArr[3]));
+
 
         String likeInfo=dbcon.likeCount(idS,likeUrl);
         String[]  like= likeInfo.split("]");

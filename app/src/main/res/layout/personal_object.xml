@@ -25,7 +25,8 @@
                 <LinearLayout
                         android:orientation="horizontal"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:background="@android:drawable/screen_background_light">
                     <ImageView
                             android:layout_width="50dp"
                             android:layout_height="50dp"
@@ -37,9 +38,9 @@
                             android:layout_width="match_parent"
                             android:layout_height="50dp"
                             android:text="暱稱+等級"
-                            android:textColor="#DD000000"
-                            android:textSize="14sp" android:background="@android:color/background_light"
-                            android:textAlignment="viewStart"/>
+                            android:textColor="@android:color/black" android:gravity="center_vertical"
+                            android:textStyle="bold" android:textSize="14sp"/>
+
                 </LinearLayout>
             </LinearLayout>
         </FrameLayout>
@@ -64,7 +65,7 @@
                             android:id="@+id/txTitle"
                             android:layout_width="match_parent"
                             android:layout_height="50dp"
-                            android:textColor="#DD000000"
+                            android:textColor="@android:color/black"
                             android:textSize="24sp"
                             android:background="@android:color/background_light"
                             android:textStyle="bold"
@@ -73,7 +74,7 @@
                             android:id="@+id/txText"
                             android:layout_width="match_parent"
                             android:layout_height="200dp"
-                            android:textColor="#DD000000"
+                            android:textColor="@android:color/black"
                             android:textSize="14sp"
                             android:background="@android:color/background_light"
                     />
@@ -82,6 +83,11 @@
         </FrameLayout>
     </LinearLayout>
 
+
+    <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@android:color/darker_gray"/>
     <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -92,12 +98,9 @@
 
             android:textColor="#DFFF"/>
 
-     <EditText
-                android:id="@+id/data_id"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:visibility="gone" />
+
         </LinearLayout>
+
 
 
 </LinearLayout>

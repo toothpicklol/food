@@ -19,7 +19,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 android:background="?attr/colorPrimary"
-                app:popupTheme="@style/AppTheme.PopupOverlay" android:layout_weight="30"/>
+                app:popupTheme="@style/AppTheme.PopupOverlay"
+                android:layout_weight="30"/>
         <ImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent" app:srcCompat="@android:drawable/ic_menu_send"
@@ -38,7 +39,7 @@
     <HorizontalScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@android:color/black"
+            android:background="@color/colorAccent"
     >
 
         <LinearLayout

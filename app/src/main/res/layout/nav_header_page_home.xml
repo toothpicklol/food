@@ -20,18 +20,20 @@
             android:contentDescription="@string/nav_header_desc"
             android:id="@+id/imgNavHead" android:scaleType="fitXY"/>
     <TextView
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingTop="@dimen/nav_header_vertical_spacing"
             android:text="000"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1" android:id="@+id/txNavName"
-            android:textSize="18sp" android:textColor="@color/common_google_signin_btn_text_dark_focused"/>
+            android:textSize="18sp" android:textColor="@color/common_google_signin_btn_text_dark_focused"
+            android:background="#8FFFFFFF" android:gravity="center_vertical"/>
 
     <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="00000"
             android:id="@+id/txNavAcc" android:textSize="18sp"
-            android:textColor="@color/common_google_signin_btn_text_dark_focused"/>
+            android:textColor="@color/common_google_signin_btn_text_dark_focused"
+            android:background="#8FFFFFFF"/>
 
 </LinearLayout>

@@ -81,7 +81,7 @@ public class pageSocial extends AppCompatActivity {
             ll.addView(view);
             account.setText(point.account);
             headC.setImageDrawable(loadImageFromURL(point.head));
-            title.setText(point.title);
+            title.setText("【評論】"+point.title);
             if(!point.picture.equals("null")){
                 text.setBackground(loadImageFromURL(point.picture));
             }

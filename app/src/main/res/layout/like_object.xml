@@ -2,7 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:orientation="vertical"
               android:layout_width="match_parent"
-              android:layout_height="wrap_content" android:id="@+id/ll">
+              android:layout_height="wrap_content" android:id="@+id/ll"
+              android:background="@android:drawable/screen_background_light">
     <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -23,12 +24,12 @@
                         android:text="TextView"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" android:id="@+id/txLikeAcc" android:layout_weight="1"
-                        android:textStyle="bold" android:textSize="18sp"/>
+                        android:textStyle="bold" android:textSize="18sp" android:textColor="@android:color/black"/>
                 <TextView
                         android:text="TextView"
                         android:layout_width="match_parent"
                         android:layout_height="80dp" android:id="@+id/txLikeName"
-                        android:layout_weight="1"/>
+                        android:layout_weight="1" android:textColor="@android:color/black"/>
             </LinearLayout>
         </LinearLayout>
         <Button
@@ -36,5 +37,9 @@
                 android:layout_height="match_parent" android:id="@+id/btnLike"
                 style="@style/Widget.AppCompat.Button.Borderless"/>
     </FrameLayout>
+    <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@android:color/darker_gray" android:id="@+id/view"/>
 
 </LinearLayout>

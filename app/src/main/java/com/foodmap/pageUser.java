@@ -157,7 +157,7 @@ public class pageUser extends AppCompatActivity {
                 ll.addView(view);
                 account.setText(point.account);
                 headC.setImageDrawable(loadImageFromURL(point.head));
-                title.setText(point.title);
+                title.setText("【評論】"+point.title);
 
                 if (point.picture .equals("null")) {
 
@@ -201,8 +201,8 @@ public class pageUser extends AppCompatActivity {
 
                 fans.setText(fansC);
                 gold.setText(point.gold);
-                username.setText(point.username);
-                userLV.setText("等級" + point.userLV + "-" + point.title);
+                username.setText("\t"+point.username);
+                userLV.setText("\t等級" + point.userLV + "-" + point.title);
                 bigHead.setImageDrawable(loadImageFromURL(point.bigHead));
                 bgU.setBackground(loadImageFromURL(point.bg));
 
@@ -242,7 +242,7 @@ public class pageUser extends AppCompatActivity {
                 ll.addView(view);
                 account.setText(point.account);
                 headC.setImageDrawable(loadImageFromURL(point.head));
-                title.setText(point.title);
+                title.setText("【評論】"+point.title);
 
                 if (point.picture .equals("null")) {
 

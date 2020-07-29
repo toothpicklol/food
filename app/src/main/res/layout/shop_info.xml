@@ -8,6 +8,16 @@
 
     <LinearLayout
             android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+        <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:id="@+id/aaaaaaa"/>
+
+    </LinearLayout>
+    <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal" android:background="#FFFFFF">
 
@@ -29,7 +39,8 @@
                             android:layout_height="match_parent" android:id="@+id/shopinfo" android:textStyle="bold"
                             android:textSize="20sp"
                             android:layout_weight="5"
-                    />
+                            android:textColor="@android:color/black" android:gravity="center_vertical"/>
+
                     <LinearLayout
                             android:orientation="vertical"
                             android:layout_width="wrap_content"
@@ -39,17 +50,23 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content" android:id="@+id/shopOwner"
                                 android:layout_weight="1"
-                                android:textSize="10sp" android:textStyle="bold"/>
+                                android:textSize="10sp" android:textStyle="bold"
+                                style="@android:style/Widget.DeviceDefault.Button.Colored"/>
                         <Button
                                 android:text="收藏"
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content" android:id="@+id/btnLike"/>
+                                android:layout_height="wrap_content" android:id="@+id/btnLike"
+                                style="@android:style/Widget.DeviceDefault.Button.Colored"/>
                     </LinearLayout>
                 </LinearLayout>
                 <LinearLayout
                         android:orientation="vertical"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
+                    <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="@android:color/darker_gray" android:id="@+id/view2"/>
                     <LinearLayout
                             android:orientation="horizontal"
                             android:layout_width="match_parent"
@@ -65,6 +82,7 @@
                                     android:layout_height="match_parent"
                                     android:id="@+id/shopCommentCount"
                                     android:layout_weight="1" android:textSize="36sp" android:textStyle="bold"
+                                    android:textColor="@android:color/black"/>
                             />
                         </FrameLayout>
                         <FrameLayout
@@ -77,7 +95,8 @@
                                     android:gravity="center"
                                     android:layout_height="match_parent"
                                     android:id="@+id/shopMess"
-                                    android:layout_weight="1" android:textStyle="bold" android:textSize="36sp"/>
+                                    android:layout_weight="1" android:textStyle="bold" android:textSize="36sp"
+                                    android:textColor="@android:color/black"/>
                         </FrameLayout>
                         <FrameLayout
                                 android:layout_width="0dp"
@@ -90,11 +109,13 @@
                                     android:layout_height="match_parent"
                                     android:id="@+id/shopPoint"
                                     android:layout_weight="1"
-                                    android:textSize="36sp" android:textStyle="bold"/>
+                                    android:textSize="36sp" android:textStyle="bold"
+                                    android:textColor="@android:color/black"/>/>
                             <Button
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent" android:id="@+id/btn_pointinfo"
-                                    style="@style/Widget.AppCompat.Button.Borderless"/>
+                                    style="@style/Widget.AppCompat.Button.Borderless"
+                            />
 
                         </FrameLayout>
                     </LinearLayout>
@@ -107,25 +128,32 @@
                                 android:gravity="center"
                                 android:layout_width="0dp"
                                 android:layout_height="match_parent" android:id="@+id/txShopC"
-                                android:layout_weight="1" android:textStyle="bold" android:textSize="18sp"/>
+                                android:layout_weight="1" android:textStyle="bold" android:textSize="18sp"
+                                android:textColor="@android:color/black"/>/>
                         <TextView
                                 android:text="總留言數"
                                 android:gravity="center"
                                 android:layout_width="0dp"
                                 android:layout_height="match_parent" android:id="@+id/txShopMess"
-                                android:layout_weight="1" android:textStyle="bold" android:textSize="18sp"/>
+                                android:layout_weight="1" android:textStyle="bold" android:textSize="18sp"
+                                android:textColor="@android:color/black"/>/>
                         <TextView
                                 android:text="總分"
                                 android:gravity="center"
                                 android:layout_width="0dp"
                                 android:layout_height="match_parent" android:id="@+id/textView16"
-                                android:layout_weight="1" android:textSize="18sp" android:textStyle="bold"/>
+                                android:layout_weight="1" android:textSize="18sp" android:textStyle="bold"
+                                android:textColor="@android:color/black"/>/>
                     </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
         </FrameLayout>
 
     </LinearLayout>
+    <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@android:color/darker_gray" android:id="@+id/view4"/>
     <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -134,11 +162,7 @@
         <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" android:id="@+id/aaaaaaa"/>
-        <EditText
-                android:id="@+id/data_id"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:visibility="gone"/>
+
     </LinearLayout>
 
 

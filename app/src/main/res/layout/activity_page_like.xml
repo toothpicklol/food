@@ -23,7 +23,8 @@
                         android:text="收藏店家"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" android:id="@+id/textView14" android:textSize="18sp"
-                        android:textStyle="bold"/>
+                        android:textStyle="bold"
+                        android:background="?android:attr/colorAccent"/>
                 <LinearLayout
                         android:orientation="vertical"
                         android:layout_width="match_parent"
@@ -34,7 +35,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" android:id="@+id/textView15"
                         android:textSize="18sp"
-                        android:textStyle="bold"/>
+                        android:textStyle="bold"
+                        android:background="?android:attr/colorAccent"/>
                 <LinearLayout
                         android:orientation="vertical"
                         android:layout_width="match_parent"

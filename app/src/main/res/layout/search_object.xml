@@ -43,23 +43,27 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:text="店名:"
-                                    android:gravity="center"/>
+                                    android:gravity="center"
+                                    android:textColor="@android:color/black"/>
                             <TextView
                                     android:text="地址:"
                                     android:layout_width="match_parent"
                                     android:gravity="center"
                                     android:layout_height="wrap_content" android:id="@+id/textView7"
+                                    android:textColor="@android:color/black"
                             />
                             <TextView
                                     android:text="TEL:"
                                     android:gravity="center"
                                     android:layout_width="match_parent"
-                                    android:layout_height="wrap_content" android:id="@+id/textView8"/>
+                                    android:layout_height="wrap_content" android:id="@+id/textView8"
+                                    android:textColor="@android:color/black"/>
                             <TextView
                                     android:text="營業時間:"
                                     android:gravity="center"
                                     android:layout_width="match_parent"
-                                    android:layout_height="wrap_content" android:id="@+id/textView9"/>
+                                    android:layout_height="wrap_content" android:id="@+id/textView9"
+                                    android:textColor="@android:color/black"/>
                         </LinearLayout>
                         <LinearLayout
                                 android:orientation="vertical"
@@ -68,22 +72,30 @@
                             <TextView
                                     android:text="中國文化大學"
                                     android:layout_width="match_parent"
-                                    android:layout_height="wrap_content" android:id="@+id/shopName"/>
+                                    android:layout_height="wrap_content" android:id="@+id/shopName"
+                                    android:textColor="@android:color/black"/>
                             <TextView
                                     android:text="台北市士林區華岡路55號"
                                     android:layout_width="match_parent"
-                                    android:layout_height="wrap_content" android:id="@+id/shopAddress"/>
+                                    android:layout_height="wrap_content" android:id="@+id/shopAddress"
+                                    android:textColor="@android:color/black"/>
                             <TextView
                                     android:text="87879487"
                                     android:layout_width="match_parent"
-                                    android:layout_height="wrap_content" android:id="@+id/shopTel"/>
+                                    android:layout_height="wrap_content" android:id="@+id/shopTel"
+                                    android:textColor="@android:color/black"/>
                             <TextView
                                     android:text="凌晨0點"
                                     android:layout_width="match_parent"
-                                    android:layout_height="wrap_content" android:id="@+id/shopTime"/>
+                                    android:layout_height="wrap_content" android:id="@+id/shopTime"
+                                    android:textColor="@android:color/black"/>
                         </LinearLayout>
                     </TableRow>
                 </TableLayout>
+                <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@android:color/darker_gray" android:id="@+id/view"/>
                 <LinearLayout
                         android:orientation="vertical"
                         android:layout_width="match_parent"
@@ -99,6 +111,7 @@
                                 android:layout_height="match_parent"
                                 android:id="@+id/shopCommentCount"
                                 android:layout_weight="1" android:textSize="36sp" android:textStyle="bold"
+                                android:textColor="@android:color/black"
                         />
                         <TextView
                                 android:text="0"
@@ -106,7 +119,8 @@
                                 android:gravity="center"
                                 android:layout_height="match_parent"
                                 android:id="@+id/shopMess"
-                                android:layout_weight="1" android:textStyle="bold" android:textSize="36sp"/>
+                                android:layout_weight="1" android:textStyle="bold" android:textSize="36sp"
+                                android:textColor="@android:color/black"/>
                         <TextView
                                 android:text="0"
                                 android:layout_width="0dp"
@@ -114,8 +128,10 @@
                                 android:layout_height="match_parent"
                                 android:id="@+id/shopPoint"
                                 android:layout_weight="1"
-                                android:textSize="36sp" android:textStyle="bold"/>
+                                android:textSize="36sp" android:textStyle="bold"
+                                android:textColor="@android:color/black"/>
                     </LinearLayout>
+
                     <LinearLayout
                             android:orientation="horizontal"
                             android:layout_width="match_parent"
@@ -125,25 +141,32 @@
                                 android:gravity="center"
                                 android:layout_width="0dp"
                                 android:layout_height="match_parent" android:id="@+id/txShopC"
-                                android:layout_weight="1" android:textStyle="bold" android:textSize="18sp"/>
+                                android:layout_weight="1" android:textStyle="bold" android:textSize="18sp"
+                                android:textColor="@android:color/black"/>
                         <TextView
                                 android:text="總留言數"
                                 android:gravity="center"
                                 android:layout_width="0dp"
                                 android:layout_height="match_parent" android:id="@+id/txShopMess"
-                                android:layout_weight="1" android:textStyle="bold" android:textSize="18sp"/>
+                                android:layout_weight="1" android:textStyle="bold" android:textSize="18sp"
+                                android:textColor="@android:color/black"/>
                         <TextView
                                 android:text="總分"
                                 android:gravity="center"
                                 android:layout_width="0dp"
                                 android:layout_height="match_parent" android:id="@+id/textView16"
-                                android:layout_weight="1" android:textSize="18sp" android:textStyle="bold"/>
+                                android:layout_weight="1" android:textSize="18sp" android:textStyle="bold"
+                                android:textColor="@android:color/black"/>
                     </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
         </FrameLayout>
 
     </LinearLayout>
+    <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@android:color/darker_gray" android:id="@+id/view"/>
     <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -158,6 +181,7 @@
                 android:layout_height="match_parent"
                 android:visibility="gone"/>
     </LinearLayout>
+
 
 
 </LinearLayout>
