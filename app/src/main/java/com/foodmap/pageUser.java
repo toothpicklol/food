@@ -126,7 +126,7 @@ public class pageUser extends AppCompatActivity {
                 String[] commentArr2 = tmp.split(",");
 
 
-                commentSQL[i] = new makeComment(commentArr2[0], commentArr2[1], commentArr2[2], commentArr2[3], infoArr[3],commentArr2[4],commentArr2[5]);//評論資料
+                commentSQL[i] = new makeComment(commentArr2[0], commentArr2[1], commentArr2[2], commentArr2[3], infoArr[3],commentArr2[4],commentArr2[5],infoArr[0]);//評論資料
 
             }
 
@@ -155,13 +155,13 @@ public class pageUser extends AppCompatActivity {
                 btnId++;
 
                 ll.addView(view);
-                account.setText(point.account);
+                account.setText(point.nick);
                 headC.setImageDrawable(loadImageFromURL(point.head));
                 title.setText("【評論】"+point.title);
 
                 if (point.picture .equals("null")) {
 
-                    text.getLayoutParams().height = 100;
+                    text.getLayoutParams().height = 250;
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                         text.setText(Html.fromHtml(point.text, Html.FROM_HTML_MODE_COMPACT));
                     } else {
@@ -218,7 +218,7 @@ public class pageUser extends AppCompatActivity {
                 }
                 String tmp = commentArr[i];
                 String[] commentArr2 = tmp.split(",");
-                commentSQL[i] = new makeComment(commentArr2[0], commentArr2[1], commentArr2[2], commentArr2[3], infoArr[3],commentArr2[4],commentArr2[5]);//評論資料
+                commentSQL[i] = new makeComment(commentArr2[0], commentArr2[1], commentArr2[2], commentArr2[3], infoArr[3],commentArr2[4],commentArr2[5],infoArr[0]);//評論資料
 
             }
 
@@ -240,7 +240,7 @@ public class pageUser extends AppCompatActivity {
                 btnId++;
 
                 ll.addView(view);
-                account.setText(point.account);
+                account.setText(point.nick);
                 headC.setImageDrawable(loadImageFromURL(point.head));
                 title.setText("【評論】"+point.title);
 
@@ -339,7 +339,7 @@ public class pageUser extends AppCompatActivity {
 
             Button post =  (Button)v; //在new 出所按下的按鈕
             int id = post.getId();
-            pageWatchPost.setPost(commentSQL[id].head,commentSQL[id].title,commentSQL[id].text,commentSQL[id].account,commentSQL[id].postId);
+            pageWatchPost.setPost(commentSQL[id].head,commentSQL[id].title,commentSQL[id].text,commentSQL[id].account,commentSQL[id].postId,commentSQL[id].nick,commentSQL[id].time);
             pageWatchPost.setName(user);
             Intent intent = new Intent();
             intent.setClass(pageUser.this, pageWatchPost.class);
@@ -371,8 +371,8 @@ public class pageUser extends AppCompatActivity {
     }
     class makeComment {
 
-        public String text,title,account,picture,head,postId,time;
-        public makeComment( String i, String j,String k,String l,String n,String o,String p) {
+        public String text,title,account,picture,head,postId,time,nick;
+        public makeComment( String i, String j,String k,String l,String n,String o,String p,String q) {
             account=i;
             title=j;
             text=k;
@@ -380,6 +380,7 @@ public class pageUser extends AppCompatActivity {
             head=n;
             postId=o;
             time=p;
+            nick=q;
         }
 
 

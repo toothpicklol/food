@@ -19,12 +19,12 @@ public class pageSocial extends AppCompatActivity {
     String url="http://114.32.152.202/foodphp/socianComment.php";
 
     String imgU="http://114.32.152.202/foodphp/userinfo.php";
-    Button btnPost,btnOwner,btnLike,btnOtherUser,btnPointInfo;
-    LinearLayout ll,bgU;
-    View view,comment,shopText,viewP;
-    TextView account,title,text,username,userLV;
-    ImageView bigHead,headC;
-    TextView pointS,commentC,message,shopInfo;
+    Button btnPost,btnOtherUser;
+    LinearLayout ll;
+    View view;
+    TextView account,title,text;
+    ImageView headC;
+
     makeComment[] commentSQL;
 
     @Override
@@ -43,7 +43,7 @@ public class pageSocial extends AppCompatActivity {
         for (int i=0; i<commentArr.length; i++) {
             if(commentS.equals(""))
             {
-                Toast.makeText(getApplicationContext()," 尚未有評論，快去收藏吧!", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext()," 尚未有收藏，快去收藏吧!", Toast.LENGTH_LONG).show();
                 break;
 
             }
@@ -54,7 +54,7 @@ public class pageSocial extends AppCompatActivity {
             System.out.println(img);
             String[] imgArr=img.split(",");
 
-            commentSQL[i] = new makeComment(commentArr2[0], commentArr2[1], commentArr2[2],commentArr2[3],imgArr[2],commentArr2[4],commentArr2[5]);//評論資料
+            commentSQL[i] = new makeComment(commentArr2[0], commentArr2[1], commentArr2[2],commentArr2[3],imgArr[2],commentArr2[4],commentArr2[5],imgArr[0]);//評論資料
 
 
 
@@ -79,7 +79,7 @@ public class pageSocial extends AppCompatActivity {
             btnId++;
             btnPost.setOnClickListener(commCheck);
             ll.addView(view);
-            account.setText(point.account);
+            account.setText(point.nick);
             headC.setImageDrawable(loadImageFromURL(point.head));
             title.setText("【評論】"+point.title);
             if(!point.picture.equals("null")){
@@ -87,7 +87,7 @@ public class pageSocial extends AppCompatActivity {
             }
             else{
 
-                text.getLayoutParams().height = 100;
+                text.getLayoutParams().height = 250;
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                     text.setText(Html.fromHtml(point.text, Html.FROM_HTML_MODE_COMPACT));
                 } else {
@@ -117,7 +117,7 @@ public class pageSocial extends AppCompatActivity {
 
             Button post =  (Button)v; //在new 出所按下的按鈕
             int id = post.getId();
-            pageWatchPost.setPost(commentSQL[id].head,commentSQL[id].title,commentSQL[id].text,commentSQL[id].account,commentSQL[id].postId);
+            pageWatchPost.setPost(commentSQL[id].head,commentSQL[id].title,commentSQL[id].text,commentSQL[id].account,commentSQL[id].postId,commentSQL[id].nick,commentSQL[id].time);
             pageWatchPost.setName(user);
             Intent intent = new Intent();
             intent.setClass(pageSocial.this, pageWatchPost.class);
@@ -145,8 +145,8 @@ public class pageSocial extends AppCompatActivity {
     }
     class makeComment {
 
-        public String text,title,account,picture,head,postId,time;
-        public makeComment( String i, String j,String k,String l,String n,String o,String p) {
+        public String text,title,account,picture,head,postId,time,nick;
+        public makeComment( String i, String j,String k,String l,String n,String o,String p,String q) {
             account=i;
             title=j;
             text=k;
@@ -154,6 +154,7 @@ public class pageSocial extends AppCompatActivity {
             head=n;
             postId=o;
             time=p;
+            nick=q;
         }
 
 

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto" android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent" android:background="#FFFBE9A3">
+
+    <TextView
+            android:text="理由"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:id="@+id/txAlert" android:textStyle="bold"
+            android:textSize="24sp" android:background="?attr/colorPrimary"
+            android:textColor="@android:color/black"/>
+    <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:ems="10"
+            android:id="@+id/edReport"
+            android:backgroundTint="@android:color/background_light"
+            android:textColor="@android:color/black" android:hint="在此輸入"/>
+    <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:gravity="right" android:background="#FFFBE9A3">
+        <ImageButton
+                android:layout_width="50dp"
+                android:layout_height="50dp" app:srcCompat="@drawable/ic_menu_send"
+                android:id="@+id/imgBtnReportSent"
+                android:background="#FFFBE9A3"/>
+    </LinearLayout>
+</LinearLayout>

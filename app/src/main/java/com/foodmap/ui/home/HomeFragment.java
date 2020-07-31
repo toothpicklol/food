@@ -5,8 +5,7 @@ import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
+import android.graphics.*;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
@@ -86,11 +85,13 @@ public class HomeFragment extends Fragment
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+        mMap.setMapType(GoogleMap.MAP_TYPE_TERRAIN);
         //mMap.setOnCameraIdleListener(this);
         mMap.setOnCameraMoveStartedListener(this);
 
         //mMap.setOnCameraMoveListener(this);
         //mMap.setOnCameraMoveCanceledListener(this);
+        
 
 
 
@@ -109,12 +110,18 @@ public class HomeFragment extends Fragment
 
             }
 
-            mMap.setMapType(GoogleMap.MAP_TYPE_TERRAIN);
+
             for (GoogleMapV2_MarkPoint point : MysqlPointSet) {
 
 
+
+
                 mMap.addMarker(new MarkerOptions().position(new LatLng(point.latitude, point.longitude)).title(point.title)
-                        .snippet(point.point+"#"+point.account).icon(BitmapDescriptorFactory.fromBitmap(getBitmapFromURL(point.head))));
+                        .snippet(point.point+"#"+point.account).icon(BitmapDescriptorFactory.fromBitmap(writeTextOnDrawable(point.head, point.title))));
+
+
+
+                //BitmapDescriptorFactory.fromBitmap(writeTextOnDrawable(R.drawable.bluebox, "your text goes here")))
 
 
             }
@@ -328,12 +335,57 @@ public class HomeFragment extends Fragment
             connection.connect();
             InputStream input = connection.getInputStream();
             Bitmap myBitmap = BitmapFactory.decodeStream(input);
-            myBitmap = Bitmap.createScaledBitmap(myBitmap,150,100, true);
+            myBitmap = Bitmap.createScaledBitmap(myBitmap,150,150, true);
         return myBitmap;
         } catch (IOException e) {
             e.printStackTrace();
             return null;
         }
+    }
+    private Bitmap writeTextOnDrawable(String drawableId, String text) {
+
+        Bitmap bm = getBitmapFromURL(drawableId);
+
+
+        Typeface tf = Typeface.create("Helvetica", Typeface.BOLD);
+
+        Paint paint = new Paint();
+        paint.setStyle(Paint.Style.FILL);
+        paint.setColor(Color.BLACK);
+        paint.setTypeface(tf);
+        paint.setTextAlign(Paint.Align.CENTER);
+        paint.setTextSize(convertToPixels(getContext().getApplicationContext(), 15));
+
+
+
+        Rect textRect = new Rect();
+        paint.getTextBounds(text, 0, text.length(), textRect);
+
+        Canvas canvas = new Canvas(bm);
+
+        //If the text is bigger than the canvas , reduce the font size
+        if(textRect.width() >= (canvas.getWidth() - 4))     //the padding on either sides is considered as 4, so as to appropriately fit in the text
+            paint.setTextSize(convertToPixels(getContext().getApplicationContext(), 10));        //Scaling needs to be used for different dpi's
+
+        //Calculate the positions
+        int xPos = (canvas.getWidth() / 2) - 2;     //-2 is for regulating the x position offset
+
+        //"- ((paint.descent() + paint.ascent()) / 2)" is the distance from the baseline to the center.
+        int yPos = (int) ((canvas.getHeight() / 2) - ((paint.descent() + paint.ascent()) / 2)) ;
+
+        canvas.drawText(text, xPos, yPos, paint);
+
+        return  bm;
+    }
+
+
+
+    public static int convertToPixels(Context context, int nDP)
+    {
+        final float conversionScale = context.getResources().getDisplayMetrics().density;
+
+        return (int) ((nDP * conversionScale) + 0.5f) ;
+
     }
 
 
@@ -364,6 +416,7 @@ public class HomeFragment extends Fragment
         user=i;
 
     }
+
 
 
 

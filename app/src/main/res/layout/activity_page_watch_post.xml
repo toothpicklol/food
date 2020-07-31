@@ -36,7 +36,8 @@
                             android:text="暱稱+等級"
                             android:textColor="#DD000000"
                             android:textSize="14sp" android:background="@android:color/background_light"
-                            android:textAlignment="viewStart" android:gravity="center_vertical"/>
+                            android:textAlignment="viewStart" android:gravity="center_vertical"
+                            android:textStyle="bold"/>
                 </LinearLayout>
             </FrameLayout>
             <View

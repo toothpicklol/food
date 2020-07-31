@@ -9,6 +9,7 @@ import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.*;
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,6 +18,9 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.io.InputStream;
 import java.net.URL;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 
 public class pageShop extends AppCompatActivity {
@@ -31,10 +35,13 @@ public class pageShop extends AppCompatActivity {
     String selectL="http://114.32.152.202/foodphp/selectLikeShop.php";
     String updateL="http://114.32.152.202/foodphp/updateLikeShop.php";
     String pointUrl="http://114.32.152.202/foodphp/shopPointInfo.php";
+    String logUrl="http://114.32.152.202/foodphp/insertLog.php";
+    String fansU="http://114.32.152.202/foodphp/fansCountShop.php";
+    String updateShopInfo="http://114.32.152.202/foodphp/updateShopInfo.php";
     Button btnPost,btnOwner,btnLike,btnOtherUser,btnPointInfo;
     LinearLayout ll,bgU;
     View view,comment,shopText,viewP;
-    TextView account,title,text,username,userLV;
+    TextView account,title,text,username,userLV,fan,good;
     ImageView bigHead,headC;
     TextView pointS,commentC,message,shopInfo;
     makeComment[] commentSQL;
@@ -46,14 +53,6 @@ public class pageShop extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_page_shop);
         ll = findViewById(R.id.ll_in_sv);
-        btnPost =findViewById(R.id.btn_Post);
-        pointS=findViewById(R.id.shopPoint);
-        commentC=findViewById(R.id.shopCommentCount);
-        message=findViewById(R.id.shopMess);
-        shopInfo=findViewById(R.id.shopinfo);
-        btnOwner=findViewById(R.id.shopOwner);
-        btnLike=findViewById(R.id.btnLike);
-
         addListView();
         FloatingActionButton fab = findViewById(R.id.fabPost);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -68,14 +67,25 @@ public class pageShop extends AppCompatActivity {
 
             }
         });
-
-
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.page_shop, menu);
         return true;
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle item selection
+        switch (item.getItemId()) {
+            case R.id.action_report:
+                setAlertReport("report");
+
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
     private Drawable loadImageFromURL(String url) {
         try {
@@ -93,7 +103,9 @@ public class pageShop extends AppCompatActivity {
         makeInfo[] InfoSQL = new makeInfo[1];
         String userInfo=dbcon.userInfo(shopACC,info);
         String[] infoArr=userInfo.split(",");
-        InfoSQL[0] = new makeInfo(infoArr[0], infoArr[6], infoArr[1],infoArr[2],infoArr[7],infoArr[4],infoArr[4]+"~"+infoArr[5],infoArr[9],infoArr[8],infoArr[10]);
+        InfoSQL[0] = new makeInfo(infoArr[0], infoArr[6], infoArr[1],infoArr[2],infoArr[7],infoArr[3],infoArr[4]+"~"+infoArr[5],infoArr[9],infoArr[8],infoArr[10]);
+        String fansC=dbcon.userInfo(shopACC,fansU);
+
 
         for (makeInfo point : InfoSQL) {
 
@@ -102,6 +114,8 @@ public class pageShop extends AppCompatActivity {
             bigHead=comment.findViewById(R.id.bighead);
             userLV=comment.findViewById(R.id.userLV);
             username=comment.findViewById(R.id.username);
+            fan=comment.findViewById(R.id.txFans);
+            good=comment.findViewById(R.id.txGold);
             ll.addView(comment);
             username.setText(point.username);
             userLV.setText(point.userLV);
@@ -115,6 +129,7 @@ public class pageShop extends AppCompatActivity {
             btnOwner=shopText.findViewById(R.id.shopOwner);
             btnLike=shopText.findViewById(R.id.btnLike);
             btnPointInfo=shopText.findViewById(R.id.btn_pointinfo);
+
             btnOwner.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -125,6 +140,9 @@ public class pageShop extends AppCompatActivity {
                         Uri web = Uri.parse("https://docs.google.com/forms/d/e/1FAIpQLScjv-fExVswZw1KFeUdongUCM66KnEYuqFM_yHhIAX6hfHJQg/viewform?usp=sf_link");
                         Intent webIntent = new Intent(Intent.ACTION_VIEW, web);
                         startActivity(webIntent);
+                    }
+                    else {
+                        setAlertEditShop();
                     }
                 }
             });
@@ -153,6 +171,8 @@ public class pageShop extends AppCompatActivity {
             commentC.setText(point.comment);
             pointS.setText(point.point);
             shopInfo.setText("營業時間:"+point.time+"\n"+"地址:"+point.address+"\n"+"電話:"+point.tel);
+            fan.setText(fansC);
+            good.setText("");
 
 
 
@@ -176,7 +196,7 @@ public class pageShop extends AppCompatActivity {
             String[] commentArr2=tmp.split(",");
             String img=dbcon.userInfo(commentArr2[0],imgU);
             String[] imgArr=img.split(",");
-            commentSQL[i] = new makeComment(commentArr2[0], commentArr2[1], commentArr2[2],commentArr2[3],imgArr[3],commentArr2[4],commentArr2[5]);//評論資料
+            commentSQL[i] = new makeComment(commentArr2[0], commentArr2[1], commentArr2[2],commentArr2[3],imgArr[3],commentArr2[4],commentArr2[5],imgArr[0]);//評論資料
 
 
 
@@ -201,7 +221,7 @@ public class pageShop extends AppCompatActivity {
             btnId++;
             btnPost.setOnClickListener(commCheck);
             ll.addView(view);
-            account.setText(point.account);
+            account.setText(point.nick);
             headC.setImageDrawable(loadImageFromURL(point.head));
             title.setText("【評論】"+point.title);
             if(!point.picture.equals("null")){
@@ -211,7 +231,7 @@ public class pageShop extends AppCompatActivity {
             }
             else{
 
-                text.getLayoutParams().height = 150;
+                text.getLayoutParams().height = 250;
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                     text.setText(Html.fromHtml(point.text, Html.FROM_HTML_MODE_COMPACT));
                 } else {
@@ -280,11 +300,96 @@ public class pageShop extends AppCompatActivity {
 
         dialog.show();
     }
+    public void setAlertReport(final String type){
+
+        final Dialog dialog = new Dialog(pageShop.this,R.style.MyDialog);
+        dialog.setContentView(R.layout.reportbox);//指定自定義layout
+
+
+        final EditText report=dialog.findViewById(R.id.edReport);
+        ImageButton reportBtn=dialog.findViewById(R.id.imgBtnReportSent);
+        TextView alert=dialog.findViewById(R.id.txAlert);
+        reportBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String why=report.getText().toString();
+                SimpleDateFormat Format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                Date Time = Calendar.getInstance().getTime();
+                dbcon.insertLog(userAcc,"shop"+shopACC,why,"report",Format.format(Time),logUrl);
+                dialog.cancel();
+
+
+
+
+
+
+
+            }
+        });
+        if(!type.equals("report")){
+            alert.setText("編輯");
+        }
+
+        dialog.getWindow().setLayout(800,400);
+
+        dialog.show();
+    }
+    public void setAlertEditShop(){
+
+        final Dialog dialog = new Dialog(pageShop.this,R.style.MyDialog);
+        dialog.setContentView(R.layout.shop_info_box);//指定自定義layout
+
+
+        final EditText OTime=dialog.findViewById(R.id.edShopOTime);
+        final EditText CTime=dialog.findViewById(R.id.edShopCTime);
+        final EditText Tel=dialog.findViewById(R.id.edShopTel);
+        final EditText Address=dialog.findViewById(R.id.edShopAdd);
+        final EditText Info=dialog.findViewById(R.id.edShopInfo);
+        ImageButton postBtn=dialog.findViewById(R.id.imgBtnSent);
+        final CheckBox cbAdd=dialog.findViewById(R.id.cbAddres);
+        final CheckBox cbTel=dialog.findViewById(R.id.cbTel);
+        final CheckBox cbOTime=dialog.findViewById(R.id.cbOTime);
+        final CheckBox cbCTime=dialog.findViewById(R.id.cbCTime);
+        final CheckBox cbInfo=dialog.findViewById(R.id.cbInfo);
+
+        postBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+                over(cbAdd,Address,"address");
+                over(cbCTime,CTime,"closeT");
+                over(cbInfo,Info,"info");
+                over(cbOTime,OTime,"openT");
+                over(cbTel,Tel,"tel");
+
+                dialog.cancel();
+
+            }
+        });
+        int height = (int)(getResources().getDisplayMetrics().heightPixels);
+        int width = (int)(getResources().getDisplayMetrics().widthPixels);
+
+
+        dialog.getWindow().setLayout(width,height);
+
+        dialog.show();
+    }
+    public void over(CheckBox a ,EditText b,String type) {
+        if (a.isChecked() && b.getText().toString() != null && !b.getText().toString().equals("")) {
+            dbcon.updateShopInfo(b.getText().toString(),shopACC,type,updateShopInfo);
+
+        }
+
+
+
+        //System.out.println("666666666666666666666666666666666666666666666");
+    }
 
     class makeComment {
 
-        public String text,title,account,picture,head,postId,time;
-        public makeComment( String i, String j,String k,String l,String n,String o,String p) {
+        public String text,title,account,picture,head,postId,time,nick;
+        public makeComment( String i, String j,String k,String l,String n,String o,String p,String q) {
             account=i;
             title=j;
             text=k;
@@ -292,6 +397,7 @@ public class pageShop extends AppCompatActivity {
             head=n;
             postId=o;
             time=p;
+            nick=q;
         }
 
 
@@ -326,7 +432,7 @@ public class pageShop extends AppCompatActivity {
 
             Button post =  (Button)v; //在new 出所按下的按鈕
             int id = post.getId();
-            pageWatchPost.setPost(commentSQL[id].head,commentSQL[id].title,commentSQL[id].text,commentSQL[id].account,commentSQL[id].postId);
+            pageWatchPost.setPost(commentSQL[id].head,commentSQL[id].title,commentSQL[id].text,commentSQL[id].account,commentSQL[id].postId,commentSQL[id].nick,commentSQL[id].time);
             pageWatchPost.setName(userAcc);
             Intent intent = new Intent();
             intent.setClass(pageShop.this, pageWatchPost.class);

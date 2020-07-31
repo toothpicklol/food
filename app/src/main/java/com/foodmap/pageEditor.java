@@ -22,7 +22,9 @@ public class pageEditor extends AppCompatActivity {
 
     private RichEditor mEditor;
     private static String user;
+    private static String id;
     private static String shop;
+    private static int mode;
     private static String firstImg=null;
     private TextView mPreview;
     public static String postTitle;
@@ -31,6 +33,8 @@ public class pageEditor extends AppCompatActivity {
     ImageButton postBtn;
     String postUrl="http://114.32.152.202/foodphp/insertPost.php";
     String pointUrl="http://114.32.152.202/foodphp/insertPoint.php";
+    String logUrl="http://114.32.152.202/foodphp/insertLog.php";
+    String updatePostUrl="http://114.32.152.202/foodphp/updatePost.php";
 
 
     @Override protected void onCreate(Bundle savedInstanceState) {
@@ -44,22 +48,30 @@ public class pageEditor extends AppCompatActivity {
             public void onClick(View v) {
                 Date Time = Calendar.getInstance().getTime();
                 SimpleDateFormat Format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                if(firstImg==null){
-                    firstImg="null";
-                }
-                if(title.getText().toString().length()>=5&&mEditor.getHtml()!=null){
-                    String postID="post"+pageCreateShop.getRandomString(10);
-                    dbcon.insertPost(user,title.getText().toString(),mEditor.getHtml(),firstImg,Format.format(Time).toString(),shop,postID,postUrl);
-                    dbcon.insertPoint(user,postID,shop,pointUrl);
-
-                    pagePoint.setName(user,shop,postID);
-                    Intent intent = new Intent();
-                    intent.setClass(pageEditor.this, pagePoint.class);
-                    startActivity(intent);
+                if(mode==1){
+                    dbcon.insertLog(user,id,title.getText().toString()+"/"+mEditor.getHtml(),"post/update",Format.format(Time),logUrl);
+                    dbcon.updatePost(title.getText().toString(),mEditor.getHtml(),id,updatePostUrl);
                     finish();
                 }
                 else {
-                    Toast.makeText(getApplicationContext()," 標題字數需大於5字、內文不可為空", Toast.LENGTH_LONG).show();
+
+                    if(firstImg==null){
+                        firstImg="null";
+                    }
+                    if(title.getText().toString().length()>=5&&mEditor.getHtml()!=null){
+                        String postID="post"+pageCreateShop.getRandomString(10);
+                        dbcon.insertPost(user,title.getText().toString(),mEditor.getHtml(),firstImg,Format.format(Time).toString(),shop,postID,postUrl);
+                        dbcon.insertPoint(user,postID,shop,pointUrl);
+
+                        pagePoint.setName(user,shop,postID);
+                        Intent intent = new Intent();
+                        intent.setClass(pageEditor.this, pagePoint.class);
+                        startActivity(intent);
+                        finish();
+                    }
+                    else {
+                        Toast.makeText(getApplicationContext()," 標題字數需大於5字、內文不可為空", Toast.LENGTH_LONG).show();
+                    }
                 }
 
 
@@ -162,6 +174,14 @@ public class pageEditor extends AppCompatActivity {
         shop=shopI;
 
 
+    }
+
+    public static void setMode(int i,String j,String k,String l,String m){
+        mode=i;
+        postTitle=j;
+        postText=k;
+        id=l;
+        user=m;
     }
 
 }

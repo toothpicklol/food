@@ -13,11 +13,21 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:background="#c4e7ef"
+            android:background="#FFFBE9A3"
             android:paddingLeft="30dp"
             android:paddingRight="30dp">
 
 
+        <ImageView
+                android:id="@+id/imgNavHead"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/iconfinder_map_285662" android:layout_marginBottom="131dp"
+                android:layout_above="@+id/etAcc"
+                android:layout_marginEnd="133dp"
+                android:layout_marginStart="133dp"
+                android:layout_alignStart="@+id/etAcc"
+                android:layout_alignEnd="@+id/etAcc"/>
         <Button
                 android:id="@+id/btn_login"
                 android:layout_width="100dp"
@@ -50,12 +60,11 @@
                 android:layout_height="50dp"
                 android:layout_centerVertical="true"
                 android:drawablePadding="5dp"
-                android:hint="用戶名"
                 android:maxLines="1"
                 android:paddingLeft="35dp"
                 android:paddingRight="10dp"
-                android:textColor="#FFAD33"
-                android:textSize="16sp"/>
+                android:textColor="@android:color/black"
+                android:textSize="16sp" android:textStyle="bold"/>
         <EditText
                 android:id="@+id/etPass"
                 android:layout_width="match_parent"
@@ -63,18 +72,10 @@
                 android:layout_below="@id/etAcc"
                 android:layout_marginTop="15dp"
                 android:inputType="textPassword"
-                android:hint="密碼"
                 android:paddingLeft="35dp"
-                android:textColor="#FFAD33"
+                android:textColor="@android:color/black"
                 android:textSize="16sp"/>
 
-        <ImageView
-                android:id="@+id/imgNavHead"
-                android:layout_width="354dp"
-                android:layout_height="175dp"
-                android:layout_above="@+id/etAcc"
-                android:layout_marginBottom="86dp"
-                app:srcCompat="@drawable/logo1"/>
         <TextView
                 android:text="登入失敗:帳號或密碼錯誤"
                 android:layout_width="342dp"

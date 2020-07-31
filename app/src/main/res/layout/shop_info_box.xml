@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto" android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent" android:background="#FFFBE9A3">
+
+    <TextView
+            android:text="編輯"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:id="@+id/tx0" android:textStyle="bold"
+            android:textSize="24sp" android:background="?attr/colorPrimary"
+            android:textColor="@android:color/black"/>
+    <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        <CheckBox
+                android:text="開始營業"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content" android:id="@+id/cbOTime"
+                android:textColor="@android:color/black"/>
+        <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:inputType="textPersonName"
+                android:ems="10"
+                android:id="@+id/edShopOTime"
+                android:backgroundTint="@android:color/background_light"
+                android:textColor="@android:color/black" android:hint="在此輸入(00:00:00)" android:layout_weight="5"/>
+    </LinearLayout>
+    <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        <CheckBox
+                android:text="結束營業"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content" android:id="@+id/cbCTime"
+                android:textColor="@android:color/black"/>
+        <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:inputType="textPersonName"
+                android:ems="10"
+                android:id="@+id/edShopCTime"
+                android:backgroundTint="@android:color/background_light"
+                android:textColor="@android:color/black" android:hint="在此輸入(00:00:00)" android:layout_weight="5"/>
+    </LinearLayout>
+    <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        <CheckBox
+                android:text="電話"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content" android:id="@+id/cbTel" android:textColor="@android:color/black"/>
+        <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:inputType="textPersonName"
+                android:ems="10"
+                android:id="@+id/edShopTel"
+                android:backgroundTint="@android:color/background_light"
+                android:textColor="@android:color/black" android:hint="在此輸入" android:layout_weight="5"/>
+    </LinearLayout>
+    <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        <CheckBox
+                android:text="地址"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content" android:id="@+id/cbAddres"
+                android:textColor="@android:color/black"/>
+        <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:inputType="textPersonName"
+                android:ems="10"
+                android:id="@+id/edShopAdd"
+                android:backgroundTint="@android:color/background_light"
+                android:textColor="@android:color/black" android:hint="在此輸入" android:layout_weight="5"/>
+    </LinearLayout>
+    <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        <CheckBox
+                android:text="資訊"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content" android:id="@+id/cbInfo" android:textColor="@android:color/black"/>
+        <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:inputType="textPersonName"
+                android:ems="10"
+                android:id="@+id/edShopInfo"
+                android:backgroundTint="@android:color/background_light"
+                android:textColor="@android:color/black" android:hint="在此輸入" android:layout_weight="5"/>
+    </LinearLayout>
+    <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:gravity="right" android:background="#FFFBE9A3">
+        <ImageButton
+                android:layout_width="50dp"
+                android:layout_height="50dp" app:srcCompat="@drawable/ic_menu_send"
+                android:id="@+id/imgBtnSent"
+                android:background="#FFFBE9A3"/>
+    </LinearLayout>
+</LinearLayout>

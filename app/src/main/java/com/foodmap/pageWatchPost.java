@@ -20,7 +20,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class pageWatchPost extends AppCompatActivity {
-    private static String headS,titleS,textS,accountS,idS,user,shop;
+    private static String headS,titleS,textS,accountS,idS,user,shopS,nickS,timeS;
     private RichEditor mEditor;
     String likeUrl="http://114.32.152.202/foodphp/likeCount.php";
     String point="http://114.32.152.202/foodphp/pointInfo.php";
@@ -30,12 +30,15 @@ public class pageWatchPost extends AppCompatActivity {
     String insertLike="http://114.32.152.202/foodphp/insertLike.php";
     String insertMessage="http://114.32.152.202/foodphp/insertMessage.php";
     String shopIdUrl="http://114.32.152.202/foodphp/searchShopId.php";
+    String logUrl="http://114.32.152.202/foodphp/insertLog.php";
+    String deleteLog="http://114.32.152.202/foodphp/delete.php";
+    String updateMessage="http://114.32.152.202/foodphp/updateMessage.php";
     View viewM;
 
 
     TextView account,title,text,good,bad,total,infoPoint,accountM,timeM,textM;
     ImageView messageOtherHead,postHead;
-    ImageButton GP,BP,headM;
+    ImageButton GP,BP,headM,messageInfo;
     Button otherUser,message;
     makeMessage[] messageSQL;
     ScrollView sc;
@@ -115,8 +118,8 @@ public class pageWatchPost extends AppCompatActivity {
         });
 
 
-        account.setText(accountS);
-        title.setText(titleS);
+        account.setText(nickS);
+        title.setText("【評論】"+titleS);
         mEditor.setHtml(textS);
         postHead.setImageDrawable(loadImageFromURL(headS));
         mEditor.setInputEnabled(false);
@@ -212,6 +215,36 @@ public class pageWatchPost extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.page_watch_post, menu);
         return true;
     }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle item selection
+        switch (item.getItemId()) {
+            case R.id.action_delete:
+                if(accountS.equals(user)){
+                    delete(titleS+"/"+textS+"/"+timeS,1);
+                }
+
+                return true;
+            case R.id.action_edit:
+                if(accountS.equals(user)){
+                    Intent intent = new Intent();
+                    intent.setClass(pageWatchPost.this, pageEditor.class);
+                    startActivity(intent);
+                    pageEditor.setMode(1,titleS,textS,idS,user);
+                    finish();
+
+                }
+
+                return true;
+            case R.id.action_report:
+                setAlertReport("null","report");
+
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
     public void setAlert(){
         viewM = LayoutInflater.from(pageWatchPost.this).inflate(R.layout.message_object, null);
         final Dialog dialog = new Dialog(pageWatchPost.this,R.style.MyDialog);
@@ -274,7 +307,7 @@ public class pageWatchPost extends AppCompatActivity {
             textM = viewM.findViewById(R.id.txMessageText);
             headM = viewM.findViewById(R.id.imgBtnMessageHead);
             timeM=viewM.findViewById(R.id.txMessageTime);
-
+            messageInfo=viewM.findViewById(R.id.imgBtnMessageInfo);
             headM.setId(btnId);//將按鈕帶入id 以供監聽時辨識使用
             headM.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -291,6 +324,50 @@ public class pageWatchPost extends AppCompatActivity {
 
                 }
             });
+            messageInfo.setId(btnId);
+            messageInfo.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(final View v) {
+                    PopupMenu popup = new PopupMenu(pageWatchPost.this,v); //you can use image button
+                    popup.getMenuInflater().inflate(R.menu.page_watch_post,popup.getMenu());
+                    popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                        @Override
+                        public boolean onMenuItemClick(MenuItem item) {
+                            int id = v.getId();
+                            switch (item.getItemId()) {
+                                case R.id.action_delete:
+                                    if(messageSQL[id].account.equals(user)){
+                                        delete(messageSQL[id].text+"/"+messageSQL[id].time,0);
+                                    }
+                                    return true;
+                                case R.id.action_edit:
+                                    if(messageSQL[id].account.equals(user)){
+                                        String edit=messageSQL[id].account+"/"+idS;
+                                        setAlertReport(edit,"edit");
+                                    }
+
+
+                                    return true;
+                                case R.id.action_report:
+
+                                    String report=messageSQL[id].account+"/"+idS;
+                                    setAlertReport(report,"report");
+                                    return true;
+
+                                default:
+                                    return true;
+                            }
+                        }
+                    });
+                    popup.show();
+
+                }
+            });
+
+
+
+
+
 
             btnId++;
             ll.addView(viewM);
@@ -309,6 +386,61 @@ public class pageWatchPost extends AppCompatActivity {
 
         dialog.show();
     }
+    public void setAlertReport(final String x, final String type){
+
+        final Dialog dialog = new Dialog(pageWatchPost.this,R.style.MyDialog);
+        dialog.setContentView(R.layout.reportbox);
+        final EditText report=dialog.findViewById(R.id.edReport);
+        ImageButton reportBtn=dialog.findViewById(R.id.imgBtnReportSent);
+        TextView alert=dialog.findViewById(R.id.txAlert);
+        reportBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String why=report.getText().toString();
+                SimpleDateFormat Format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                Date Time = Calendar.getInstance().getTime();
+                if(type.equals("report")){
+                    if(!x.equals("null")){
+                        dbcon.insertLog(user,x,why,"report",Format.format(Time),logUrl);
+                    }
+                    else {
+                        dbcon.insertLog(user,idS,why,"report",Format.format(Time),logUrl);
+                    }
+                }
+                else {
+
+                    dbcon.insertLog(user,x,why,"edit/message",Format.format(Time),logUrl);
+                    dbcon.updateMessage(why,idS,updateMessage);
+                    finish();
+                }
+
+                dialog.cancel();
+
+            }
+        });
+        if(!type.equals("report")){
+            alert.setText("編輯");
+        }
+        dialog.getWindow().setLayout(800,400);
+
+        dialog.show();
+    }
+    public void delete(String x,int y){
+        SimpleDateFormat Format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date Time = Calendar.getInstance().getTime();
+        if(y==0){
+            dbcon.insertLog(user,idS,x,"mess/delete",Format.format(Time),logUrl);
+            dbcon.delete("postmessage",user,idS,deleteLog);
+
+
+        }
+        else {
+            dbcon.insertLog(user,idS,x,"post/delete",Format.format(Time),logUrl);
+            dbcon.delete("post",user,idS,deleteLog);
+        }
+        finish();
+
+    }
     private Drawable loadImageFromURL(String url) {
         try {
             InputStream is = (InputStream) new URL(url).getContent();
@@ -325,14 +457,19 @@ public class pageWatchPost extends AppCompatActivity {
         user=i;
 
     }
-    public static void setPost(String head,String title,String text,String account,String id){
+    public static void setPost(String head,String title,String text,String account,String id,String nick,String time){
         headS=head;
         titleS=title;
         textS=text;
         accountS=account;
         idS=id;
+        nickS=nick;
+        timeS=time;
+
+
 
     }
+
     class makeMessage {
 
         public String text,account,head,time,nick;
