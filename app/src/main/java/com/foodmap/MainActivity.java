@@ -70,7 +70,6 @@ public class MainActivity extends AppCompatActivity {
         String acc = String.format(account.getText().toString());
 
         pageUser.setName(acc);
-        //pageShop.setShopName(acc);
         pageHome.setName(acc);
 
 

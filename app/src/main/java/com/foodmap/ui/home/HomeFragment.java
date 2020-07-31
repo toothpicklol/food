@@ -196,6 +196,8 @@ public class HomeFragment extends Fragment
                     nX = marker.getPosition().latitude;
                     nY = marker.getPosition().longitude;
                     pageCreateShop.newXY(nX, nY);
+                    pageHome.set(1);
+
 
 
 
@@ -204,6 +206,7 @@ public class HomeFragment extends Fragment
 
 
             });
+
 
 
 

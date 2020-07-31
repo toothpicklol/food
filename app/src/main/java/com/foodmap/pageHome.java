@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 import androidx.annotation.NonNull;
 import com.foodmap.ui.home.HomeFragment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -39,6 +40,7 @@ public class pageHome extends AppCompatActivity {
     View view;
     String info="http://114.32.152.202/foodphp/userinfo.php";
     private static String user;
+    private static int checkSelect=0;
 
 
     @Override
@@ -63,20 +65,35 @@ public class pageHome extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "創建商店(在按一次退出模式)", Snackbar.LENGTH_LONG)
-                        .setAction("", null).show();
+                Snackbar.make(view, "創建商店(在按一次退出模式)", Snackbar.LENGTH_LONG).setAction("", null).show();
 
-                if(check==0){
-                HomeFragment.selectShop();
-                check++;
-                }
-                else
-                {
+                if(checkSelect==1){
                     Intent intent = new Intent();
                     intent.setClass(pageHome.this, pageCreateShop.class);
                     startActivity(intent);
                     finish();
+                    check=0;
                 }
+                else{
+                    if(check==0){
+                        HomeFragment.selectShop();
+                        check++;
+                    }
+                    else {
+                        Toast.makeText(getApplicationContext()," 尚未選擇地點，取消建立", Toast.LENGTH_LONG).show();
+                        Intent intent = getIntent();
+                        finish();
+
+                        pageUser.setName(user);
+                        pageHome.setName(user);
+
+                        startActivity(intent);
+                    }
+
+                }
+
+
+
 
 
             }
@@ -128,6 +145,9 @@ public class pageHome extends AppCompatActivity {
     public static void setName(String i){
         user=i;
     }
+    public static void set(int i){
+        checkSelect=i;
+    }
     private Drawable loadImageFromURL(String url) {
         try {
             InputStream is = (InputStream) new URL(url).getContent();
@@ -154,6 +174,7 @@ public class pageHome extends AppCompatActivity {
 
 
     }
+
 
 
 

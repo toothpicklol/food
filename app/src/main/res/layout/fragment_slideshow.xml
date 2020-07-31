@@ -34,21 +34,13 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" android:id="@+id/textView18" android:textSize="24sp"/>
             <TextView
-                    android:text="主要開發:張峻彬"
+                    android:text="主要前端/後端:張峻彬"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" android:id="@+id/textView21"/>
             <TextView
-                    android:text="遊戲前端:陳建誠"
+                    android:text="前端:陳建誠"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" android:id="@+id/textView23"/>
-            <TextView
-                    android:text="遊戲後端:陳弘哲"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" android:id="@+id/textView24"/>
-            <TextView
-                    android:text="文書:吳昕銓"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" android:id="@+id/textView27"/>
             <LinearLayout
                     android:orientation="vertical"
                     android:layout_width="match_parent"
