@@ -34,7 +34,7 @@ public class pageShopOwnerApplication extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String checkID="check"+pageCreateShop.getRandomString(10);
-                dbcon.ownerCheck(checkID,shop,user,ownerTel.getText().toString(),ownerAddress.getText().toString(),"null",checkUrl);
+                dbcon.ownerCheck(checkID,shop,ownerShopName.getText().toString(),user,ownerTel.getText().toString(),ownerAddress.getText().toString(),"null",checkUrl);
                 Toast.makeText(getApplicationContext()," 申請成功，請靜候驗證", Toast.LENGTH_LONG).show();
                 finish();
 

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent" android:background="@android:drawable/screen_background_light">
+
+    <TextView
+            android:text="驗證"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:id="@+id/textView3" android:textStyle="bold"
+            android:textSize="24sp" android:textAlignment="center" android:background="@color/colorAccent"
+            android:textColor="@android:color/black"/>
+    <TextView
+            android:text="請輸入店家提供之驗證碼"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:id="@+id/textView20" android:textSize="18sp"
+            android:textAlignment="center" android:textColor="@android:color/black"/>
+    <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:ems="10"
+            android:id="@+id/edCheckerPass" android:hint="驗證碼"/>
+    <Button
+            android:text="送出"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:id="@+id/btnCheckerPass" android:textSize="18sp"/>
+</LinearLayout>

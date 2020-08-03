@@ -4,17 +4,26 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent" android:background="@android:drawable/screen_background_light">
 
+    <View
+            android:layout_width="match_parent"
+            android:layout_height="10dp"
+            android:background="@android:color/background_light" android:id="@+id/view8"/>
+    <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@android:color/darker_gray" android:id="@+id/view9"/>
     <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
         <ImageView
                 android:layout_width="80dp"
-                android:layout_height="80dp" app:srcCompat="@drawable/bad" android:id="@+id/imgCheckShopHead"/>
+                android:layout_height="80dp" app:srcCompat="@drawable/bad" android:id="@+id/imgCheckShopHead"
+                android:scaleType="fitXY"/>
         <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent" android:layout_weight="1">
+                android:layout_height="match_parent" android:layout_weight="8">
             <TextView
                     android:text="TextView"
                     android:layout_width="match_parent"
@@ -27,13 +36,14 @@
                 <TextView
                         android:text="TextView"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content" android:id="@+id/txCheckShopAddress" android:textSize="18sp"/>
+                        android:layout_height="wrap_content" android:id="@+id/txCheckShopAddress"
+                        android:textSize="18sp"/>
             </LinearLayout>
         </LinearLayout>
         <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent" android:layout_weight="1" android:gravity="right">
             <ImageButton
                     android:layout_width="50dp"
                     android:layout_height="50dp" app:srcCompat="@android:drawable/ic_menu_add"
@@ -46,9 +56,9 @@
                 <TextView
                         android:text="通過"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content" android:id="@+id/txCheckShopStatus"
-                        android:textAlignment="center" android:textSize="18sp"
-                        android:textColor="@android:color/holo_green_light"/>
+                        android:layout_height="match_parent" android:id="@+id/txCheckShopStatus"
+                        android:textAlignment="center" android:textSize="14sp"
+                        android:textColor="@android:color/holo_green_light" android:gravity="center_vertical"/>
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
