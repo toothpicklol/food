@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" xmlns:android="http://schemas.android.com/apk/res/android"
+>
+    <View
+            android:layout_width="match_parent"
+            android:layout_height="5dp"
+            android:background="@android:drawable/screen_background_light" android:id="@+id/view7"/>
+    <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        <Button
+                android:text="待報名驗證"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" android:id="@+id/btnCheckerSignUp" android:layout_weight="1"
+                android:background="?attr/colorPrimary"/>
+        <View
+                android:layout_width="5dp"
+                android:layout_height="1dp"
+                android:background="@android:drawable/screen_background_light" android:id="@+id/view3"/>
+        <Button
+                android:text="已報名驗證"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" android:id="@+id/btnCheckList" android:layout_weight="1"
+                android:background="?attr/colorPrimary"/>
+    </LinearLayout>
+    <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" android:layout_weight="1" android:id="@+id/llChecker">
+    </LinearLayout>
+</LinearLayout>

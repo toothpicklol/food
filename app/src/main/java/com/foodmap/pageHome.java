@@ -71,8 +71,11 @@ public class pageHome extends AppCompatActivity {
                     Intent intent = new Intent();
                     intent.setClass(pageHome.this, pageCreateShop.class);
                     startActivity(intent);
-                    finish();
+
+                    checkSelect=0;
                     check=0;
+                    finish();
+
                 }
                 else{
                     if(check==0){
@@ -82,12 +85,10 @@ public class pageHome extends AppCompatActivity {
                     else {
                         Toast.makeText(getApplicationContext()," 尚未選擇地點，取消建立", Toast.LENGTH_LONG).show();
                         Intent intent = getIntent();
-                        finish();
-
                         pageUser.setName(user);
                         pageHome.setName(user);
-
                         startActivity(intent);
+                        finish();
                     }
 
                 }

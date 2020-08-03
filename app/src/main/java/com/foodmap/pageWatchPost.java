@@ -249,13 +249,20 @@ public class pageWatchPost extends AppCompatActivity {
         viewM = LayoutInflater.from(pageWatchPost.this).inflate(R.layout.message_object, null);
         final Dialog dialog = new Dialog(pageWatchPost.this,R.style.MyDialog);
         dialog.setContentView(R.layout.messagebox);//指定自定義layout
-
+        final int height = (int)(getResources().getDisplayMetrics().heightPixels);
+        final int width = (int)(getResources().getDisplayMetrics().widthPixels);
         LinearLayout ll = (LinearLayout)dialog.findViewById(R.id.llDialog);
         ImageButton userHead=dialog.findViewById(R.id.imgBtnMessageUserHead);
         TextView txCount=dialog.findViewById(R.id.txMessageCount);
         ImageButton messagePost =dialog.findViewById(R.id.imgBtnMessagePost);
         userHead.setImageDrawable(loadImageFromURL(infoArr[3]));
         final EditText text=dialog.findViewById(R.id.edMessage);
+        text.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.getWindow().setLayout(width, height/2);
+            }
+        });
         messagePost.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -268,11 +275,8 @@ public class pageWatchPost extends AppCompatActivity {
                 setAlert();
             }
         });
-        int height = (int)(getResources().getDisplayMetrics().heightPixels);
-        int width = (int)(getResources().getDisplayMetrics().widthPixels);
 
         int btnId = 0;
-
         String messageS = dbcon.messageInfo(idS, messageUrl);
         String[] messageArr = messageS.split("]");
         messageSQL = new makeMessage[messageArr.length];
@@ -280,23 +284,16 @@ public class pageWatchPost extends AppCompatActivity {
             if (messageS.equals(idS)) {
                 break;
             }
-
-
             String tmp = messageArr[i];
             String[] messageArr2 = tmp.split(",");
-
             String userInfo1 = dbcon.userInfo(messageArr2[0], info);
             String[] infoArr1 = userInfo1.split(",");
-
             messageSQL[i] = new makeMessage(infoArr1[0], messageArr2[1], infoArr1[3], messageArr2[2],messageArr2[0]);
 
         }
         if(messageSQL[0]!=null){
             txCount.setText("留言("+messageSQL.length+")");
         }
-
-
-
         for (makeMessage point : messageSQL) {
             if (messageS.equals(idS)) {
                 break;
@@ -345,8 +342,6 @@ public class pageWatchPost extends AppCompatActivity {
                                         String edit=messageSQL[id].account+"/"+idS;
                                         setAlertReport(edit,"edit");
                                     }
-
-
                                     return true;
                                 case R.id.action_report:
 
@@ -364,11 +359,6 @@ public class pageWatchPost extends AppCompatActivity {
                 }
             });
 
-
-
-
-
-
             btnId++;
             ll.addView(viewM);
 
@@ -380,10 +370,7 @@ public class pageWatchPost extends AppCompatActivity {
 
 
         }
-
-
         dialog.getWindow().setLayout(width, height);
-
         dialog.show();
     }
     public void setAlertReport(final String x, final String type){
@@ -469,7 +456,6 @@ public class pageWatchPost extends AppCompatActivity {
 
 
     }
-
     class makeMessage {
 
         public String text,account,head,time,nick;

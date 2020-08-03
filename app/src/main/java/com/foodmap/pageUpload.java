@@ -72,6 +72,7 @@ public class pageUpload extends AppCompatActivity implements View.OnClickListene
             intent.setAction(Intent.ACTION_GET_CONTENT);
             //回傳時，要如何處理。請重新Override onActivityResult函式。
             startActivityForResult(Intent.createChooser(intent, "Complete action using"), 1);
+
         }
 
 
@@ -140,8 +141,6 @@ public class pageUpload extends AppCompatActivity implements View.OnClickListene
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
-
         if (requestCode == 1 && resultCode == RESULT_OK) {
             //Bitmap photo = (Bitmap) data.getData().getPath();
 
@@ -222,7 +221,8 @@ public class pageUpload extends AppCompatActivity implements View.OnClickListene
             });
 
             return 0;
-        } else {
+        }
+        else {
             try {
 
                 //使用HttpURLConnection，連到Server瑞的網頁
@@ -285,6 +285,7 @@ public class pageUpload extends AppCompatActivity implements View.OnClickListene
                             messageText.setText(msg);
 
                             Toast.makeText(pageUpload.this, "File Upload Complete.", Toast.LENGTH_SHORT).show();
+
                         }
                     });
                     if (check == 0) {
@@ -317,7 +318,7 @@ public class pageUpload extends AppCompatActivity implements View.OnClickListene
                                 intent.setClass(pageUpload.this, pageCreateShop.class);
                                 startActivity(intent);
                                 finish();
-                                //update 背景網址 http;//114.32.152.202/foodphp/upload/檔名
+
                         }
                         else {
                                 String r = "http://114.32.152.202/foodphp/upload/" + sourceFile.getName();
@@ -326,7 +327,7 @@ public class pageUpload extends AppCompatActivity implements View.OnClickListene
                                 intent.setClass(pageUpload.this, pageCreateShop.class);
                                 startActivity(intent);
                                 finish();
-                                //update 頭像網址 http;//114.32.152.202/foodphp/upload/檔名
+
 
                             }
 

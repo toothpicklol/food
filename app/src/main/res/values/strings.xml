@@ -26,4 +26,7 @@
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
     <string name="map">定位需要時間請耐心等候</string>
+    <string name="title_activity_page_checker">pageChecker</string>
+    <string name="tab_text_1">報名成為驗證者</string>
+    <string name="tab_text_2">我的報名清單</string>
 </resources>

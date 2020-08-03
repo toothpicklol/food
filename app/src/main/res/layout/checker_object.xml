@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto" android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent" android:background="@android:drawable/screen_background_light">
+
+    <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        <ImageView
+                android:layout_width="80dp"
+                android:layout_height="80dp" app:srcCompat="@drawable/bad" android:id="@+id/imgCheckShopHead"/>
+        <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent" android:layout_weight="1">
+            <TextView
+                    android:text="TextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" android:id="@+id/txCheckShopName" android:textStyle="bold"
+                    android:textSize="18sp" android:textColor="@android:color/black"/>
+            <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" android:gravity="center_vertical">
+                <TextView
+                        android:text="TextView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" android:id="@+id/txCheckShopAddress" android:textSize="18sp"/>
+            </LinearLayout>
+        </LinearLayout>
+        <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent">
+            <ImageButton
+                    android:layout_width="50dp"
+                    android:layout_height="50dp" app:srcCompat="@android:drawable/ic_menu_add"
+                    android:id="@+id/imgBtnCheckShopAdd"
+                    android:background="@android:drawable/screen_background_light"/>
+            <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" android:gravity="center">
+                <TextView
+                        android:text="通過"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" android:id="@+id/txCheckShopStatus"
+                        android:textAlignment="center" android:textSize="18sp"
+                        android:textColor="@android:color/holo_green_light"/>
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+    <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@android:color/darker_gray" android:id="@+id/view3"/>
+</LinearLayout>

@@ -14,7 +14,7 @@
         <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="244dp"
-                app:srcCompat="@drawable/common_google_signin_btn_text_disabled"
+                app:srcCompat="@drawable/common_google_signin_btn_icon_dark"
                 android:id="@+id/imageUpload"/>
         <TableLayout
                 android:layout_width="match_parent"

@@ -38,6 +38,8 @@ public class pageShop extends AppCompatActivity {
     String logUrl="http://114.32.152.202/foodphp/insertLog.php";
     String fansU="http://114.32.152.202/foodphp/fansCountShop.php";
     String updateShopInfo="http://114.32.152.202/foodphp/updateShopInfo.php";
+    String checkOwnerUrl="http://114.32.152.202/foodphp/selectLCheckid.php";
+    String checkOwnerPassUrl="http://114.32.152.202/foodphp/selectLCheckPass.php";
     Button btnPost,btnOwner,btnLike,btnOtherUser,btnPointInfo;
     LinearLayout ll,bgU;
     View view,comment,shopText,viewP;
@@ -137,9 +139,19 @@ public class pageShop extends AppCompatActivity {
                     String[] infoArr=userInfo.split(",");
                     String[] infoArr2=infoArr[11].split("]");
                     if(!infoArr2[0].equals(userAcc)){
-                        Uri web = Uri.parse("https://docs.google.com/forms/d/e/1FAIpQLScjv-fExVswZw1KFeUdongUCM66KnEYuqFM_yHhIAX6hfHJQg/viewform?usp=sf_link");
-                        Intent webIntent = new Intent(Intent.ACTION_VIEW, web);
-                        startActivity(webIntent);
+
+                        if(dbcon.selectOwnerCheck(userAcc,shopACC,checkOwnerUrl).equals("0")){
+                            pageShopOwnerApplication.setName(userAcc,shopACC);
+                            Intent intent = new Intent();
+                            intent.setClass(pageShop.this, pageShopOwnerApplication.class);
+                            startActivity(intent);
+
+                        }
+                        else {
+                            setAlertOwnerCheck();
+                        }
+
+
                     }
                     else {
                         setAlertEditShop();
@@ -281,20 +293,9 @@ public class pageShop extends AppCompatActivity {
                 }
 
 
-
-
-
-
             }
 
         }
-
-
-
-
-
-
-
 
         dialog.getWindow().setLayout(width, height);
 
@@ -304,7 +305,6 @@ public class pageShop extends AppCompatActivity {
 
         final Dialog dialog = new Dialog(pageShop.this,R.style.MyDialog);
         dialog.setContentView(R.layout.reportbox);//指定自定義layout
-
 
         final EditText report=dialog.findViewById(R.id.edReport);
         ImageButton reportBtn=dialog.findViewById(R.id.imgBtnReportSent);
@@ -318,12 +318,6 @@ public class pageShop extends AppCompatActivity {
                 dbcon.insertLog(userAcc,"shop"+shopACC,why,"report",Format.format(Time),logUrl);
                 dialog.cancel();
 
-
-
-
-
-
-
             }
         });
         if(!type.equals("report")){
@@ -334,12 +328,43 @@ public class pageShop extends AppCompatActivity {
 
         dialog.show();
     }
+    public void setAlertOwnerCheck(){
+
+        final Dialog dialog = new Dialog(pageShop.this,R.style.MyDialog);
+        dialog.setContentView(R.layout.owner_checkbox);//指定自定義layout
+
+
+        Button btnPass=dialog.findViewById(R.id.btnGetOwnerPass);
+        final TextView alert=dialog.findViewById(R.id.txOwnerPass);
+        btnPass.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String pass=dbcon.selectOwnerCheck(userAcc,shopACC,checkOwnerPassUrl);
+                if(!pass.equals("null")){
+                    alert.setText(pass);
+                    Toast.makeText(getApplicationContext()," 請出示驗證碼給驗證者輸入，方可完成一次驗證!", Toast.LENGTH_LONG).show();
+                }
+                else {
+                    Toast.makeText(getApplicationContext()," 尚問有驗證者點選驗證，請先等驗證者點選後再點一次!", Toast.LENGTH_LONG).show();
+                }
+
+
+
+            }
+        });
+        int height = (int)(getResources().getDisplayMetrics().heightPixels);
+        int width = (int)(getResources().getDisplayMetrics().widthPixels);
+
+
+        dialog.getWindow().setLayout(width,height);
+        dialog.getWindow().setLayout(width,height/4);
+
+        dialog.show();
+    }
     public void setAlertEditShop(){
 
         final Dialog dialog = new Dialog(pageShop.this,R.style.MyDialog);
         dialog.setContentView(R.layout.shop_info_box);//指定自定義layout
-
-
         final EditText OTime=dialog.findViewById(R.id.edShopOTime);
         final EditText CTime=dialog.findViewById(R.id.edShopCTime);
         final EditText Tel=dialog.findViewById(R.id.edShopTel);
@@ -380,14 +405,8 @@ public class pageShop extends AppCompatActivity {
             dbcon.updateShopInfo(b.getText().toString(),shopACC,type,updateShopInfo);
 
         }
-
-
-
-        //System.out.println("666666666666666666666666666666666666666666666");
     }
-
     class makeComment {
-
         public String text,title,account,picture,head,postId,time,nick;
         public makeComment( String i, String j,String k,String l,String n,String o,String p,String q) {
             account=i;
@@ -399,8 +418,6 @@ public class pageShop extends AppCompatActivity {
             time=p;
             nick=q;
         }
-
-
     }
     class makeInfo {
 
@@ -455,6 +472,4 @@ public class pageShop extends AppCompatActivity {
             }
         }
     };
-
-
 }

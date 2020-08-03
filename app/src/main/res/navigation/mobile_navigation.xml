@@ -14,23 +14,18 @@
     <activity
             android:id="@+id/nav_gallery"
             android:label="@string/myComment"
-            tools:layout="@layout/comment" android:name="com.foodmap.pageUser"/>
+            android:name="com.foodmap.pageUser"/>
 
     <fragment
             android:id="@+id/nav_slideshow"
             android:label="@string/menu_slideshow"
             tools:layout="@layout/fragment_slideshow" android:name="com.foodmap.ui.slideshow.SlideshowFragment"/>
 
-    <fragment
+    <activity
         android:id="@+id/nav_tools"
-        android:name="com.foodmap.ui.tools.ToolsFragment"
-        android:label="@string/myInfo"
-        tools:layout="@layout/fragment_tools"/>
-    <fragment
-            android:id="@+id/nav_more"
-            android:name="com.foodmap.ui.home.MoreFragment"
-            android:label="@string/myInfo"
-            tools:layout="@layout/fragment_more"/>
+        android:name="com.foodmap.pageChecker"
+        android:label="驗證"
+        />
 
 
 </navigation>

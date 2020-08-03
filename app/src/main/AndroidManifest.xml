@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           xmlns:tools="http://schemas.android.com/tools"
-          
           package="com.foodmap">
     <!--
          The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
@@ -22,6 +21,12 @@
             android:theme="@style/AppTheme"
             android:usesCleartextTraffic="true"
             tools:ignore="GoogleAppIndexingWarning">
+        <activity android:name=".pageChecker">
+        </activity>
+        <activity
+                android:name=".pageShopOwnerApplication"
+                android:theme="@style/AppTheme.NoActionBar">
+        </activity>
         <activity android:name=".pageWatchPost">
         </activity>
         <activity
@@ -34,7 +39,8 @@
         </activity>
         <activity android:name=".pageSocial">
         </activity>
-        <activity android:name=".pageCreateShop">
+        <activity android:name=".pageCreateShop"
+                  android:theme="@style/AppTheme.NoActionBar">
         </activity>
         <activity android:name=".pageLike">
         </activity>

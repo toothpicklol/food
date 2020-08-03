@@ -2,21 +2,22 @@ package com.foodmap.ui.home;
 
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.*;
+import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
+import android.widget.*;
 import android.location.LocationListener;
-import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import com.foodmap.*;
@@ -49,171 +50,42 @@ public class HomeFragment extends Fragment
     String info="http://114.32.152.202/foodphp/userinfo.php";
     String mapShop="http://114.32.152.202/foodphp/mapshop.php";
     GoogleMapV2_MarkPoint[] MysqlPointSet;
+    View markView;
     double X,Y;
 
-    public View onCreateView(@NonNull LayoutInflater inflater,
-                             ViewGroup container, Bundle savedInstanceState) {
 
+    public View onCreateView(@NonNull LayoutInflater inflater,ViewGroup container, Bundle savedInstanceState) {
 
         View root = inflater.inflate(R.layout.fragment_home, container, false);
-
+        markView = inflater.inflate(R.layout.map_mark, null);
         search=root.findViewById(R.id.btn_search);
-
         searchBar=root.findViewById(R.id.etSearch);
-        search.setOnClickListener(searchListener);
-
+        search.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), pageSearch.class);
+                startActivity(intent);
+            }
+        });
         SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
         Toast.makeText(getActivity(), getResources().getString(R.string.map), Toast.LENGTH_SHORT).show();
-
         mapFragment.getMapAsync(this);
-
-
-
         return root;
-
-
     }
-    private Button.OnClickListener searchListener = new Button.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            Intent intent = new Intent(getActivity(), pageSearch.class);
-            startActivity(intent);
-
-        }
-    };
-
     @Override
     public void onMapReady(GoogleMap googleMap) {
+
         mMap = googleMap;
         mMap.setMapType(GoogleMap.MAP_TYPE_TERRAIN);
-        //mMap.setOnCameraIdleListener(this);
         mMap.setOnCameraMoveStartedListener(this);
-
-        //mMap.setOnCameraMoveListener(this);
-        //mMap.setOnCameraMoveCanceledListener(this);
-        
-
-
-
-        String commentS=dbcon.mark(String.valueOf(cX),String.valueOf(cY),mapShop);
-        System.out.println(commentS);
-
-        String[] markArr=commentS.split("]");
-
-
-        if(!commentS.equals("")){
-            MysqlPointSet = new GoogleMapV2_MarkPoint[markArr.length];
-            for (int i=0; i<markArr.length; i++) {
-                String tmp=markArr[i];
-                String[] commentArr2=tmp.split(",");
-                MysqlPointSet[i] = new GoogleMapV2_MarkPoint(Double.parseDouble(commentArr2[0]), Double.parseDouble(commentArr2[1]), commentArr2[2],commentArr2[3],commentArr2[4],commentArr2[5]);//評論資料
-
-            }
-
-
-            for (GoogleMapV2_MarkPoint point : MysqlPointSet) {
-
-
-
-
-                mMap.addMarker(new MarkerOptions().position(new LatLng(point.latitude, point.longitude)).title(point.title)
-                        .snippet(point.point+"#"+point.account).icon(BitmapDescriptorFactory.fromBitmap(writeTextOnDrawable(point.head, point.title))));
-
-
-
-                //BitmapDescriptorFactory.fromBitmap(writeTextOnDrawable(R.drawable.bluebox, "your text goes here")))
-
-
-            }
-            if(first==1){
-                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(
-                        new LatLng(X,Y), 13));
-                first++;
-            }
-            mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
-                @Override
-                public void onInfoWindowClick(Marker marker) {
-
-                    String name=marker.getSnippet();
-                    if(marker.getTitle().equals("你的位置")){
-
-                    }
-                    else{
-                        String[] nameArr=name.split("#");
-
-                        Intent intent = new Intent(getActivity(), pageShop.class);
-                        startActivity(intent);
-                        pageShop.setName(nameArr[1],user);
-                    }
-
-
-
-
-
-
-
-
-                }
-            });
-            mMap.setMyLocationEnabled(true);
+        if(first==0){
+            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(
+                    new LatLng(X,Y), 13));
+            first++;
         }
-        
-
-
-
-
-
-
-
-
-
-
-
-
+        mMap.setMyLocationEnabled(true);
+        addMark(mMap);
     }
-    public static void selectShop(){
-
-
-            mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
-                @Override
-                public void onMapClick(LatLng latLng) {
-                    MarkerOptions markerOptions = new MarkerOptions();
-                    markerOptions.position(latLng);
-                    markerOptions.title(latLng.latitude + " : " + latLng.longitude);
-                    markerOptions.snippet("點擊這裡創建商店並在按一次右下的按鈕退出模式");
-                    mMap.clear();
-
-                    // Animating to the touched position
-                    mMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
-
-                    // Placing a marker on the touched position
-                    mMap.addMarker(markerOptions);
-                }
-            });
-            mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
-                @Override
-                public void onInfoWindowClick(Marker marker) {
-                    nX = marker.getPosition().latitude;
-                    nY = marker.getPosition().longitude;
-                    pageCreateShop.newXY(nX, nY);
-                    pageHome.set(1);
-
-
-
-
-                }
-
-
-
-            });
-
-
-
-
-
-
-    }
-
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -238,15 +110,12 @@ public class HomeFragment extends Fragment
 
         mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 2000, 5, this);
     }
-
     private int checkSelfPermission(String accessFineLocation) {
         return 0;
     }
-
     public void onRequestPermissionsResult(int requestCode, String[] permissions,int[] grantResults){
 
     }
-
     @Override
     public void onPause() {
         super.onPause();
@@ -254,7 +123,6 @@ public class HomeFragment extends Fragment
         Log.i(TAG, "onPause");
         mLocationManager.removeUpdates(this);
     }
-
     @Override
     public void onLocationChanged(Location location) {
         Log.i(TAG, String.valueOf(location.getLatitude()));
@@ -268,18 +136,15 @@ public class HomeFragment extends Fragment
         onMapReady(mMap);
 
     }
-
     @Override
     public void onStatusChanged(String provider, int status, Bundle extras) {
 
 
     }
-
     @Override
     public void onProviderEnabled(String provider) {
 
     }
-
     @Override
     public void onProviderDisabled(String provider) {
 
@@ -291,8 +156,7 @@ public class HomeFragment extends Fragment
 
            cX=mMap.getCameraPosition().target.latitude;
            cY=mMap.getCameraPosition().target.longitude;
-           onMapReady(mMap);
-
+           addMark(mMap);
 
         } else if (reason == GoogleMap.OnCameraMoveStartedListener
                 .REASON_API_ANIMATION) {
@@ -308,7 +172,6 @@ public class HomeFragment extends Fragment
 
         return true;
     }
-
     @Override
     public void onCameraIdle() {
         Toast.makeText(getActivity(), "The camera has stopped moving.",
@@ -316,83 +179,134 @@ public class HomeFragment extends Fragment
 
 
     }
-
     @Override
     public void onCameraMove() {
         Toast.makeText(getActivity(), "The camera is moving.",
                 Toast.LENGTH_SHORT).show();
 
     }
-
     @Override
+
     public void onCameraMoveCanceled() {
         Toast.makeText(getActivity(), "Camera movement canceled.",
                 Toast.LENGTH_SHORT).show();
 
     }
-    public Bitmap getBitmapFromURL(String imageUrl) {
+    public void addMark(GoogleMap mMap){
+
+
+        TextView markShopName = (TextView) markView.findViewById(R.id.num_txt);
+        ImageView markSopHead=markView.findViewById(R.id.imgShopHead);
+
+        String markS=dbcon.mark(String.valueOf(cX),String.valueOf(cY),mapShop);
+        System.out.println(markS);
+        String[] markArr=markS.split("]");
+        if(!markS.equals("")){
+            MysqlPointSet = new GoogleMapV2_MarkPoint[markArr.length];
+            for (int i=0; i<markArr.length; i++) {
+                String tmp=markArr[i];
+                String[] commentArr2=tmp.split(",");
+                MysqlPointSet[i] = new GoogleMapV2_MarkPoint(Double.parseDouble(commentArr2[0]), Double.parseDouble(commentArr2[1]), commentArr2[2],commentArr2[3],commentArr2[4],commentArr2[5]);//評論資料
+            }
+
+            for (GoogleMapV2_MarkPoint point : MysqlPointSet) {
+                markShopName.setText(point.title);
+                markSopHead.setImageDrawable(loadImageFromURL(point.head));
+                mMap.addMarker(new MarkerOptions().position(new LatLng(point.latitude, point.longitude)).title(point.title)
+                        .snippet(point.point+"#"+point.account).icon(BitmapDescriptorFactory.fromBitmap(createDrawableFromView(getContext(), markView))));
+
+
+            }
+
+            mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+                @Override
+                public void onInfoWindowClick(Marker marker) {
+                    String name=marker.getSnippet();
+                    if(marker.getTitle().equals("你的位置")){
+                    }
+                    else{
+                        String[] nameArr=name.split("#");
+                        Intent intent = new Intent(getActivity(), pageShop.class);
+                        startActivity(intent);
+                        pageShop.setName(nameArr[1],user);
+                    }
+                }
+            });
+        }
+
+    }
+    private Drawable loadImageFromURL(String url) {
         try {
-            URL url = new URL(imageUrl);
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.setDoInput(true);
-            connection.connect();
-            InputStream input = connection.getInputStream();
-            Bitmap myBitmap = BitmapFactory.decodeStream(input);
-            myBitmap = Bitmap.createScaledBitmap(myBitmap,150,150, true);
-        return myBitmap;
-        } catch (IOException e) {
-            e.printStackTrace();
+            InputStream is = (InputStream) new URL(url).getContent();
+            Drawable draw = Drawable.createFromStream(is, "src");
+            return draw;
+        } catch (Exception e) {
+
+            System.out.println("erroor");
+            Log.i("loadingImg", e.toString());
             return null;
         }
     }
-    private Bitmap writeTextOnDrawable(String drawableId, String text) {
-
-        Bitmap bm = getBitmapFromURL(drawableId);
+    public static void selectShop(){
 
 
-        Typeface tf = Typeface.create("Helvetica", Typeface.BOLD);
+        mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+            @Override
+            public void onMapClick(LatLng latLng) {
+                MarkerOptions markerOptions = new MarkerOptions();
+                markerOptions.position(latLng);
+                markerOptions.title(latLng.latitude + " : " + latLng.longitude);
+                markerOptions.snippet("點擊這裡創建商店並在按一次右下的按鈕退出模式");
+                mMap.clear();
 
-        Paint paint = new Paint();
-        paint.setStyle(Paint.Style.FILL);
-        paint.setColor(Color.BLACK);
-        paint.setTypeface(tf);
-        paint.setTextAlign(Paint.Align.CENTER);
-        paint.setTextSize(convertToPixels(getContext().getApplicationContext(), 15));
+                // Animating to the touched position
+                mMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
 
-
-
-        Rect textRect = new Rect();
-        paint.getTextBounds(text, 0, text.length(), textRect);
-
-        Canvas canvas = new Canvas(bm);
-
-        //If the text is bigger than the canvas , reduce the font size
-        if(textRect.width() >= (canvas.getWidth() - 4))     //the padding on either sides is considered as 4, so as to appropriately fit in the text
-            paint.setTextSize(convertToPixels(getContext().getApplicationContext(), 10));        //Scaling needs to be used for different dpi's
-
-        //Calculate the positions
-        int xPos = (canvas.getWidth() / 2) - 2;     //-2 is for regulating the x position offset
-
-        //"- ((paint.descent() + paint.ascent()) / 2)" is the distance from the baseline to the center.
-        int yPos = (int) ((canvas.getHeight() / 2) - ((paint.descent() + paint.ascent()) / 2)) ;
-
-        canvas.drawText(text, xPos, yPos, paint);
-
-        return  bm;
-    }
+                // Placing a marker on the touched position
+                mMap.addMarker(markerOptions);
+            }
+        });
+        mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+            @Override
+            public void onInfoWindowClick(Marker marker) {
+                nX = marker.getPosition().latitude;
+                nY = marker.getPosition().longitude;
+                pageCreateShop.newXY(nX, nY);
+                pageHome.set(1);
 
 
 
-    public static int convertToPixels(Context context, int nDP)
-    {
-        final float conversionScale = context.getResources().getDisplayMetrics().density;
 
-        return (int) ((nDP * conversionScale) + 0.5f) ;
+            }
+
+
+
+        });
+
+
+
+
+
 
     }
+    public static void setName(String i){
+        user=i;
 
+    }
+    public static Bitmap createDrawableFromView(Context context, View view) {
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        ((Activity) context).getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        view.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        view.measure(displayMetrics.widthPixels, displayMetrics.heightPixels);
+        view.layout(0, 0, displayMetrics.widthPixels, displayMetrics.heightPixels);
+        view.buildDrawingCache();
+        Bitmap bitmap = Bitmap.createBitmap(view.getMeasuredWidth(), view.getMeasuredHeight(), Bitmap.Config.ARGB_8888);
 
+        Canvas canvas = new Canvas(bitmap);
+        view.draw(canvas);
 
+        return bitmap;
+    }
     class GoogleMapV2_MarkPoint {
         public double latitude, longitude;
         public String title,head,point,account;
@@ -415,10 +329,6 @@ public class HomeFragment extends Fragment
 
     }
 
-    public static void setName(String i){
-        user=i;
-
-    }
 
 
 

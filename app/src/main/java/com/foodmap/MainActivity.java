@@ -130,8 +130,6 @@ public class MainActivity extends AppCompatActivity {
                 altDlgBuilder.show();
                 return;
 
-
-
             }
             else
             {
