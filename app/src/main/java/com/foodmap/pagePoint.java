@@ -1,12 +1,11 @@
 package com.foodmap;
 
+import android.annotation.SuppressLint;
 import android.view.View;
 import android.widget.*;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 
-import java.util.Calendar;
-import java.util.Date;
 
 public class pagePoint extends AppCompatActivity {
     CheckBox checkBox1,checkBox2,checkBox3,checkBox4,
@@ -22,7 +21,7 @@ public class pagePoint extends AppCompatActivity {
     String tagUrl="http://114.32.152.202/foodphp/insertTag.php";
     TextView txTag;
 
-    private static String user;
+
     private static String shop;
     private static String postID;
 
@@ -33,18 +32,18 @@ public class pagePoint extends AppCompatActivity {
         setContentView(R.layout.activity_page_point);
 
 
-        checkBox1 = (CheckBox)findViewById(R.id.cbPoint);
-        checkBox2 = (CheckBox)findViewById(R.id.cbPoint1);
-        checkBox3 = (CheckBox)findViewById(R.id.cbPoint2);
-        checkBox4 = (CheckBox)findViewById(R.id.cbPoint3);
-        checkBox5 = (CheckBox)findViewById(R.id.cbPoint4);
-        checkBox6 = (CheckBox)findViewById(R.id.cbPoint5);
-        checkBox7 = (CheckBox)findViewById(R.id.cbPoint6);
-        checkBox8 = (CheckBox)findViewById(R.id.cbPoint7);
-        checkBox9 = (CheckBox)findViewById(R.id.cbPoint8);
-        checkBox10 = (CheckBox)findViewById(R.id.cbPoint9);
-        checkBox11= (CheckBox)findViewById(R.id.cbPoint10);
-        checkBox12 = (CheckBox)findViewById(R.id.cbPoint11);
+        checkBox1 = findViewById(R.id.cbPoint);
+        checkBox2 = findViewById(R.id.cbPoint1);
+        checkBox3 = findViewById(R.id.cbPoint2);
+        checkBox4 = findViewById(R.id.cbPoint3);
+        checkBox5 = findViewById(R.id.cbPoint4);
+        checkBox6 = findViewById(R.id.cbPoint5);
+        checkBox7 = findViewById(R.id.cbPoint6);
+        checkBox8 = findViewById(R.id.cbPoint7);
+        checkBox9 = findViewById(R.id.cbPoint8);
+        checkBox10 = findViewById(R.id.cbPoint9);
+        checkBox11= findViewById(R.id.cbPoint10);
+        checkBox12 = findViewById(R.id.cbPoint11);
 
         editText1=findViewById(R.id.edPoint);
         editText2=findViewById(R.id.edPoint1);
@@ -69,9 +68,10 @@ public class pagePoint extends AppCompatActivity {
         txTag=findViewById(R.id.txTag);
         tag=findViewById(R.id.btnTag);
         tag.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("SetTextI18n")
             @Override
             public void onClick(View v) {
-                if(edTag.getText().toString()!=null&&!edTag.getText().toString().equals("")){
+                if(!edTag.getText().toString().equals("")){
                     if(txTag.getText().toString().equals(""))
                     {
                         txTag.setText(edTag.getText().toString());
@@ -90,6 +90,7 @@ public class pagePoint extends AppCompatActivity {
 
         pointBtn=findViewById(R.id.imgBtnPoint);
         pointBtn.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("SetTextI18n")
             @Override
             public void onClick(View v) {
                 over(checkBox1,editText1,"a");
@@ -105,14 +106,14 @@ public class pagePoint extends AppCompatActivity {
                 over(checkBox11,editText11,"k");
                 over(checkBox12,editText12,"l");
 
-                if(edTotal.getText().toString()!=null&&!edTotal.getText().toString().equals("")){
+                if(!edTotal.getText().toString().equals("")){
 
 
 
-                    if (Long.valueOf(edTotal.getText().toString()) > 100) {
+                    if (Long.parseLong(edTotal.getText().toString()) > 100) {
                         edTotal.setText("100");
 
-                    } else if (Long.valueOf(edTotal.getText().toString()) < 0) {
+                    } else if (Long.parseLong(edTotal.getText().toString()) < 0) {
                         edTotal.setText("0");
                     }
                     dbcon.updatePoint(postID, "total", edTotal.getText().toString(), pointUrl);
@@ -126,7 +127,7 @@ public class pagePoint extends AppCompatActivity {
                         dbcon.insertTag(shop,tag[i],tagUrl);
                     }
                 }
-                dbcon.updatePoint(postID,"total",String.valueOf(edTotal.getText().toString()),pointUrl);
+                dbcon.updatePoint(postID,"total",edTotal.getText().toString(),pointUrl);
                 finish();
 
 
@@ -143,18 +144,17 @@ public class pagePoint extends AppCompatActivity {
 
 
     }
-    public void over(CheckBox a ,EditText b,String c){
+    @SuppressLint("SetTextI18n")
+    public void over(CheckBox a , EditText b, String c){
+
+        if(a.isChecked()&&!b.getText().toString().equals("")){
 
 
 
-        if(a.isChecked()==true&&b.getText().toString()!=null&&!b.getText().toString().equals("")){
-
-
-
-                if (Long.valueOf(b.getText().toString()) > 100) {
+                if (Long.parseLong(b.getText().toString()) > 100) {
                     b.setText("100");
 
-                } else if (Long.valueOf(b.getText().toString()) < 0) {
+                } else if (Long.parseLong(b.getText().toString()) < 0) {
                     b.setText("0");
                 }
                 dbcon.updatePoint(postID, String.valueOf(c), b.getText().toString(), pointUrl);
@@ -166,7 +166,7 @@ public class pagePoint extends AppCompatActivity {
 
     }
     public static void setName(String userI,String shopI,String postIDI){
-        user=userI;
+
         shop=shopI;
         postID=postIDI;
 

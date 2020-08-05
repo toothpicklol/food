@@ -1,16 +1,11 @@
 package com.foodmap;
 
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
-import android.util.Log;
+
 import android.view.View;
 import android.widget.*;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
-import com.foodmap.ui.home.HomeFragment;
-
-import java.io.InputStream;
-import java.net.URL;
 import java.util.Random;
 
 public class pageCreateShop extends AppCompatActivity {
@@ -55,8 +50,8 @@ public class pageCreateShop extends AppCompatActivity {
         yShop.setText(String.valueOf(y));
         tmpAcc=getRandomString(8);
         shopAcc.setText(tmpAcc);
-        bg.setImageDrawable(loadImageFromURL(bgS));
-        head.setImageDrawable(loadImageFromURL(headS));
+        bg.setImageDrawable(Api.loadImageFromURL(bgS));
+        head.setImageDrawable(Api.loadImageFromURL(headS));
 
 
 
@@ -127,18 +122,7 @@ public class pageCreateShop extends AppCompatActivity {
         }
     };
 
-    private Drawable loadImageFromURL(String url) {
-        try {
-            InputStream is = (InputStream) new URL(url).getContent();
-            Drawable draw = Drawable.createFromStream(is, "src");
-            return draw;
-        } catch (Exception e) {
-            //TODO handle error
-            System.out.println("error");
-            Log.i("loadingImg", e.toString());
-            return null;
-        }
-    }
+
 
 
 }

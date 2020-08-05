@@ -2,39 +2,33 @@ package com.foodmap;
 
 import android.Manifest;
 import android.app.AlertDialog;
-import android.content.Context;
+
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.LocationManager;
 import android.os.StrictMode;
 import android.view.View;
-import android.webkit.CookieManager;
-import android.webkit.CookieSyncManager;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
+
 import android.widget.TextView;
 import android.widget.Toast;
-import androidx.annotation.NonNull;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-import com.google.android.gms.maps.GoogleMap;
+
 
 public class MainActivity extends AppCompatActivity {
 
     TextView account,password,loginfail;
-    Context context=this;
 
     String url="http://114.32.152.202/foodphp/login.php";
 
-    String cookieStr;
-    private GoogleMap mMap;
+
     private LocationManager mloc;
     private final int ReQust_PERMISSIOIN_FOR_ACCESS_FINE_LOCATION=100;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,18 +56,16 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
-
-
     public void login(View v) {
-        String r="xxxxx";
+        String r;
 
-        String acc = String.format(account.getText().toString());
+        String acc =account.getText().toString();
 
         pageUser.setName(acc);
         pageHome.setName(acc);
 
 
-        r=dbcon.dbstring(account.getText().toString(),password.getText().toString(),cookieStr,url);
+        r=dbcon.dbstring(account.getText().toString(),password.getText().toString(),"...",url);
         loginfail.setText(r);
 
 
@@ -101,14 +93,6 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
-//    public void onReQust_PERMISSIOIN_FOR_ACCESS_FINE_LOCATION(int requestCode, @NonNull int[]grantResults){
-//        if(requestCode==ReQust_PERMISSIOIN_FOR_ACCESS_FINE_LOCATION){
-//            if(grantResults[0]== PackageManager.PERMISSION_GRANTED){
-//                checkLocationPermissionAndEnableIt(true);
-//                return;
-//            }
-//        }
-//    }
     private void checkLocationPermissionAndEnableIt(boolean on){
         if(ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_FINE_LOCATION)!=
                 PackageManager.PERMISSION_GRANTED){

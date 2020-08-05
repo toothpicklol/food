@@ -1,16 +1,12 @@
 package com.foodmap;
 
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.*;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 
-import java.io.InputStream;
-import java.net.URL;
 
 public class pageLike extends AppCompatActivity {
 
@@ -22,7 +18,6 @@ public class pageLike extends AppCompatActivity {
     TextView name,acc;
     Button btnLike;
     View view;
-    int likeCheck=0;
     String userLikeU="http://114.32.152.202/foodphp/LikeUser.php";
     String shopLike="http://114.32.152.202/foodphp/LikeShop.php";
     String userInfo="http://114.32.152.202/foodphp/userinfo.php";
@@ -73,7 +68,7 @@ public class pageLike extends AppCompatActivity {
             btnId++;
             name.setText(point.account);
             acc.setText(point.name);
-            head.setImageDrawable(loadImageFromURL(point.head));
+            head.setImageDrawable(Api.loadImageFromURL(point.head));
             shopBox.addView(view);
         }
 
@@ -112,7 +107,7 @@ public class pageLike extends AppCompatActivity {
             btnId2++;
             name.setText(point.account);
             acc.setText(point.name);
-            head.setImageDrawable(loadImageFromURL(point.head));
+            head.setImageDrawable(Api.loadImageFromURL(point.head));
             writerBox.addView(view);
         }
 
@@ -120,18 +115,7 @@ public class pageLike extends AppCompatActivity {
 
 
     }
-    private Drawable loadImageFromURL(String url) {
-        try {
-            InputStream is = (InputStream) new URL(url).getContent();
-            Drawable draw = Drawable.createFromStream(is, "src");
-            return draw;
-        } catch (Exception e) {
-            //TODO handle error
-            System.out.println("error");
-            Log.i("loadingImg", e.toString());
-            return null;
-        }
-    }
+
 
     class makeLike {
 

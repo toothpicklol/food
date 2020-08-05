@@ -1,23 +1,13 @@
 package com.foodmap;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
-import android.os.Build;
-import android.text.Html;
-import android.util.Log;
 import android.view.*;
-import android.webkit.WebView;
 import android.widget.*;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import com.foodmap.richeditor.RichEditor;
-
-import java.io.InputStream;
-import java.net.URL;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
 
 public class pageWatchPost extends AppCompatActivity {
     private static String headS,titleS,textS,accountS,idS,user,shopS,nickS,timeS;
@@ -46,6 +36,7 @@ public class pageWatchPost extends AppCompatActivity {
     final String[] infoArr = userInfo.split(",");
 
 
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,7 +48,7 @@ public class pageWatchPost extends AppCompatActivity {
         postHead=findViewById(R.id.imgPostHead);
         good=findViewById(R.id.txGP);
         bad=findViewById(R.id.txBP);
-        mEditor = (RichEditor) findViewById(R.id.editor);
+        mEditor = findViewById(R.id.editor);
         total=findViewById(R.id.txTotalPoint);
         infoPoint=findViewById(R.id.txPointInfo);
         GP=findViewById(R.id.imgBtnGP);
@@ -121,7 +112,7 @@ public class pageWatchPost extends AppCompatActivity {
         account.setText(nickS);
         title.setText("【評論】"+titleS);
         mEditor.setHtml(textS);
-        postHead.setImageDrawable(loadImageFromURL(headS));
+        postHead.setImageDrawable(Api.loadImageFromURL(headS));
         mEditor.setInputEnabled(false);
 
         if(mEditor.getHtml().length()<20){
@@ -134,7 +125,7 @@ public class pageWatchPost extends AppCompatActivity {
 
 
 
-        messageOtherHead.setImageDrawable(loadImageFromURL(infoArr[3]));
+        messageOtherHead.setImageDrawable(Api.loadImageFromURL(infoArr[3]));
 
 
         String likeInfo=dbcon.likeCount(idS,likeUrl);
@@ -147,57 +138,57 @@ public class pageWatchPost extends AppCompatActivity {
 
         String[] pointTMP= pointInfo.split(",");
 
-        String tmp="";
+        StringBuilder tmp= new StringBuilder();
         int j=0;
         for(int i=0;i<pointTMP.length;i++){
             if(pointTMP[i].length()!=0){
                 switch (i){
                     case 0:
-                        tmp+="餐廳整潔度";
+                        tmp.append("餐廳整潔度");
                         break;
                     case 1:
-                        tmp+="菜單多樣性";
+                        tmp.append("菜單多樣性");
                         break;
                     case 2:
-                        tmp+="「色」香味";
+                        tmp.append("「色」香味");
                         break;
                     case 3:
-                        tmp+="色「香」味";
+                        tmp.append("色「香」味");
                         break;
                     case 4:
-                        tmp+="色香「味」";
+                        tmp.append("色香「味」");
                         break;
                     case 5:
-                        tmp+="餐廳裝潢";
+                        tmp.append("餐廳裝潢");
                         break;
                     case 6:
-                        tmp+="服務品質";
+                        tmp.append("服務品質");
                         break;
                     case 7:
-                        tmp+="商品價格";
+                        tmp.append("商品價格");
                         break;
                     case 8:
-                        tmp+="送餐速度";
+                        tmp.append("送餐速度");
                         break;
                     case 9:
-                        tmp+="份量";
+                        tmp.append("份量");
                         break;
                     case 10:
-                        tmp+="餐廳氣氛";
+                        tmp.append("餐廳氣氛");
                         break;
                     case 11:
-                        tmp+="排隊時間";
+                        tmp.append("排隊時間");
                         break;
                     case 12:
                         total.setText("餐廳總分:"+pointTMP[i]+"分");
                         break;
                 }
                 if (i != 12) {
-                    tmp+=":"+pointTMP[i]+"分"+"/";
+                    tmp.append(":").append(pointTMP[i]).append("分").append("/");
                     j++;
                 }
                 if(j%3==0){
-                    tmp+="\n";
+                    tmp.append("\n");
                 }
 
             }
@@ -205,7 +196,7 @@ public class pageWatchPost extends AppCompatActivity {
 
 
         }
-        infoPoint.setText(tmp);
+        infoPoint.setText(tmp.toString());
 
 
     }
@@ -249,13 +240,13 @@ public class pageWatchPost extends AppCompatActivity {
         viewM = LayoutInflater.from(pageWatchPost.this).inflate(R.layout.message_object, null);
         final Dialog dialog = new Dialog(pageWatchPost.this,R.style.MyDialog);
         dialog.setContentView(R.layout.messagebox);//指定自定義layout
-        final int height = (int)(getResources().getDisplayMetrics().heightPixels);
-        final int width = (int)(getResources().getDisplayMetrics().widthPixels);
-        LinearLayout ll = (LinearLayout)dialog.findViewById(R.id.llDialog);
+        final int height = (getResources().getDisplayMetrics().heightPixels);
+        final int width = (getResources().getDisplayMetrics().widthPixels);
+        LinearLayout ll = dialog.findViewById(R.id.llDialog);
         ImageButton userHead=dialog.findViewById(R.id.imgBtnMessageUserHead);
         TextView txCount=dialog.findViewById(R.id.txMessageCount);
         ImageButton messagePost =dialog.findViewById(R.id.imgBtnMessagePost);
-        userHead.setImageDrawable(loadImageFromURL(infoArr[3]));
+        userHead.setImageDrawable(Api.loadImageFromURL(infoArr[3]));
         final EditText text=dialog.findViewById(R.id.edMessage);
         text.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -267,9 +258,8 @@ public class pageWatchPost extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String shopId=dbcon.searchShopId(idS,shopIdUrl);
-                SimpleDateFormat Format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                Date Time = Calendar.getInstance().getTime();
-                dbcon.insertMessage(idS,user,text.getText().toString(),Format.format(Time).toString(),shopId,insertMessage);
+
+                dbcon.insertMessage(idS,user,text.getText().toString(),Api.Time(),shopId,insertMessage);
                 text.setText("");
                 dialog.cancel();
                 setAlert();
@@ -365,7 +355,7 @@ public class pageWatchPost extends AppCompatActivity {
             accountM.setText(point.nick);
             textM.setText(point.text);
             timeM.setText(point.time);
-            headM.setImageDrawable(loadImageFromURL(point.head));
+            headM.setImageDrawable(Api.loadImageFromURL(point.head));
 
 
 
@@ -384,19 +374,18 @@ public class pageWatchPost extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String why=report.getText().toString();
-                SimpleDateFormat Format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                Date Time = Calendar.getInstance().getTime();
+
                 if(type.equals("report")){
                     if(!x.equals("null")){
-                        dbcon.insertLog(user,x,why,"report",Format.format(Time),logUrl);
+                        dbcon.insertLog(user,x,why,"report",Api.Time(),logUrl);
                     }
                     else {
-                        dbcon.insertLog(user,idS,why,"report",Format.format(Time),logUrl);
+                        dbcon.insertLog(user,idS,why,"report",Api.Time(),logUrl);
                     }
                 }
                 else {
 
-                    dbcon.insertLog(user,x,why,"edit/message",Format.format(Time),logUrl);
+                    dbcon.insertLog(user,x,why,"edit/message",Api.Time(),logUrl);
                     dbcon.updateMessage(why,idS,updateMessage);
                     finish();
                 }
@@ -413,32 +402,19 @@ public class pageWatchPost extends AppCompatActivity {
         dialog.show();
     }
     public void delete(String x,int y){
-        SimpleDateFormat Format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        Date Time = Calendar.getInstance().getTime();
+
         if(y==0){
-            dbcon.insertLog(user,idS,x,"mess/delete",Format.format(Time),logUrl);
+            dbcon.insertLog(user,idS,x,"mess/delete",Api.Time(),logUrl);
             dbcon.delete("postmessage",user,idS,deleteLog);
 
 
         }
         else {
-            dbcon.insertLog(user,idS,x,"post/delete",Format.format(Time),logUrl);
+            dbcon.insertLog(user,idS,x,"post/delete",Api.Time(),logUrl);
             dbcon.delete("post",user,idS,deleteLog);
         }
         finish();
 
-    }
-    private Drawable loadImageFromURL(String url) {
-        try {
-            InputStream is = (InputStream) new URL(url).getContent();
-            Drawable draw = Drawable.createFromStream(is, "src");
-            return draw;
-        } catch (Exception e) {
-            //TODO handle error
-            System.out.println("error");
-            Log.i("loadingImg", e.toString());
-            return null;
-        }
     }
     public static void setName(String i){
         user=i;
@@ -456,7 +432,7 @@ public class pageWatchPost extends AppCompatActivity {
 
 
     }
-    class makeMessage {
+    class  makeMessage {
 
         public String text,account,head,time,nick;
         public makeMessage( String i, String j,String k,String l,String m) {

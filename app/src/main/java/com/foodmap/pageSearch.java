@@ -1,25 +1,18 @@
 package com.foodmap;
 
-import android.content.Context;
+
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
-import android.util.Log;
+
 import android.view.LayoutInflater;
 import android.view.View;
-import android.webkit.CookieManager;
-import android.webkit.CookieSyncManager;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
+
 import android.widget.*;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 
-import java.io.InputStream;
-import java.net.URL;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
+
 
 public class pageSearch extends AppCompatActivity {
 
@@ -56,20 +49,20 @@ public class pageSearch extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_page_seach);
 
-        checkBox1 = (CheckBox)findViewById(R.id.checkBox1);
-        checkBox2 = (CheckBox)findViewById(R.id.checkBox2);
-        checkBox3 = (CheckBox)findViewById(R.id.checkBox3);
-        checkBox4 = (CheckBox)findViewById(R.id.checkBox4);
-        checkBox5 = (CheckBox)findViewById(R.id.checkBox5);
-        checkBox6 = (CheckBox)findViewById(R.id.checkBox6);
-        checkBox7 = (CheckBox)findViewById(R.id.checkBox7);
-        checkBox8 = (CheckBox)findViewById(R.id.checkBox8);
-        checkBox9 = (CheckBox)findViewById(R.id.checkBox9);
-        checkBox10 = (CheckBox)findViewById(R.id.checkBox10);
-        checkBox11= (CheckBox)findViewById(R.id.checkBox11);
-        checkBox12 = (CheckBox)findViewById(R.id.checkBox12);
-        checkBox13= (CheckBox)findViewById(R.id.checkBox13);
-        checkBox14 = (CheckBox)findViewById(R.id.checkBox14);
+        checkBox1 = findViewById(R.id.checkBox1);
+        checkBox2 = findViewById(R.id.checkBox2);
+        checkBox3 = findViewById(R.id.checkBox3);
+        checkBox4 = findViewById(R.id.checkBox4);
+        checkBox5 = findViewById(R.id.checkBox5);
+        checkBox6 = findViewById(R.id.checkBox6);
+        checkBox7 = findViewById(R.id.checkBox7);
+        checkBox8 = findViewById(R.id.checkBox8);
+        checkBox9 = findViewById(R.id.checkBox9);
+        checkBox10 = findViewById(R.id.checkBox10);
+        checkBox11= findViewById(R.id.checkBox11);
+        checkBox12 = findViewById(R.id.checkBox12);
+        checkBox13= findViewById(R.id.checkBox13);
+        checkBox14 = findViewById(R.id.checkBox14);
         search=findViewById(R.id.etSearch);
         go=findViewById(R.id.btn_search);
         radShop=findViewById(R.id.radBtnShop);
@@ -112,7 +105,7 @@ public class pageSearch extends AppCompatActivity {
         checkBox13.setOnCheckedChangeListener(checkBoxOnCheckedChange);
         checkBox14.setOnCheckedChangeListener(checkBoxOnCheckedChange);
         go.setOnClickListener(goSearch);
-        ll = (LinearLayout)findViewById(R.id.ll_in_sv);
+        ll = findViewById(R.id.ll_in_sv);
 
     }
     private CompoundButton.OnCheckedChangeListener checkBoxOnCheckedChange =
@@ -200,7 +193,7 @@ public class pageSearch extends AppCompatActivity {
                     shop.setId(btnId);//將按鈕帶入id 以供監聽時辨識使用
                     btnId++;
                     shop.setOnClickListener(check);
-                    shopHead.setImageDrawable(loadImageFromURL(p.shopHead));
+                    shopHead.setImageDrawable(Api.loadImageFromURL(p.shopHead));
                     address.setText(p.address);
                     tel.setText(p.tel);
                     shopName.setText(p.shopName);
@@ -253,25 +246,14 @@ public class pageSearch extends AppCompatActivity {
 
                     accL.setText("LV:"+point.exp+"-"+point.nTitle+"-"+point.name);
                     nameL.setText(point.account);
-                    headL.setImageDrawable(loadImageFromURL(point.head));
+                    headL.setImageDrawable(Api.loadImageFromURL(point.head));
                 }
             }
         }
 
     };
 
-    private Drawable loadImageFromURL(String url) {
-        try {
-            InputStream is = (InputStream) new URL(url).getContent();
-            Drawable draw = Drawable.createFromStream(is, "src");
-            return draw;
-        } catch (Exception e) {
-            //TODO handle error
-            System.out.println("erroooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooor");
-            Log.i("loadingImg", e.toString());
-            return null;
-        }
-    }
+
 
     private View.OnClickListener check= new View.OnClickListener() {
 

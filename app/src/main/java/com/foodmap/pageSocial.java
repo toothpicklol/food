@@ -1,18 +1,14 @@
 package com.foodmap;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.text.Html;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.*;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 
-import java.io.InputStream;
-import java.net.URL;
 
 public class pageSocial extends AppCompatActivity {
     private static String user;
@@ -34,6 +30,7 @@ public class pageSocial extends AppCompatActivity {
         ll = findViewById(R.id.ll);
         addList();
     }
+    @SuppressLint({"InflateParams", "SetTextI18n"})
     public void addList(){
         String commentS=dbcon.comment(user,url);
 
@@ -80,42 +77,27 @@ public class pageSocial extends AppCompatActivity {
             btnPost.setOnClickListener(commCheck);
             ll.addView(view);
             account.setText(point.nick);
-            headC.setImageDrawable(loadImageFromURL(point.head));
+            headC.setImageDrawable(Api.loadImageFromURL(point.head));
             title.setText("【評論】"+point.title);
             if(!point.picture.equals("null")){
-                text.setBackground(loadImageFromURL(point.picture));
+                text.setBackground(Api.loadImageFromURL(point.picture));
             }
             else{
 
                 text.getLayoutParams().height = 250;
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                    text.setText(Html.fromHtml(point.text, Html.FROM_HTML_MODE_COMPACT));
-                } else {
-                    text.setText(Html.fromHtml(point.text));
-                }
+                text.setText(Html.fromHtml(point.text, Html.FROM_HTML_MODE_COMPACT));
 
             }
         }
     }
-    private Drawable loadImageFromURL(String url) {
-        try {
-            InputStream is = (InputStream) new URL(url).getContent();
-            Drawable draw = Drawable.createFromStream(is, "src");
-            return draw;
-        } catch (Exception e) {
-            //TODO handle error
-            System.out.println("error");
-            Log.i("loadingImg", e.toString());
-            return null;
-        }
-    }
+
     private View.OnClickListener commCheck= new View.OnClickListener() {
 
 
         @Override
         public void onClick(View v) {
 
-            Button post =  (Button)v; //在new 出所按下的按鈕
+            Button post =  (Button)v;
             int id = post.getId();
             pageWatchPost.setPost(commentSQL[id].head,commentSQL[id].title,commentSQL[id].text,commentSQL[id].account,commentSQL[id].postId,commentSQL[id].nick,commentSQL[id].time);
             pageWatchPost.setName(user);
@@ -130,7 +112,7 @@ public class pageSocial extends AppCompatActivity {
         @Override
         public void onClick(View v) {
 
-            Button post =  (Button)v; //在new 出所按下的按鈕
+            Button post =  (Button)v;
             int id = post.getId();
             if(!commentSQL[id].account.equals(user)){
                 pageUser.otherUser(commentSQL[id].account);

@@ -24,6 +24,7 @@ public class pageChecker extends AppCompatActivity {
     Button btnCheckList,btnCheckerSignUP;
     LinearLayout llChecker;
     checkList[] checkSQL;
+    TextView status;
     String url="http://114.32.152.202/foodphp/checkList.php";
     String url2="http://114.32.152.202/foodphp/checkerList.php";
     String info="http://114.32.152.202/foodphp/shopinfo.php";
@@ -33,6 +34,7 @@ public class pageChecker extends AppCompatActivity {
     String logUrl="http://114.32.152.202/foodphp/insertLog.php";
     String pass="http://114.32.152.202/foodphp/getCheckerPass.php";
     String updateChecker="http://114.32.152.202/foodphp/updateChecker.php";
+    String isTrue="http://114.32.152.202/foodphp/isTrue.php";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,7 +89,7 @@ public class pageChecker extends AppCompatActivity {
 
             TextView shopName = list.findViewById(R.id.txCheckShopName);
             TextView address = list.findViewById(R.id.txCheckShopAddress);
-            TextView status =list.findViewById(R.id.txCheckShopStatus);
+            status =list.findViewById(R.id.txCheckShopStatus);
             ImageView head = list.findViewById(R.id.imgCheckShopHead);
             ImageButton btnAdd = list.findViewById(R.id.imgBtnCheckShopAdd);
 
@@ -99,10 +101,10 @@ public class pageChecker extends AppCompatActivity {
 
             llChecker.addView(list);
             shopName.setText(point.shopName);
-            head.setImageDrawable(loadImageFromURL(infoArr[1]));
+            head.setImageDrawable(Api.loadImageFromURL(infoArr[1]));
             address.setText(point.address);
             status.setText("報名中");
-            if(dbcon.isChecker(point.checkId,user,isChecker).equals(user)){
+            if(dbcon.isChecker(point.checkId,user,isChecker).equals("1")){
                 status.setText("中籤");
             }
 
@@ -120,8 +122,16 @@ public class pageChecker extends AppCompatActivity {
                         }
                     }
                     else {
-                        if(dbcon.isChecker(point.checkId,user,isChecker).equals(user)){
-                            setAlertChecker(point.checkId);
+                        if(dbcon.isChecker(point.checkId,user,isChecker).equals("1")){
+
+                            if(!dbcon.isChecker(point.checkId,user,isTrue).equals("0")){
+                                status.setText("已驗證");
+                                Toast.makeText(getApplicationContext(),"你已對該店進行過驗證!", Toast.LENGTH_LONG).show();
+                            }
+                            else {
+                                setAlertChecker(point.checkId);
+                            }
+
                         }
                         else {
                             Toast.makeText(getApplicationContext()," 報名人數到達會統一抽籤~請稍等!", Toast.LENGTH_LONG).show();
@@ -136,18 +146,7 @@ public class pageChecker extends AppCompatActivity {
         }
 
     }
-    private Drawable loadImageFromURL(String url) {
-        try {
-            InputStream is = (InputStream) new URL(url).getContent();
-            Drawable draw = Drawable.createFromStream(is, "src");
-            return draw;
-        } catch (Exception e) {
-            //TODO handle error
-            System.out.println("error");
-            Log.i("loadingImg", e.toString());
-            return null;
-        }
-    }
+
     public static String getRandomString(int length){
         String str="0123456789";
         Random random=new Random();
@@ -167,10 +166,10 @@ public class pageChecker extends AppCompatActivity {
         dialog.setContentView(R.layout.checkerbox);//指定自定義layout
         final EditText checkerWhy=dialog.findViewById(R.id.edCheckerWhy);
         Button btnCheckerConfirm=dialog.findViewById(R.id.btnCheckerConfirm);
-        final CheckBox cbCheckerTrue=dialog.findViewById(R.id.cbCheckerFalse);
-        final CheckBox cbCheckerFalse=dialog.findViewById(R.id.cbCheckerTrue);
-        int height = (int)(getResources().getDisplayMetrics().heightPixels);
-        int width = (int)(getResources().getDisplayMetrics().widthPixels);
+        final CheckBox cbCheckerTrue=dialog.findViewById(R.id.cbCheckerTrue);
+        final CheckBox cbCheckerFalse=dialog.findViewById(R.id.cbCheckerFalse);
+        int height = (getResources().getDisplayMetrics().heightPixels);
+        int width = (getResources().getDisplayMetrics().widthPixels);
 
         cbCheckerTrue.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -189,20 +188,22 @@ public class pageChecker extends AppCompatActivity {
         btnCheckerConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if((cbCheckerTrue.isChecked()||cbCheckerFalse.isChecked())&&checkerWhy.getText().toString()!=null&&!checkerWhy.getText().toString().equals("")){
+                if((cbCheckerTrue.isChecked()||cbCheckerFalse.isChecked())&&!checkerWhy.getText().toString().equals("")){
 
                     if(cbCheckerTrue.isChecked()){
 
-                        SimpleDateFormat Format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                        Date Time = Calendar.getInstance().getTime();
-                        dbcon.updateCheckerPass(user+"/"+getRandomString(8),id,updateCheckerPass);
-                        dbcon.insertLog(user,id,checkerWhy.getText().toString(),"checkShop",Format.format(Time),logUrl);
-                        dialog.cancel();
-                        setAlertCheckerEdit(id);
+
+
+
+                            dbcon.updateCheckerPass(user+"/"+getRandomString(8),id,updateCheckerPass);
+                            dbcon.insertLog(user,id,checkerWhy.getText().toString(),"checkShop",Api.Time(),logUrl);
+                            dialog.cancel();
+                            setAlertCheckerEdit(id);
+
+
+
                     }
-                    else {
-                        //設為-1經驗++++
-                    }
+
 
 
 
@@ -232,10 +233,13 @@ public class pageChecker extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if((user+"/"+checkerPass.getText().toString()).equals(dbcon.getCheckerPass(id,pass))){
+
                     Toast.makeText(getApplicationContext(),"驗證成功", Toast.LENGTH_LONG).show();
                     dbcon.updateChecker(id,user,updateChecker);
                     dialog.cancel();
-                    //經驗++
+
+
+
 
 
                 }

@@ -113,8 +113,10 @@ public class pageHome extends AppCompatActivity {
 
             name.setText(point.username);
             acc.setText(user);
-            head.setImageDrawable(loadImageFromURL(point.bigHead));
-            ll.setBackground(loadImageFromURL(point.bg));
+            int lv=Api.lv(5,8,Integer.parseInt(point.userLV),1);
+            System.out.println(lv);
+            head.setImageDrawable(Api.loadImageFromURL(point.bigHead));
+            ll.setBackground(Api.loadImageFromURL(point.bg));
 
 
 
@@ -150,18 +152,8 @@ public class pageHome extends AppCompatActivity {
     public static void set(int i){
         checkSelect=i;
     }
-    private Drawable loadImageFromURL(String url) {
-        try {
-            InputStream is = (InputStream) new URL(url).getContent();
-            Drawable draw = Drawable.createFromStream(is, "src");
-            return draw;
-        } catch (Exception e) {
-            //TODO handle error
-            System.out.println("error");
-            Log.i("loadingImg", e.toString());
-            return null;
-        }
-    }
+
+
     class makeInfo {
 
         public String username,userLV,bigHead,bg;

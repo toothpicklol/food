@@ -1,14 +1,9 @@
 package com.foodmap;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.view.View;
-import android.webkit.CookieManager;
-import android.webkit.CookieSyncManager;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,7 +13,6 @@ public class pageRegister extends AppCompatActivity {
     TextView regAcc,regPass,regPassC,fail,email;
     String url="http://114.32.152.202/foodphp/register.php";
     String insertReg="http://114.32.152.202/foodphp/insertReg.php";
-    String insertUser="http://114.32.152.202/foodphp/insertUser.php";
     String emailU="http://114.32.152.202/foodphp/registerEmail.php";
 
 
@@ -70,7 +64,7 @@ public class pageRegister extends AppCompatActivity {
                     if(regPass.getText().toString().equals(regPassC.getText().toString())){
                         String [] in=new String[]{regAcc.getText().toString(),regPass.getText().toString(),email.getText().toString()};
                         dbcon.insertReg(in,insertReg);
-                        //dbcon.insertUser(regAcc.getText().toString(),insertUser);
+
                         Intent intent = new Intent();
                         intent.setClass(pageRegister.this, MainActivity.class);
                         startActivity(intent);
@@ -94,7 +88,7 @@ public class pageRegister extends AppCompatActivity {
 
         else{
 
-            fail.setText("帳號已被註冊");;
+            fail.setText("帳號已被註冊");
             fail.setVisibility(View.VISIBLE);
 
         }

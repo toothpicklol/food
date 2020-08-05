@@ -1,5 +1,6 @@
 package com.foodmap;
 
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -12,10 +13,6 @@ import android.os.Build;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
-import android.webkit.CookieManager;
-import android.webkit.CookieSyncManager;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -57,10 +54,10 @@ public class pageUpload extends AppCompatActivity implements View.OnClickListene
         //宣告的物件，跟View上的元件來連結。
 
 
-        messageText  = (TextView)findViewById(R.id.txImgUpload);
-        btnHead = (Button) findViewById(R.id.btnChose);
+        messageText  = findViewById(R.id.txImgUpload);
+        btnHead = findViewById(R.id.btnChose);
         btnBg =findViewById(R.id.btnChoseBg);
-        imageview = (ImageView) findViewById(R.id.imageUpload);
+        imageview =  findViewById(R.id.imageUpload);
 
         //設定Button的監聽事件。
         btnHead.setOnClickListener(this);
@@ -88,32 +85,19 @@ public class pageUpload extends AppCompatActivity implements View.OnClickListene
         }
     }
     private boolean needCheckPermission() {
-        //MarshMallow(API-23)之後要在 Runtime 詢問權限
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            String[] perms = {PERMISSION_WRITE_STORAGE};
-            int permsRequestCode = 200;
-            requestPermissions(perms, permsRequestCode);
-            return true;
-        }
 
-        return false;
+        String[] perms = {PERMISSION_WRITE_STORAGE};
+        int permsRequestCode = 200;
+        requestPermissions(perms, permsRequestCode);
+        return true;
+
     }
     private boolean hasPermission(){
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
-            return(ActivityCompat.checkSelfPermission(this, PERMISSION_WRITE_STORAGE) == PackageManager.PERMISSION_GRANTED);
-        }
-        return true;
+        return(ActivityCompat.checkSelfPermission(this, PERMISSION_WRITE_STORAGE) == PackageManager.PERMISSION_GRANTED);
     }
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == 200){
-            if (grantResults.length > 0) {
-                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-
-                }
-            }
-        }
     }
     @Override
     public void onClick(View v) {
@@ -215,6 +199,7 @@ public class pageUpload extends AppCompatActivity implements View.OnClickListene
             Log.e("uploadFile", "Source File not exist :" + imagepath);
 
             runOnUiThread(new Runnable() {
+                @SuppressLint("SetTextI18n")
                 public void run() {
                     messageText.setText("Source File not exist :" + imagepath);
                 }
@@ -364,6 +349,7 @@ public class pageUpload extends AppCompatActivity implements View.OnClickListene
                 ex.printStackTrace();
 
                 runOnUiThread(new Runnable() {
+                    @SuppressLint("SetTextI18n")
                     public void run() {
                         messageText.setText("MalformedURLException Exception : check script url.");
                         Toast.makeText(pageUpload.this, "MalformedURLException", Toast.LENGTH_SHORT).show();
@@ -377,6 +363,7 @@ public class pageUpload extends AppCompatActivity implements View.OnClickListene
                 e.printStackTrace();
 
                 runOnUiThread(new Runnable() {
+                    @SuppressLint("SetTextI18n")
                     public void run() {
                         messageText.setText("Got Exception : see logcat ");
                         Toast.makeText(pageUpload.this, "Got Exception : see logcat ", Toast.LENGTH_SHORT).show();

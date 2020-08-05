@@ -7,15 +7,12 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.graphics.Color;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 import androidx.appcompat.widget.Toolbar;
 import com.foodmap.richeditor.RichEditor;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
+
 
 
 public class pageEditor extends AppCompatActivity {
@@ -46,10 +43,9 @@ public class pageEditor extends AppCompatActivity {
         postBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Date Time = Calendar.getInstance().getTime();
-                SimpleDateFormat Format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
                 if(mode==1){
-                    dbcon.insertLog(user,id,title.getText().toString()+"/"+mEditor.getHtml(),"post/update",Format.format(Time),logUrl);
+                    dbcon.insertLog(user,id,title.getText().toString()+"/"+mEditor.getHtml(),"post/update",Api.Time(),logUrl);
                     dbcon.updatePost(title.getText().toString(),mEditor.getHtml(),id,updatePostUrl);
                     finish();
                 }
@@ -60,7 +56,7 @@ public class pageEditor extends AppCompatActivity {
                     }
                     if(title.getText().toString().length()>=5&&mEditor.getHtml()!=null){
                         String postID="post"+pageCreateShop.getRandomString(10);
-                        dbcon.insertPost(user,title.getText().toString(),mEditor.getHtml(),firstImg,Format.format(Time).toString(),shop,postID,postUrl);
+                        dbcon.insertPost(user,title.getText().toString(),mEditor.getHtml(),firstImg,Api.Time(),shop,postID,postUrl);
                         dbcon.insertPoint(user,postID,shop,pointUrl);
 
                         pagePoint.setName(user,shop,postID);
@@ -78,7 +74,7 @@ public class pageEditor extends AppCompatActivity {
 
             }
         });
-        mEditor = (RichEditor) findViewById(R.id.editor);
+        mEditor = findViewById(R.id.editor);
         mEditor.setEditorHeight(200);
         mEditor.setEditorFontSize(22);
         mEditor.setEditorFontColor(Color.BLACK);
@@ -97,7 +93,7 @@ public class pageEditor extends AppCompatActivity {
 
         }
 
-        mPreview = (TextView) findViewById(R.id.preview);
+        mPreview = findViewById(R.id.preview);
         mEditor.setOnTextChangeListener(new RichEditor.OnTextChangeListener() {
             @Override public void onTextChange(String text) {
                 mPreview.setText(text);

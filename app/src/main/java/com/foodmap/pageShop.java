@@ -2,11 +2,8 @@ package com.foodmap;
 
 import android.app.Dialog;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.os.Build;
 import android.text.Html;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -16,11 +13,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import java.io.InputStream;
-import java.net.URL;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
 
 
 public class pageShop extends AppCompatActivity {
@@ -89,18 +81,7 @@ public class pageShop extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
-    private Drawable loadImageFromURL(String url) {
-        try {
-            InputStream is = (InputStream) new URL(url).getContent();
-            Drawable draw = Drawable.createFromStream(is, "src");
-            return draw;
-        } catch (Exception e) {
 
-            System.out.println("erroooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooor");
-            Log.i("loadingImg", e.toString());
-            return null;
-        }
-    }
     public void addListView(){
         makeInfo[] InfoSQL = new makeInfo[1];
         String userInfo=dbcon.userInfo(shopACC,info);
@@ -121,8 +102,8 @@ public class pageShop extends AppCompatActivity {
             ll.addView(comment);
             username.setText(point.username);
             userLV.setText(point.userLV);
-            bigHead.setImageDrawable(loadImageFromURL(point.bigHead));
-            bgU.setBackground(loadImageFromURL(point.bg));
+            bigHead.setImageDrawable(Api.loadImageFromURL(point.bigHead));
+            bgU.setBackground(Api.loadImageFromURL(point.bg));
             shopText= LayoutInflater.from(pageShop.this).inflate(R.layout.shop_info, null);
             pointS=shopText.findViewById(R.id.shopPoint);
             commentC=shopText.findViewById(R.id.shopCommentCount);
@@ -138,7 +119,7 @@ public class pageShop extends AppCompatActivity {
                     String userInfo=dbcon.userInfo(shopACC,info);
                     String[] infoArr=userInfo.split(",");
                     String[] infoArr2=infoArr[11].split("]");
-                    if(!infoArr2[0].equals(userAcc)){
+                    if(infoArr2[0].equals("0")){
 
                         if(dbcon.selectOwnerCheck(userAcc,shopACC,checkOwnerUrl).equals("0")){
                             pageShopOwnerApplication.setName(userAcc,shopACC);
@@ -154,7 +135,10 @@ public class pageShop extends AppCompatActivity {
 
                     }
                     else {
-                        setAlertEditShop();
+                        if(infoArr2[0].equals(userAcc)){
+                            setAlertEditShop();
+                        }
+
                     }
                 }
             });
@@ -234,10 +218,10 @@ public class pageShop extends AppCompatActivity {
             btnPost.setOnClickListener(commCheck);
             ll.addView(view);
             account.setText(point.nick);
-            headC.setImageDrawable(loadImageFromURL(point.head));
+            headC.setImageDrawable(Api.loadImageFromURL(point.head));
             title.setText("【評論】"+point.title);
             if(!point.picture.equals("null")){
-                text.setBackground(loadImageFromURL(point.picture));
+                text.setBackground(Api.loadImageFromURL(point.picture));
 
 
             }
@@ -273,10 +257,7 @@ public class pageShop extends AppCompatActivity {
                 String tmp=dbcon.shopPointInfo(object[i],shopACC,pointUrl);
                 String[] pointArr=tmp.split(",");
 
-                System.out.println(dbcon.shopPointInfo(object[i],shopACC,pointUrl));
 
-                System.out.println(pointArr[0]);
-                System.out.println(pointArr.length);
 
                  pointBox=viewP.findViewById(R.id.txPointInfo);
                  listBox=viewP.findViewById(R.id.txPointList);
@@ -313,9 +294,8 @@ public class pageShop extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String why=report.getText().toString();
-                SimpleDateFormat Format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                Date Time = Calendar.getInstance().getTime();
-                dbcon.insertLog(userAcc,"shop"+shopACC,why,"report",Format.format(Time),logUrl);
+
+                dbcon.insertLog(userAcc,"shop"+shopACC,why,"report",Api.Time(),logUrl);
                 dialog.cancel();
 
             }

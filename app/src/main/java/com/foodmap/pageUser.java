@@ -67,18 +67,7 @@ public class pageUser extends AppCompatActivity {
         setMode="";
         // The activity has become visible (it is now "resumed").
     }
-    private Drawable loadImageFromURL(String url) {
-        try {
-            InputStream is = (InputStream) new URL(url).getContent();
-            Drawable draw = Drawable.createFromStream(is, "src");
-            return draw;
-        } catch (Exception e) {
-            //TODO handle error
-            System.out.println("error");
-            Log.i("loadingImg", e.toString());
-            return null;
-        }
-    }
+
 
     public void addListView(){
 
@@ -106,9 +95,10 @@ public class pageUser extends AppCompatActivity {
                 username.setText(point.username);
                 fans.setText(fansC);
                 gold.setText(point.gold);
-                userLV.setText("等級" + point.userLV + "-" + point.title);
-                bigHead.setImageDrawable(loadImageFromURL(point.bigHead));
-                bgU.setBackground(loadImageFromURL(point.bg));
+                int lv=Api.lv(5,8,Integer.parseInt(point.userLV),1);
+                userLV.setText("等級" + lv + "-" + point.title);
+                bigHead.setImageDrawable(Api.loadImageFromURL(point.bigHead));
+                bgU.setBackground(Api.loadImageFromURL(point.bg));
 
 
             }
@@ -156,7 +146,7 @@ public class pageUser extends AppCompatActivity {
 
                 ll.addView(view);
                 account.setText(point.nick);
-                headC.setImageDrawable(loadImageFromURL(point.head));
+                headC.setImageDrawable(Api.loadImageFromURL(point.head));
                 title.setText("【評論】"+point.title);
 
                 if (point.picture .equals("null")) {
@@ -170,7 +160,7 @@ public class pageUser extends AppCompatActivity {
 
 
                 } else {
-                    text.setBackground(loadImageFromURL(point.picture));
+                    text.setBackground(Api.loadImageFromURL(point.picture));
 
 
                 }
@@ -179,15 +169,11 @@ public class pageUser extends AppCompatActivity {
             }
         }
         else{
-
-
             makeInfo[] InfoSQL = new makeInfo[1];
             String userInfo = dbcon.userInfo(otherUser, info);
             String[] infoArr = userInfo.split(",");
             InfoSQL[0] = new makeInfo(infoArr[0], infoArr[1], infoArr[2], infoArr[3], infoArr[4],infoArr[5]);
             String fansC=dbcon.userInfo(otherUser,fansU);
-
-
             for (makeInfo point : InfoSQL) {
 
                 comment = LayoutInflater.from(pageUser.this).inflate(R.layout.comment, null);
@@ -203,8 +189,8 @@ public class pageUser extends AppCompatActivity {
                 gold.setText(point.gold);
                 username.setText("\t"+point.username);
                 userLV.setText("\t等級" + point.userLV + "-" + point.title);
-                bigHead.setImageDrawable(loadImageFromURL(point.bigHead));
-                bgU.setBackground(loadImageFromURL(point.bg));
+                bigHead.setImageDrawable(Api.loadImageFromURL(point.bigHead));
+                bgU.setBackground(Api.loadImageFromURL(point.bg));
 
             }
             ll.addView(like);
@@ -221,8 +207,6 @@ public class pageUser extends AppCompatActivity {
                 commentSQL[i] = new makeComment(commentArr2[0], commentArr2[1], commentArr2[2], commentArr2[3], infoArr[3],commentArr2[4],commentArr2[5],infoArr[0]);//評論資料
 
             }
-
-
             int btnId = 0;
             for (makeComment point : commentSQL) {
                 if (commentS.equals(otherUser)) {
@@ -241,7 +225,7 @@ public class pageUser extends AppCompatActivity {
 
                 ll.addView(view);
                 account.setText(point.nick);
-                headC.setImageDrawable(loadImageFromURL(point.head));
+                headC.setImageDrawable(Api.loadImageFromURL(point.head));
                 title.setText("【評論】"+point.title);
 
                 if (point.picture .equals("null")) {
@@ -255,7 +239,7 @@ public class pageUser extends AppCompatActivity {
 
 
                 } else {
-                    text.setBackground(loadImageFromURL(point.picture));
+                    text.setBackground(Api.loadImageFromURL(point.picture));
 
 
                 }
@@ -328,6 +312,7 @@ public class pageUser extends AppCompatActivity {
         });
 
     }
+
 
 
 
