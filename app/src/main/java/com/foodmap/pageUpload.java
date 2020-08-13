@@ -64,11 +64,16 @@ public class pageUpload extends AppCompatActivity implements View.OnClickListene
         btnBg.setOnClickListener(this);
 
         if(check==3){
+            btnBg.setVisibility(View.INVISIBLE);
+            btnHead.setVisibility(View.INVISIBLE);
+            imageview.setVisibility(View.INVISIBLE);
+            messageText.setText("上傳失敗!請按下返回建");
             Intent intent = new Intent();
             intent.setType("image/*");
             intent.setAction(Intent.ACTION_GET_CONTENT);
             //回傳時，要如何處理。請重新Override onActivityResult函式。
             startActivityForResult(Intent.createChooser(intent, "Complete action using"), 1);
+
 
         }
 
@@ -126,7 +131,6 @@ public class pageUpload extends AppCompatActivity implements View.OnClickListene
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 1 && resultCode == RESULT_OK) {
-            //Bitmap photo = (Bitmap) data.getData().getPath();
 
 
             Uri selectedImageUri = data.getData();
@@ -267,8 +271,7 @@ public class pageUpload extends AppCompatActivity implements View.OnClickListene
                     runOnUiThread(new Runnable() {
                         public void run() {
                             String msg = "File Upload Completed.\n\n See uploaded file your server. \n\n";
-                            messageText.setText(msg);
-
+                            //messageText.setText(msg);
                             Toast.makeText(pageUpload.this, "File Upload Complete.", Toast.LENGTH_SHORT).show();
 
                         }
@@ -279,22 +282,17 @@ public class pageUpload extends AppCompatActivity implements View.OnClickListene
                             dbcon.updateImg(r, user, "bg", update);
                             dbcon.insertImgLib(user,r,insert);
                             //update 背景網址 http;//114.32.152.202/foodphp/upload/檔名
+                            finish();
                         } else {
                             String r = "http://114.32.152.202/foodphp/upload/" + sourceFile.getName();
                             dbcon.updateImg(r, user, "head", update);
                             dbcon.insertImgLib(user,r,insert);
                             //update 頭像網址 http;//114.32.152.202/foodphp/upload/檔名
+                            finish();
 
                         }
-                    } else {
-                        runOnUiThread(new Runnable() {
-                            public void run() {
-                                String msg = "File Upload Completed.\n\n See uploaded file your server. \n\n";
-                                messageText.setText(msg);
-
-                                Toast.makeText(pageUpload.this, "File Upload Complete.", Toast.LENGTH_SHORT).show();
-                            }
-                        });
+                    }
+                    else {
                     if (check == 1) {
                         if (checkImage == 1) {
                                 String r = "http://114.32.152.202/foodphp/upload/" + sourceFile.getName();
@@ -312,8 +310,6 @@ public class pageUpload extends AppCompatActivity implements View.OnClickListene
                                 intent.setClass(pageUpload.this, pageCreateShop.class);
                                 startActivity(intent);
                                 finish();
-
-
                             }
 
                         }
@@ -327,15 +323,12 @@ public class pageUpload extends AppCompatActivity implements View.OnClickListene
                         else{
                             pageEditor.postTmp(postTitle,postText+"<img src="+r+" alt=a>",null);
                         }
-
-
-
                         Intent intent = new Intent();
                         intent.setClass(pageUpload.this, pageEditor.class);
                         startActivity(intent);
                         finish();
 
-                    }
+                    }//post
                     }
                 }
 

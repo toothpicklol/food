@@ -2,6 +2,7 @@ package com.foodmap.ui.home;
 
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -27,10 +28,9 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import java.io.IOException;
 import java.io.InputStream;
-import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Objects;
 
 
 public class HomeFragment extends Fragment
@@ -47,14 +47,14 @@ public class HomeFragment extends Fragment
     Button search;
     EditText searchBar;
     int first=1;
-    String info="http://114.32.152.202/foodphp/userinfo.php";
     String mapShop="http://114.32.152.202/foodphp/mapshop.php";
     GoogleMapV2_MarkPoint[] MysqlPointSet;
     View markView;
     double X,Y;
 
 
-    public View onCreateView(@NonNull LayoutInflater inflater,ViewGroup container, Bundle savedInstanceState) {
+    @SuppressLint("InflateParams")
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View root = inflater.inflate(R.layout.fragment_home, container, false);
         markView = inflater.inflate(R.layout.map_mark, null);
@@ -69,6 +69,7 @@ public class HomeFragment extends Fragment
         });
         SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
         Toast.makeText(getActivity(), getResources().getString(R.string.map), Toast.LENGTH_SHORT).show();
+        assert mapFragment != null;
         mapFragment.getMapAsync(this);
         return root;
     }
@@ -87,9 +88,9 @@ public class HomeFragment extends Fragment
         addMark(mMap);
     }
     @Override
-    public void onAttach(Context context) {
+    public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-        mLocationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+        mLocationManager = (LocationManager) Objects.requireNonNull(getActivity()).getSystemService(Context.LOCATION_SERVICE);
     }
     @Override
     public void onResume() {
@@ -113,7 +114,7 @@ public class HomeFragment extends Fragment
     private int checkSelfPermission(String accessFineLocation) {
         return 0;
     }
-    public void onRequestPermissionsResult(int requestCode, String[] permissions,int[] grantResults){
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults){
 
     }
     @Override
@@ -127,7 +128,7 @@ public class HomeFragment extends Fragment
     public void onLocationChanged(Location location) {
         Log.i(TAG, String.valueOf(location.getLatitude()));
         Log.i(TAG, String.valueOf(location.getLongitude()));
-        mMap.clear();
+        //mMap.clear();
         //mMap.addMarker(new MarkerOptions().position(new LatLng(location.getLatitude(), location.getLongitude())).title("你的位置"));
         X=location.getLatitude();
         Y=location.getLongitude();
@@ -158,10 +159,12 @@ public class HomeFragment extends Fragment
            cY=mMap.getCameraPosition().target.longitude;
            addMark(mMap);
 
-        } else if (reason == GoogleMap.OnCameraMoveStartedListener
+        }
+        else if (reason == GoogleMap.OnCameraMoveStartedListener
                 .REASON_API_ANIMATION) {
             //Toast.makeText(getActivity(), "The user tapped something on the map.",Toast.LENGTH_SHORT).show();
-        } else if (reason == GoogleMap.OnCameraMoveStartedListener
+        }
+        else if (reason == GoogleMap.OnCameraMoveStartedListener
                 .REASON_DEVELOPER_ANIMATION) {
             //Toast.makeText(getActivity(), "The app moved the camera.", Toast.LENGTH_SHORT).show();
         }
@@ -214,22 +217,16 @@ public class HomeFragment extends Fragment
                 markSopHead.setImageDrawable(loadImageFromURL(point.head));
                 mMap.addMarker(new MarkerOptions().position(new LatLng(point.latitude, point.longitude)).title(point.title)
                         .snippet(point.point+"#"+point.account).icon(BitmapDescriptorFactory.fromBitmap(createDrawableFromView(getContext(), markView))));
-
-
             }
 
             mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
                 @Override
                 public void onInfoWindowClick(Marker marker) {
                     String name=marker.getSnippet();
-                    if(marker.getTitle().equals("你的位置")){
-                    }
-                    else{
-                        String[] nameArr=name.split("#");
-                        Intent intent = new Intent(getActivity(), pageShop.class);
-                        startActivity(intent);
-                        pageShop.setName(nameArr[1],user);
-                    }
+                    String[] nameArr=name.split("#");
+                    Intent intent = new Intent(getActivity(), pageShop.class);
+                    startActivity(intent);
+                    pageShop.setName(nameArr[1],user);
                 }
             });
         }

@@ -1,19 +1,18 @@
 package com.foodmap;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
+
 import android.os.Build;
 import android.text.Html;
-import android.util.Log;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.*;
-import androidx.appcompat.app.AlertDialog;
+
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 
-import java.io.InputStream;
-import java.net.URL;
 
 public class pageUser extends AppCompatActivity {
 
@@ -39,20 +38,21 @@ public class pageUser extends AppCompatActivity {
 
 
 
+    @SuppressLint("InflateParams")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_page_user);
-        AlertDialog.Builder toolbar;
+
         buttonView = LayoutInflater.from(pageUser.this).inflate(R.layout.personal_object_button, null);
         like=LayoutInflater.from(pageUser.this).inflate(R.layout.follow_objext, null);
 
-        ll = (LinearLayout)findViewById(R.id.ll_in_sv);
+        ll = findViewById(R.id.ll_in_sv);
 
-        btUserInfo = (Button)buttonView.findViewById(R.id.btnUserInfo);
-        btUserLike = (Button)buttonView.findViewById(R.id.btnUserLike);
-        btUserMore = (Button)buttonView.findViewById(R.id.btnUserMore);
-        btUserCom = (Button)buttonView.findViewById(R.id.btnUserCom);
+        btUserInfo = buttonView.findViewById(R.id.btnUserInfo);
+        btUserLike = buttonView.findViewById(R.id.btnUserLike);
+        btUserMore = buttonView.findViewById(R.id.btnUserMore);
+        btUserCom = buttonView.findViewById(R.id.btnUserCom);
         follow=like.findViewById(R.id.btnFollow);
         btnPost =findViewById(R.id.btn_Post);
         fans=findViewById(R.id.txFans);
@@ -65,10 +65,10 @@ public class pageUser extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         setMode="";
-        // The activity has become visible (it is now "resumed").
     }
 
 
+    @SuppressLint({"InflateParams", "SetTextI18n"})
     public void addListView(){
 
         if(!setMode.equals("other")) {
@@ -77,7 +77,7 @@ public class pageUser extends AppCompatActivity {
             makeInfo[] InfoSQL = new makeInfo[1];
             String userInfo = dbcon.userInfo(user, info);
             String[] infoArr = userInfo.split(",");
-            InfoSQL[0] = new makeInfo(infoArr[0], infoArr[1], infoArr[2], infoArr[3], infoArr[4],infoArr[5]);
+            InfoSQL[0] = new makeInfo(infoArr[0], infoArr[1], infoArr[2], infoArr[3], infoArr[4], infoArr[5]);
             String fansC=dbcon.userInfo(user,fansU);
 
 
@@ -116,7 +116,7 @@ public class pageUser extends AppCompatActivity {
                 String[] commentArr2 = tmp.split(",");
 
 
-                commentSQL[i] = new makeComment(commentArr2[0], commentArr2[1], commentArr2[2], commentArr2[3], infoArr[3],commentArr2[4],commentArr2[5],infoArr[0]);//評論資料
+                commentSQL[i] = new makeComment(commentArr2[0], commentArr2[1], commentArr2[2], commentArr2[3], infoArr[3], commentArr2[4], commentArr2[5], infoArr[0]);//評論資料
 
             }
 
@@ -139,7 +139,7 @@ public class pageUser extends AppCompatActivity {
                 btnOtherUser.setOnClickListener(checkOtherUser);
 
 
-                btnPost.setId(btnId);//將按鈕帶入id 以供監聽時辨識使用
+                btnPost.setId(btnId);
                 btnPost.setOnClickListener(check);
 
                 btnId++;
@@ -152,11 +152,7 @@ public class pageUser extends AppCompatActivity {
                 if (point.picture .equals("null")) {
 
                     text.getLayoutParams().height = 250;
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                        text.setText(Html.fromHtml(point.text, Html.FROM_HTML_MODE_COMPACT));
-                    } else {
-                        text.setText(Html.fromHtml(point.text));
-                    }
+                    text.setText(Html.fromHtml(point.text, Html.FROM_HTML_MODE_COMPACT));
 
 
                 } else {
@@ -172,7 +168,7 @@ public class pageUser extends AppCompatActivity {
             makeInfo[] InfoSQL = new makeInfo[1];
             String userInfo = dbcon.userInfo(otherUser, info);
             String[] infoArr = userInfo.split(",");
-            InfoSQL[0] = new makeInfo(infoArr[0], infoArr[1], infoArr[2], infoArr[3], infoArr[4],infoArr[5]);
+            InfoSQL[0] = new makeInfo(infoArr[0], infoArr[1], infoArr[2], infoArr[3], infoArr[4], infoArr[5]);
             String fansC=dbcon.userInfo(otherUser,fansU);
             for (makeInfo point : InfoSQL) {
 
@@ -204,7 +200,7 @@ public class pageUser extends AppCompatActivity {
                 }
                 String tmp = commentArr[i];
                 String[] commentArr2 = tmp.split(",");
-                commentSQL[i] = new makeComment(commentArr2[0], commentArr2[1], commentArr2[2], commentArr2[3], infoArr[3],commentArr2[4],commentArr2[5],infoArr[0]);//評論資料
+                commentSQL[i] = new makeComment(commentArr2[0], commentArr2[1], commentArr2[2], commentArr2[3], infoArr[3], commentArr2[4], commentArr2[5], infoArr[0]);//評論資料
 
             }
             int btnId = 0;
@@ -231,11 +227,7 @@ public class pageUser extends AppCompatActivity {
                 if (point.picture .equals("null")) {
 
                     text.getLayoutParams().height = 150;
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                        text.setText(Html.fromHtml(point.text, Html.FROM_HTML_MODE_COMPACT));
-                    } else {
-                        text.setText(Html.fromHtml(point.text));
-                    }
+                    text.setText(Html.fromHtml(point.text, Html.FROM_HTML_MODE_COMPACT));
 
 
                 } else {
@@ -354,7 +346,7 @@ public class pageUser extends AppCompatActivity {
         otherUser=i;
         setMode="other";
     }
-    class makeComment {
+    static class makeComment {
 
         public String text,title,account,picture,head,postId,time,nick;
         public makeComment( String i, String j,String k,String l,String n,String o,String p,String q) {
@@ -370,7 +362,7 @@ public class pageUser extends AppCompatActivity {
 
 
     }
-    class makeInfo {
+    static class makeInfo {
 
         public String username,userLV,bigHead,bg,title,gold;
         public makeInfo( String i, String j,String k,String l,String m,String n) {

@@ -35,10 +35,16 @@ public class pageShopOwnerApplication extends AppCompatActivity {
         btnOwnerPost.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String checkID="check"+pageCreateShop.getRandomString(10);
-                dbcon.ownerCheck(checkID,shop,ownerShopName.getText().toString(),user,ownerTel.getText().toString(),ownerAddress.getText().toString(),"null",checkUrl);
-                Toast.makeText(getApplicationContext()," 申請成功，請靜候驗證", Toast.LENGTH_LONG).show();
-                finish();
+                if(!ownerTel.getText().toString().equals("")&&!ownerAddress.getText().toString().equals("")&&!ownerShopName.getText().toString().equals("")){
+                    String checkID="check"+pageCreateShop.getRandomString(10);
+                    dbcon.ownerCheck(checkID,shop,ownerShopName.getText().toString(),user,ownerTel.getText().toString(),ownerAddress.getText().toString(),"null",checkUrl);
+                    Toast.makeText(getApplicationContext()," 申請成功，請靜候驗證", Toast.LENGTH_LONG).show();
+                    finish();
+                }
+                else {
+                    Toast.makeText(getApplicationContext()," 欄位不能為空", Toast.LENGTH_LONG).show();
+                }
+
 
             }
         });

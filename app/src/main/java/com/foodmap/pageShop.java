@@ -1,8 +1,8 @@
 package com.foodmap;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Intent;
-import android.os.Build;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.util.Objects;
 
 
 public class pageShop extends AppCompatActivity {
@@ -20,6 +21,7 @@ public class pageShop extends AppCompatActivity {
 
     private static String shopACC;
     private static String userAcc;
+    final Dialog dialog = new Dialog(pageShop.this,R.style.MyDialog);
     String url="http://114.32.152.202/foodphp/shopcomment.php";
     String info="http://114.32.152.202/foodphp/shopinfo.php";
     String imgU="http://114.32.152.202/foodphp/userinfo.php";
@@ -71,22 +73,20 @@ public class pageShop extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle item selection
-        switch (item.getItemId()) {
-            case R.id.action_report:
-                setAlertReport("report");
+        if (item.getItemId() == R.id.action_report) {
+            setAlertReport("report");
 
-                return true;
-
-            default:
-                return super.onOptionsItemSelected(item);
+            return true;
         }
+        return super.onOptionsItemSelected(item);
     }
 
+    @SuppressLint({"InflateParams", "SetTextI18n"})
     public void addListView(){
         makeInfo[] InfoSQL = new makeInfo[1];
         String userInfo=dbcon.userInfo(shopACC,info);
         String[] infoArr=userInfo.split(",");
-        InfoSQL[0] = new makeInfo(infoArr[0], infoArr[6], infoArr[1],infoArr[2],infoArr[7],infoArr[3],infoArr[4]+"~"+infoArr[5],infoArr[9],infoArr[8],infoArr[10]);
+        InfoSQL[0] = new makeInfo(infoArr[0], infoArr[6], infoArr[1], infoArr[2], infoArr[7], infoArr[3], infoArr[4] + "~" + infoArr[5], infoArr[9], infoArr[8], infoArr[10]);
         String fansC=dbcon.userInfo(shopACC,fansU);
 
 
@@ -192,7 +192,7 @@ public class pageShop extends AppCompatActivity {
             String[] commentArr2=tmp.split(",");
             String img=dbcon.userInfo(commentArr2[0],imgU);
             String[] imgArr=img.split(",");
-            commentSQL[i] = new makeComment(commentArr2[0], commentArr2[1], commentArr2[2],commentArr2[3],imgArr[3],commentArr2[4],commentArr2[5],imgArr[0]);//評論資料
+            commentSQL[i] = new makeComment(commentArr2[0], commentArr2[1], commentArr2[2], commentArr2[3], imgArr[3], commentArr2[4], commentArr2[5], imgArr[0]);//評論資料
 
 
 
@@ -228,24 +228,21 @@ public class pageShop extends AppCompatActivity {
             else{
 
                 text.getLayoutParams().height = 250;
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                    text.setText(Html.fromHtml(point.text, Html.FROM_HTML_MODE_COMPACT));
-                } else {
-                    text.setText(Html.fromHtml(point.text));
-                }
+                text.setText(Html.fromHtml(point.text, Html.FROM_HTML_MODE_COMPACT));
 
             }
         }
 
 
     }
+    @SuppressLint({"InflateParams", "SetTextI18n"})
     public void setAlert(){
 
         final Dialog dialog = new Dialog(pageShop.this,R.style.MyDialog);
         dialog.setContentView(R.layout.pointbox);//指定自定義layout
-        LinearLayout ll = (LinearLayout)dialog.findViewById(R.id.llPoint);
-        int height = (int)(getResources().getDisplayMetrics().heightPixels);
-        int width = (int)(getResources().getDisplayMetrics().widthPixels);
+        LinearLayout ll = dialog.findViewById(R.id.llPoint);
+        int height = (getResources().getDisplayMetrics().heightPixels);
+        int width = (getResources().getDisplayMetrics().widthPixels);
 
         String[]object=new String[]{"a","b","c","d","e","f","g","h","i","j","k","l"};
 
@@ -278,13 +275,13 @@ public class pageShop extends AppCompatActivity {
 
         }
 
-        dialog.getWindow().setLayout(width, height);
+        Objects.requireNonNull(dialog.getWindow()).setLayout(width, height);
 
         dialog.show();
     }
     public void setAlertReport(final String type){
 
-        final Dialog dialog = new Dialog(pageShop.this,R.style.MyDialog);
+
         dialog.setContentView(R.layout.reportbox);//指定自定義layout
 
         final EditText report=dialog.findViewById(R.id.edReport);
@@ -304,13 +301,12 @@ public class pageShop extends AppCompatActivity {
             alert.setText("編輯");
         }
 
-        dialog.getWindow().setLayout(800,400);
+        Objects.requireNonNull(dialog.getWindow()).setLayout(800,400);
 
         dialog.show();
     }
     public void setAlertOwnerCheck(){
 
-        final Dialog dialog = new Dialog(pageShop.this,R.style.MyDialog);
         dialog.setContentView(R.layout.owner_checkbox);//指定自定義layout
 
 
@@ -332,12 +328,11 @@ public class pageShop extends AppCompatActivity {
 
             }
         });
-        int height = (int)(getResources().getDisplayMetrics().heightPixels);
-        int width = (int)(getResources().getDisplayMetrics().widthPixels);
+        int height = (getResources().getDisplayMetrics().heightPixels);
+        int width = (getResources().getDisplayMetrics().widthPixels);
 
 
-        dialog.getWindow().setLayout(width,height);
-        dialog.getWindow().setLayout(width,height/4);
+        Objects.requireNonNull(dialog.getWindow()).setLayout(width,height/4);
 
         dialog.show();
     }
@@ -372,21 +367,21 @@ public class pageShop extends AppCompatActivity {
 
             }
         });
-        int height = (int)(getResources().getDisplayMetrics().heightPixels);
-        int width = (int)(getResources().getDisplayMetrics().widthPixels);
+        int height = (getResources().getDisplayMetrics().heightPixels);
+        int width = (getResources().getDisplayMetrics().widthPixels);
 
 
-        dialog.getWindow().setLayout(width,height);
+        Objects.requireNonNull(dialog.getWindow()).setLayout(width,height);
 
         dialog.show();
     }
     public void over(CheckBox a ,EditText b,String type) {
-        if (a.isChecked() && b.getText().toString() != null && !b.getText().toString().equals("")) {
+        if (a.isChecked() && !b.getText().toString().equals("")) {
             dbcon.updateShopInfo(b.getText().toString(),shopACC,type,updateShopInfo);
 
         }
     }
-    class makeComment {
+    static class makeComment {
         public String text,title,account,picture,head,postId,time,nick;
         public makeComment( String i, String j,String k,String l,String n,String o,String p,String q) {
             account=i;
@@ -399,7 +394,7 @@ public class pageShop extends AppCompatActivity {
             nick=q;
         }
     }
-    class makeInfo {
+    static class makeInfo {
 
         public String username,userLV,bigHead,bg,address,message,tel,time,comment,point;
         public makeInfo( String i, String j,String k,String l,String m,String n,String o,String p,String q,String r) {

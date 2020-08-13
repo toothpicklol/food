@@ -21,6 +21,7 @@ import java.util.Random;
 
 public class pageChecker extends AppCompatActivity {
     public static String user;
+    public static int LV;
     Button btnCheckList,btnCheckerSignUP;
     LinearLayout llChecker;
     checkList[] checkSQL;
@@ -43,27 +44,31 @@ public class pageChecker extends AppCompatActivity {
         btnCheckerSignUP=findViewById(R.id.btnCheckerSignUp);
         btnCheckList=findViewById(R.id.btnCheckList);
         llChecker=findViewById(R.id.llChecker);
-        btnCheckList.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                btnCheckList.setBackgroundColor(Color.parseColor("#FFFF8800"));
-                btnCheckerSignUP.setBackgroundColor(Color.parseColor("#FAB731"));
-                checkerSignUp(url2,1);
+        if(LV>5){
+            btnCheckList.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    btnCheckList.setBackgroundColor(Color.parseColor("#FFFF8800"));
+                    btnCheckerSignUP.setBackgroundColor(Color.parseColor("#FAB731"));
+                    checkerSignUp(url2,1);
+                }
+            });
+            btnCheckerSignUP.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    btnCheckerSignUP.setBackgroundColor(Color.parseColor("#FFFF8800"));
+                    btnCheckList.setBackgroundColor(Color.parseColor("#FAB731"));
+                    checkerSignUp(url,0);
+                }
+            });
+            btnCheckerSignUP.setBackgroundColor(Color.parseColor("#FFFF8800"));
+            checkerSignUp(url,0);
+        }
+        else {
+            Toast.makeText(getApplicationContext(),"等級不足，請持續發文獲得經驗", Toast.LENGTH_LONG).show();
+            finish();
+        }
 
-
-
-            }
-        });
-        btnCheckerSignUP.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                btnCheckerSignUP.setBackgroundColor(Color.parseColor("#FFFF8800"));
-                btnCheckList.setBackgroundColor(Color.parseColor("#FAB731"));
-                checkerSignUp(url,0);
-            }
-        });
-        btnCheckerSignUP.setBackgroundColor(Color.parseColor("#FFFF8800"));
-        checkerSignUp(url,0);
     }
     public  void checkerSignUp(String urlX,final int mode){
         llChecker.removeAllViews();
@@ -270,7 +275,8 @@ public class pageChecker extends AppCompatActivity {
 
 
     }
-    public static void setName(String i){
+    public static void setName(String i,int j){
         user=i;
+        LV=j;
     }
 }

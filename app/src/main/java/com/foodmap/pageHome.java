@@ -48,7 +48,7 @@ public class pageHome extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_page_home);
         HomeFragment.setName(user);
-        pageChecker.setName(user);
+
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -117,11 +117,12 @@ public class pageHome extends AppCompatActivity {
             System.out.println(lv);
             head.setImageDrawable(Api.loadImageFromURL(point.bigHead));
             ll.setBackground(Api.loadImageFromURL(point.bg));
-
-
+            pageChecker.setName(user,lv);
+            pageCreateShop.setName(user,lv);
 
 
         }
+
 
 
 

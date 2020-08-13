@@ -11,6 +11,8 @@ import java.util.Random;
 public class pageCreateShop extends AppCompatActivity {
 
     public static double x,y;
+    public static int lv;
+    public static String user;
     String tmpAcc;
 
     public  static String url="http://114.32.152.202/foodphp/register.php";
@@ -42,8 +44,16 @@ public class pageCreateShop extends AppCompatActivity {
         nameShop=findViewById(R.id.etNameShop);
         img=findViewById(R.id.btnChoseImg);
         create=findViewById(R.id.imgBtnCreate);
-        img.setOnClickListener(imgCheck);
-        create.setOnClickListener(createCheck);
+
+        if(lv>5){
+            img.setOnClickListener(imgCheck);
+            create.setOnClickListener(createCheck);
+        }
+        else {
+            Toast.makeText(getApplicationContext(),"等級不足，請持續發文獲得經驗", Toast.LENGTH_LONG).show();
+            finish();
+        }
+
         head=findViewById(R.id.imgShopH);
         bg=findViewById(R.id.imgShopBg);
         xShop.setText(String.valueOf(x));
@@ -52,6 +62,8 @@ public class pageCreateShop extends AppCompatActivity {
         shopAcc.setText(tmpAcc);
         bg.setImageDrawable(Api.loadImageFromURL(bgS));
         head.setImageDrawable(Api.loadImageFromURL(headS));
+
+
 
 
 
@@ -89,6 +101,10 @@ public class pageCreateShop extends AppCompatActivity {
 
         }
         return sf.toString();
+    }
+    public static void setName(String i,int j){
+        user=i;
+        lv=j;
     }
 
     private View.OnClickListener imgCheck= new View.OnClickListener() {
