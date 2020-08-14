@@ -21,7 +21,7 @@ public class pageShop extends AppCompatActivity {
 
     private static String shopACC;
     private static String userAcc;
-    final Dialog dialog = new Dialog(pageShop.this,R.style.MyDialog);
+
     String url="http://114.32.152.202/foodphp/shopcomment.php";
     String info="http://114.32.152.202/foodphp/shopinfo.php";
     String imgU="http://114.32.152.202/foodphp/userinfo.php";
@@ -47,6 +47,7 @@ public class pageShop extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_page_shop);
         ll = findViewById(R.id.ll_in_sv);
         addListView();
@@ -280,6 +281,7 @@ public class pageShop extends AppCompatActivity {
         dialog.show();
     }
     public void setAlertReport(final String type){
+        final Dialog dialog = new Dialog(pageShop.this,R.style.MyDialog);
 
 
         dialog.setContentView(R.layout.reportbox);//指定自定義layout
@@ -306,6 +308,7 @@ public class pageShop extends AppCompatActivity {
         dialog.show();
     }
     public void setAlertOwnerCheck(){
+        final Dialog dialog = new Dialog(pageShop.this,R.style.MyDialog);
 
         dialog.setContentView(R.layout.owner_checkbox);//指定自定義layout
 

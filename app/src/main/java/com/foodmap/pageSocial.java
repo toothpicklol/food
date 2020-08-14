@@ -38,6 +38,7 @@ public class pageSocial extends AppCompatActivity {
 
         commentSQL = new makeComment[commentArr.length];
         for (int i=0; i<commentArr.length; i++) {
+
             if(commentS.equals(""))
             {
                 Toast.makeText(getApplicationContext()," 尚未有收藏，快去收藏吧!", Toast.LENGTH_LONG).show();
