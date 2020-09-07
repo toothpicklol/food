@@ -23,6 +23,7 @@
             tools:ignore="GoogleAppIndexingWarning">
         <activity android:name=".pageChecker">
         </activity>
+        <activity android:name=".articleActivity"></activity>
         <activity
                 android:name=".pageShopOwnerApplication"
                 android:theme="@style/AppTheme.NoActionBar">

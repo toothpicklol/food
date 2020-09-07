@@ -60,10 +60,11 @@ public class pageUserInfo extends AppCompatActivity {
         head=findViewById(R.id.imgbigheadI);
         String userInfo=dbcon.userInfo(user,info);
         String[] infoArr=userInfo.split(",");
+        int userLv=Api.lv(5,8,Integer.parseInt(infoArr[1]),1);
 
         acc.setText("帳號:"+user);
         name.setText("暱稱:"+infoArr[0]);
-        lv.setText("等級:"+infoArr[1]);
+        lv.setText("等級:"+userLv);
         head.setImageDrawable(Api.loadImageFromURL(infoArr[2]));
         userBg.setBackground(Api.loadImageFromURL(infoArr[3]));
         titleS.setText("稱號:"+infoArr[4]);

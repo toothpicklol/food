@@ -52,6 +52,9 @@ public class pageCreateShop extends AppCompatActivity {
         else {
             Toast.makeText(getApplicationContext(),"等級不足，請持續發文獲得經驗", Toast.LENGTH_LONG).show();
             finish();
+            Intent intent = new Intent();
+            intent.setClass(pageCreateShop.this, pageHome.class);
+            startActivity(intent);
         }
 
         head=findViewById(R.id.imgShopH);

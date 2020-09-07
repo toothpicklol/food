@@ -6,12 +6,15 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.*;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.os.Handler;
+import android.util.Base64;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -25,10 +28,14 @@ import com.foodmap.*;
 import com.foodmap.R;
 import com.google.android.gms.maps.*;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+
+import java.io.IOException;
 import java.io.InputStream;
+import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Objects;
 
@@ -38,6 +45,9 @@ public class HomeFragment extends Fragment
         LocationListener, GoogleMap.OnMarkerClickListener,GoogleMap.OnCameraMoveStartedListener,GoogleMap.OnCameraIdleListener
 ,GoogleMap.OnCameraMoveListener,GoogleMap.OnCameraMoveCanceledListener{
 
+    private static LatLng lng;
+    //static int x=1;
+    private int count = 1;
     private static GoogleMap mMap;
     private static Double nX,nY;
     private static Double cX,cY;
@@ -47,10 +57,27 @@ public class HomeFragment extends Fragment
     Button search;
     EditText searchBar;
     int first=1;
+    String info="http://114.32.152.202/foodphp/userinfo.php";
     String mapShop="http://114.32.152.202/foodphp/mapshop.php";
     GoogleMapV2_MarkPoint[] MysqlPointSet;
+    GoogleMapV1_MarkPoint[] InfoSQL;
     View markView;
     double X,Y;
+
+    private static String shop_id;
+    Button btn1;
+    TextView LV_limit,gold_limit;
+    private static Double ax,by;
+    String Discountinfo="http://114.32.152.202/foodphp/discountinfo.php";
+    String updateDiscount="http://114.32.152.202/foodphp/updateDiscount.php";
+    String insertArticle="http://114.32.152.202/foodphp/insertArticle.php";
+    String fansU="http://114.32.152.202/foodphp/fansCount.php";
+    String Gold="http://114.32.152.202/foodphp/updateGold.php";
+    String Articleinfo="http://114.32.152.202/foodphp/Articleinfo.php";
+    private Marker m1,m2;
+    String[] makArr3;
+    public static String BGS=null;
+    article_img[] InfoSQL_img;
 
 
     @SuppressLint("InflateParams")
@@ -58,6 +85,7 @@ public class HomeFragment extends Fragment
 
         View root = inflater.inflate(R.layout.fragment_home, container, false);
         markView = inflater.inflate(R.layout.map_mark, null);
+
         search=root.findViewById(R.id.btn_search);
         searchBar=root.findViewById(R.id.etSearch);
         search.setOnClickListener(new View.OnClickListener() {
@@ -73,10 +101,27 @@ public class HomeFragment extends Fragment
         mapFragment.getMapAsync(this);
         return root;
     }
+
+    public double newx(double x) {
+        double newx = (double) (Math.random() * (((x + 0.0005) - (x - 0.0005))) + (x - 0.0005));
+        return newx;
+    }
+
+    public double newy(double y) {
+        double newy = (double) (Math.random() * (((y + 0.0005) - (y - 0.0005))) + (y - 0.0005));
+        return newy;
+    }
+
     @Override
     public void onMapReady(GoogleMap googleMap) {
 
+        SharedPreferences sp = getActivity().getSharedPreferences("config", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putInt("touchx",0);
+        editor.commit();
+
         mMap = googleMap;
+        mMap.clear();
         mMap.setMapType(GoogleMap.MAP_TYPE_TERRAIN);
         mMap.setOnCameraMoveStartedListener(this);
         if(first==0){
@@ -85,7 +130,13 @@ public class HomeFragment extends Fragment
             first++;
         }
         mMap.setMyLocationEnabled(true);
+
+        //animToOnClick(lng);
+
         addMark(mMap);
+
+
+
     }
     @Override
     public void onAttach(@NonNull Context context) {
@@ -132,11 +183,35 @@ public class HomeFragment extends Fragment
         //mMap.addMarker(new MarkerOptions().position(new LatLng(location.getLatitude(), location.getLongitude())).title("你的位置"));
         X=location.getLatitude();
         Y=location.getLongitude();
+
+        SharedPreferences sp = getActivity().getSharedPreferences("config", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putFloat("Location_x", (float) X);
+        editor.putFloat("Location_y", (float) Y);
+        editor.commit();
+
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(
                 new LatLng(location.getLatitude(), location.getLongitude()), 17));
         onMapReady(mMap);
 
     }
+
+    public Bitmap getBitmapFromURL1(String imageUrl) {
+        try {
+            URL url = new URL(imageUrl);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setDoInput(true);
+            connection.connect();
+            InputStream input = connection.getInputStream();
+            Bitmap myBitmap = BitmapFactory.decodeStream(input);
+            myBitmap = Bitmap.createScaledBitmap(myBitmap,75,50, true);
+            return myBitmap;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
     @Override
     public void onStatusChanged(String provider, int status, Bundle extras) {
 
@@ -154,11 +229,9 @@ public class HomeFragment extends Fragment
     public void onCameraMoveStarted(int reason) {
 
         if (reason == GoogleMap.OnCameraMoveStartedListener.REASON_GESTURE) {
-
-           cX=mMap.getCameraPosition().target.latitude;
-           cY=mMap.getCameraPosition().target.longitude;
-           addMark(mMap);
-
+            cX = mMap.getCameraPosition().target.latitude;
+            cY = mMap.getCameraPosition().target.longitude;
+            addMark(mMap);
         }
         else if (reason == GoogleMap.OnCameraMoveStartedListener
                 .REASON_API_ANIMATION) {
@@ -169,6 +242,36 @@ public class HomeFragment extends Fragment
             //Toast.makeText(getActivity(), "The app moved the camera.", Toast.LENGTH_SHORT).show();
         }
     }
+
+    public double getDistance(LatLng start,LatLng end){
+        double lat1=(Math.PI/180)*start.latitude;
+        double lat2=(Math.PI/180)*end.latitude;
+
+        double lon1=(Math.PI/180)*start.longitude;
+        double lon2=(Math.PI/180)*end.longitude;
+
+        double R = 6371;
+
+        double d = Math.acos(Math.sin(lat1)*Math.sin(lat2)+Math.cos(lat1)*Math.cos(lat2)*Math.cos(lon2-lon1))*R;
+
+        return  d;
+
+    }
+
+    public Bitmap stringToBitmap(String string) {
+        // 将字符串转换成Bitmap类型
+        Bitmap bitmap = null;
+        try {
+            byte[] bitmapArray;
+            bitmapArray = Base64.decode(string, Base64.DEFAULT);
+            bitmap = BitmapFactory.decodeByteArray(bitmapArray, 0,
+                    bitmapArray.length);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return bitmap;
+    }
+
     @Override
     public boolean onMarkerClick(Marker marker) {
 
@@ -195,9 +298,11 @@ public class HomeFragment extends Fragment
                 Toast.LENGTH_SHORT).show();
 
     }
+
     public void addMark(GoogleMap mMap){
 
-
+        SharedPreferences sp = getActivity().getSharedPreferences("config", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sp.edit();
         TextView markShopName = (TextView) markView.findViewById(R.id.num_txt);
         ImageView markSopHead=markView.findViewById(R.id.imgShopHead);
 
@@ -215,23 +320,178 @@ public class HomeFragment extends Fragment
             for (GoogleMapV2_MarkPoint point : MysqlPointSet) {
                 markShopName.setText(point.title);
                 markSopHead.setImageDrawable(loadImageFromURL(point.head));
-                mMap.addMarker(new MarkerOptions().position(new LatLng(point.latitude, point.longitude)).title(point.title)
-                        .snippet(point.point+"#"+point.account).icon(BitmapDescriptorFactory.fromBitmap(createDrawableFromView(getContext(), markView))));
+                m2 = mMap.addMarker(new MarkerOptions().position(new LatLng(point.latitude, point.longitude)).title(point.title)
+                        .snippet(point.point + "#" + point.account).icon(BitmapDescriptorFactory.fromBitmap(createDrawableFromView(getContext(), markView))));
+                m2.setTag(0);
+                String userInfo=dbcon.userInfo(point.account,Discountinfo);
+                if(dbcon.userInfo(point.account,Discountinfo).length()!=0) {
+                    String[] makArr1 = userInfo.split("]");
+                    InfoSQL = new GoogleMapV1_MarkPoint[makArr1.length];
+                    for (int z = 0; z < makArr1.length; z++) {
+                        String tmp = makArr1[z];
+                        String[] infoArr = tmp.split(",");
+                        if (infoArr[0] != "") {
+                            InfoSQL[z] = new GoogleMapV1_MarkPoint(infoArr[2], infoArr[3], infoArr[4], infoArr[0], infoArr[1], infoArr[5],infoArr[6]);
+                        }
+                    }
+                    for (GoogleMapV1_MarkPoint point1 : InfoSQL) {
+                        String ID=point1.tickrtID;
+                        //  final String discount = sp.getString("discount", "");
+                        for(int i=0;i<Integer.parseInt(point1.num);i++) {
+                            m1 = mMap.addMarker(new MarkerOptions().position(new LatLng(newx(point.latitude), newy(point.longitude))).title(point.title + "/" +point1.Name).snippet("折價卷說明:"+point1.description).icon(BitmapDescriptorFactory.fromBitmap(getBitmapFromURL1(point1.img))));
+                            m1.setTag(1);
+                            m1.setTitle(point.title + "#" + point1.Name + "/" + ID);
+                            if(i>0){
+                                m1.setVisible(false);
+                            }
+                        }
+                    }
+                }
             }
 
             mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
                 @Override
                 public void onInfoWindowClick(Marker marker) {
+                    Integer click0=(Integer)m2.getTag();
                     String name=marker.getSnippet();
-                    String[] nameArr=name.split("#");
-                    Intent intent = new Intent(getActivity(), pageShop.class);
-                    startActivity(intent);
-                    pageShop.setName(nameArr[1],user);
+                    if(click0 == marker.getTag()) {
+                        String[] nameArr = name.split("#");
+                        Intent intent = new Intent(getActivity(), pageShop.class);
+                        startActivity(intent);
+                        pageShop.setName(nameArr[1], user);
+                    }
+
+                    //int touch=0;
+                    Integer click = (Integer) m1.getTag();
+                    int touch_2=1;
+
+                    SharedPreferences sp = getActivity().getSharedPreferences("config", Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sp.edit();
+
+                    int user_LV=sp.getInt("userLV",0);
+                    //int user_gold=sp.getInt("gold",0);
+
+                    double X = sp.getFloat("Location_x", 0);
+                    double Y = sp.getFloat("Location_y", 0);
+                    LatLng lt1 = new LatLng(X, Y); //目前位置
+
+                    LatLng lt2 = marker.getPosition();
+                    if (getDistance(lt1,lt2) <= 0.1) {
+                        if (click == marker.getTag()) {
+
+                            for (GoogleMapV2_MarkPoint point : MysqlPointSet) {
+
+                                String userInfo=dbcon.userInfo(point.account,Discountinfo);
+                                if(dbcon.userInfo(point.account,Discountinfo).length()!=0) {
+                                    makArr3 = userInfo.split("]");
+                                    InfoSQL = new GoogleMapV1_MarkPoint[makArr3.length];
+                                    for (int z = 0; z < makArr3.length; z++) {
+                                        String tmp = makArr3[z];
+                                        String[] infoArr = tmp.split(",");
+                                        InfoSQL[z] = new GoogleMapV1_MarkPoint(infoArr[2], infoArr[3], infoArr[4], infoArr[0], infoArr[1], infoArr[5],infoArr[6]);
+                                        String Id=InfoSQL[z].tickrtID;
+                                        String id=marker.getTitle();
+                                        int C=id.indexOf("/");
+                                        String id1=id.substring(C+1);
+                                        if(Id.equals(id1)){
+
+                                            String userInfo4=dbcon.userInfo(user,Articleinfo);
+                                            String[] makArr4 = userInfo4.split("]");
+                                            if(makArr4.length<18) {
+
+                                                // for (GoogleMapV1_MarkPoint point2 : InfoSQL) {
+                                                if (Integer.parseInt(InfoSQL[z].num) > 0) {
+                                                    String userInfo2 = dbcon.userInfo(user, info);
+                                                    String[] infoArr3 = userInfo2.split(",");
+                                                    if (Integer.parseInt(infoArr3[1]) >= Integer.parseInt(InfoSQL[z].Levellimit)) {
+                                                        makeInfo[] InfoSQL1 = new makeInfo[1];
+                                                        String userInfo0 = dbcon.userInfo(user, info);
+                                                        String[] infoArr1 = userInfo0.split(",");
+                                                        InfoSQL1[0] = new makeInfo(infoArr1[0], infoArr1[1], infoArr1[2], infoArr1[3], infoArr1[4], infoArr1[5]);
+                                                        String fansC = dbcon.userInfo(user, fansU);
+                                                        if (Integer.parseInt(InfoSQL1[0].gold) >= Integer.parseInt(InfoSQL[z].coinlimit)) {
+                                                            int Cold_limit = Integer.parseInt(InfoSQL[z].coinlimit);
+                                                            int Cold_new = Integer.parseInt(InfoSQL1[0].gold) - Cold_limit;
+                                                            dbcon.updateGold(user, String.valueOf(Cold_new), Gold);
+
+
+                                                            marker.setVisible(false);
+
+                                                            String userInfo3 = dbcon.userInfo(user, Articleinfo);
+                                                            String[] makArr3 = userInfo3.split("]");
+                                                            InfoSQL_img = new article_img[makArr3.length];
+                                                            if (userInfo3.equals("")) {
+
+                                                                String a = String.valueOf(user);
+                                                                String b = String.valueOf(point.account);
+                                                                String c = String.valueOf(InfoSQL[z].tickrtID);
+                                                                String d = InfoSQL[z].img;
+                                                                String e = String.valueOf(1);
+
+                                                                String[] r = new String[]{a, b, c, d, e};
+                                                                dbcon.insertArticle(r, insertArticle);
+                                                            } else {
+                                                                String tmp3 = makArr3[makArr3.length - 1];
+                                                                String[] infoArr2 = tmp3.split(",");
+                                                                InfoSQL_img[makArr3.length - 1] = new article_img(infoArr2[0], infoArr2[1], infoArr2[2], Integer.parseInt(infoArr2[3]));
+
+                                                                String a = String.valueOf(user);
+                                                                String b = String.valueOf(point.account);
+                                                                String c = String.valueOf(InfoSQL[z].tickrtID);
+                                                                String d = InfoSQL[z].img;
+                                                                String e = String.valueOf(InfoSQL_img[makArr3.length - 1].ticket_num + 1);
+
+                                                                String[] r = new String[]{a, b, c, d, e};
+                                                                dbcon.insertArticle(r, insertArticle);
+                                                            }
+                                                            int x = 1;
+                                                            int New_num = (Integer.parseInt(InfoSQL[z].num)) - x;
+                                                            dbcon.updateDiscount(String.valueOf(New_num), InfoSQL[z].tickrtID, "num", updateDiscount);
+                                                        } else {
+                                                            Toast.makeText(getActivity(), "金幣不足",
+                                                                    Toast.LENGTH_SHORT).show();
+                                                        }
+                                                    } else {
+                                                        Toast.makeText(getActivity(), "等級不足",
+                                                                Toast.LENGTH_SHORT).show();
+                                                    }
+                                                }
+                                            }
+                                            else{
+                                                Toast.makeText(getActivity(), "物品欄的折價卷數量已滿，請先使用折價卷再領",
+                                                        Toast.LENGTH_SHORT).show();
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+
+                        }
+                    }
+                    else{
+                        Toast.makeText(getActivity(), "距離太遠，請走近一點再領喔",
+                                Toast.LENGTH_SHORT).show();
+                    }
+
                 }
             });
         }
 
     }
+
+
+
+    public static void animToOnClick(LatLng lg){
+        //將攝影機移動到日月潭
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(lg.latitude,lg.longitude),17));
+    }
+
+    public static void setLng(LatLng i){
+        lng=i;
+
+    }
+
+
     private Drawable loadImageFromURL(String url) {
         try {
             InputStream is = (InputStream) new URL(url).getContent();
@@ -263,6 +523,10 @@ public class HomeFragment extends Fragment
                 mMap.addMarker(markerOptions);
             }
         });
+
+
+
+
         mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
             @Override
             public void onInfoWindowClick(Marker marker) {
@@ -325,6 +589,54 @@ public class HomeFragment extends Fragment
         }
 
     }
+    class article_img {
+        public String shopid,tickrtid,img;
+        public int ticket_num;
+        public article_img(String i, String j,String k,int l) {
+
+            shopid=i;
+            tickrtid=j;
+            img=k;
+            ticket_num=l;
+
+
+        }
+
+    }
+    class GoogleMapV1_MarkPoint {
+        public String num, Levellimit,coinlimit,description;
+        public String tickrtID,Name,img;
+        public GoogleMapV1_MarkPoint(String i, String j,String k,String l,String m,String n,String o) {
+
+            num=i;
+            Levellimit=j;
+            coinlimit=k;
+            tickrtID=l;
+            Name=m;
+            img=n;
+            description=o;
+
+
+        }
+
+    }
+    class makeInfo {
+
+        public String username,userLV,bigHead,bg,title,gold;
+        public makeInfo( String i, String j,String k,String l,String m,String n) {
+            username=i;
+            userLV=j;
+            bigHead=k;
+            bg=l;
+            title=m;
+            gold=n;
+
+
+        }
+
+
+    }
+
 
 
 

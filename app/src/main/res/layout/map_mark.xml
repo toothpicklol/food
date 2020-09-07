@@ -5,27 +5,32 @@
 
     <LinearLayout
             android:orientation="vertical"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" android:gravity="center_vertical">
-        <ImageView
-                android:layout_width="65dp"
-                android:layout_height="75dp"
-                android:src="@drawable/custom_marker"
-                android:layout_marginLeft="8dp"/>
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:gravity="center|center_vertical">
         <TextView
                 android:id="@+id/num_txt"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
 
                 android:gravity="center"
                 android:text="20"
                 android:textColor="#ce8223"
-                android:textSize="18sp"
+                android:textSize="14sp"
                 android:textStyle="bold" android:textAlignment="center"/>
+        <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent">
+
+            <ImageView
+                    android:layout_width="65dp"
+                    android:layout_height="75dp"
+                    android:src="@drawable/custom_marker"
+                    android:layout_marginLeft="8dp"/>
+            <ImageView
+                    android:layout_width="35dp"
+                    android:layout_height="35dp" app:srcCompat="@drawable/bad" android:id="@+id/imgShopHead"
+                    android:layout_marginLeft="17dp" android:layout_marginTop="7dp" android:scaleType="fitXY"/>
+        </FrameLayout>
     </LinearLayout>
-    <ImageView
-            android:layout_width="35dp"
-            android:layout_height="35dp" app:srcCompat="@drawable/bad" android:id="@+id/imgShopHead"
-            android:layout_marginLeft="17dp" android:layout_marginTop="6dp"/>
 
 </RelativeLayout>

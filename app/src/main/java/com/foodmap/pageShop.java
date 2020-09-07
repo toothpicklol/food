@@ -179,6 +179,7 @@ public class pageShop extends AppCompatActivity {
 
 
         }
+
         String commentS=dbcon.comment(shopACC,url);
         String[] commentArr=commentS.split("]");
         commentSQL = new makeComment[commentArr.length];
@@ -193,15 +194,14 @@ public class pageShop extends AppCompatActivity {
             String[] commentArr2=tmp.split(",");
             String img=dbcon.userInfo(commentArr2[0],imgU);
             String[] imgArr=img.split(",");
-            commentSQL[i] = new makeComment(commentArr2[0], commentArr2[1], commentArr2[2], commentArr2[3], imgArr[3], commentArr2[4], commentArr2[5], imgArr[0]);//評論資料
+            commentSQL[i] = new makeComment(commentArr2[0], commentArr2[1], commentArr2[2], commentArr2[3], imgArr[2], commentArr2[4], commentArr2[5], imgArr[0]);//評論資料
 
 
 
         }
         int btnId=0;
         for (makeComment point : commentSQL) {
-            if(commentS.equals(shopACC))
-            {
+            if(commentS.equals(shopACC)){
                 break;
 
             }

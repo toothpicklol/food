@@ -116,7 +116,7 @@ public class pageUser extends AppCompatActivity {
                 String[] commentArr2 = tmp.split(",");
 
 
-                commentSQL[i] = new makeComment(commentArr2[0], commentArr2[1], commentArr2[2], commentArr2[3], infoArr[3], commentArr2[4], commentArr2[5], infoArr[0]);//評論資料
+                commentSQL[i] = new makeComment(commentArr2[0], commentArr2[1], commentArr2[2], commentArr2[3], infoArr[2], commentArr2[4], commentArr2[5], infoArr[0]);//評論資料
 
             }
 
@@ -176,15 +176,16 @@ public class pageUser extends AppCompatActivity {
                 bgU = comment.findViewById(R.id.userBg);
                 bigHead = comment.findViewById(R.id.bighead);
                 userLV = comment.findViewById(R.id.userLV);
+
                 username = comment.findViewById(R.id.username);
                 fans = comment.findViewById(R.id.txFans);
                 gold = comment.findViewById(R.id.txGoldGood);
                 ll.addView(comment);
-
+                int lv=Api.lv(5,8,Integer.parseInt(point.userLV),1);
                 fans.setText(fansC);
                 gold.setText(point.gold);
                 username.setText("\t"+point.username);
-                userLV.setText("\t等級" + point.userLV + "-" + point.title);
+                userLV.setText("等級" + lv + "-" + point.title);
                 bigHead.setImageDrawable(Api.loadImageFromURL(point.bigHead));
                 bgU.setBackground(Api.loadImageFromURL(point.bg));
 
@@ -200,7 +201,7 @@ public class pageUser extends AppCompatActivity {
                 }
                 String tmp = commentArr[i];
                 String[] commentArr2 = tmp.split(",");
-                commentSQL[i] = new makeComment(commentArr2[0], commentArr2[1], commentArr2[2], commentArr2[3], infoArr[3], commentArr2[4], commentArr2[5], infoArr[0]);//評論資料
+                commentSQL[i] = new makeComment(commentArr2[0], commentArr2[1], commentArr2[2], commentArr2[3], infoArr[2], commentArr2[4], commentArr2[5], infoArr[0]);//評論資料
 
             }
             int btnId = 0;
@@ -284,6 +285,9 @@ public class pageUser extends AppCompatActivity {
         btUserMore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Intent intent=new Intent(pageUser.this,articleActivity.class);
+                articleActivity.setName(user);
+                startActivity(intent);
 
             }
         });

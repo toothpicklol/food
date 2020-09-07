@@ -220,6 +220,7 @@ public class pageSearch extends AppCompatActivity {
                     }
                     String tmp = userArr[i];
                     String[] searchArr2 = tmp.split(",");
+                    System.out.println(tmp);
                     userSQL[i] = new makeUser(searchArr2[0], searchArr2[2], searchArr2[1], searchArr2[3], searchArr2[4]);
                     ll.removeAllViews();
                 }

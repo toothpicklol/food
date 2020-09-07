@@ -39,6 +39,9 @@ public class dbcon {
         return result;
     }
 
+
+
+
     public static String  dbReg(String  i ,String url){
         String result = "空";
         try{
@@ -764,6 +767,112 @@ public class dbcon {
             hP.setEntity(new UrlEncodedFormEntity(params, HTTP.UTF_8));
             HttpResponse hR=hc.execute(hP);
             result= EntityUtils.toString(hR.getEntity(),HTTP.UTF_8);
+
+
+        }
+        catch (Exception e){
+            return e.toString();
+        }
+
+
+
+        return result;
+    }
+
+    public static String  updateGold(String i,String j,String url){
+        String[] result;
+        try{
+            HttpClient hc =new DefaultHttpClient();
+            HttpPost  hP=new HttpPost(url);
+            hP.addHeader("cookie","...");
+            ArrayList<NameValuePair> params=new ArrayList<NameValuePair>();
+            params.add(new BasicNameValuePair("S1",i));
+            params.add(new BasicNameValuePair("S2",j));
+            hP.setEntity(new UrlEncodedFormEntity(params, HTTP.UTF_8));
+            HttpResponse hR=hc.execute(hP);
+            result= new String[]{EntityUtils.toString(hR.getEntity(), HTTP.UTF_8)};
+        }
+        catch (Exception e){
+            return e.toString();
+        }
+
+
+
+        return result[0];
+    }
+    public static String  updateDiscount(String i,String j,String k,String url){
+        String[] result;
+        try{
+            HttpClient hc =new DefaultHttpClient();
+            HttpPost  hP=new HttpPost(url);
+            hP.addHeader("cookie","...");
+            ArrayList<NameValuePair> params=new ArrayList<NameValuePair>();
+            params.add(new BasicNameValuePair("S1",i));
+            params.add(new BasicNameValuePair("S2",j));
+            params.add(new BasicNameValuePair("S3",k));
+            hP.setEntity(new UrlEncodedFormEntity(params, HTTP.UTF_8));
+            HttpResponse hR=hc.execute(hP);
+            result= new String[]{EntityUtils.toString(hR.getEntity(), HTTP.UTF_8)};
+        }
+        catch (Exception e){
+            return e.toString();
+        }
+
+
+
+        return result[0];
+    }
+
+    public static String  insertArticle(String[]  i ,String url){
+        String result = "空";
+        try{
+            HttpClient hc=new DefaultHttpClient();
+            HttpPost hp=new HttpPost(url);
+            hp.addHeader("cookie","...");
+
+            ArrayList<NameValuePair> params=new ArrayList<NameValuePair>();
+            params.add(new BasicNameValuePair("S1",i[0]));
+            params.add(new BasicNameValuePair("S2",i[1]));
+            params.add(new BasicNameValuePair("S3",i[2]));
+            params.add(new BasicNameValuePair("S4",i[3]));
+            params.add(new BasicNameValuePair("S5",i[4]));
+
+            hp.setEntity(new UrlEncodedFormEntity(params,HTTP.UTF_8));
+            HttpResponse hr=hc.execute(hp);
+            result = EntityUtils.toString(hr.getEntity(),HTTP.UTF_8);
+
+
+        }
+        catch (Exception e){
+            return e.toString();
+        }
+
+
+
+        return result;
+    }
+
+
+    public static String  insertDiscount(String[]  i ,String url){
+        String result = "空";
+        try{
+            HttpClient hc=new DefaultHttpClient();
+            HttpPost hp=new HttpPost(url);
+            hp.addHeader("cookie","...");
+
+            ArrayList<NameValuePair> params=new ArrayList<NameValuePair>();
+            params.add(new BasicNameValuePair("S1",i[0]));
+            params.add(new BasicNameValuePair("S2",i[1]));
+            params.add(new BasicNameValuePair("S3",i[2]));
+            params.add(new BasicNameValuePair("S4",i[3]));
+            params.add(new BasicNameValuePair("S5",i[4]));
+            params.add(new BasicNameValuePair("S6",i[5]));
+            params.add(new BasicNameValuePair("S7",i[6]));
+            params.add(new BasicNameValuePair("S8",i[7]));
+
+            hp.setEntity(new UrlEncodedFormEntity(params,HTTP.UTF_8));
+            HttpResponse hr=hc.execute(hp);
+            result = EntityUtils.toString(hr.getEntity(),HTTP.UTF_8);
 
 
         }
